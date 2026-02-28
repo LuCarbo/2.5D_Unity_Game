@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using System.Runtime.ConstrainedExecution;
+using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInputHandler))]
@@ -12,9 +13,10 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _controller;
     private PlayerInputHandler _input;
     private Animator _animator;
-    
+    private SpriteRenderer _spriteRenderer;
+
     [Tooltip("Trascina qui l'oggetto FIGLIO che contiene lo SpriteRenderer")]
-    [SerializeField] private Transform _visualModel; 
+    [SerializeField] private Transform _visualModel;
 
     [Header("Impostazioni Movimento")]
     [SerializeField] private float moveSpeed = 5.0f;
@@ -39,9 +41,12 @@ public class PlayerMovement : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         _input = GetComponent<PlayerInputHandler>();
-        
+
         // Cerca l'animator nel figlio se non assegnato manualmente
         _animator = GetComponentInChildren<Animator>();
+
+        // Cerca lo Sprite Renderer nel figlio
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         // Auto-assegnazione del visual model se dimenticato nell'inspector
         if (_visualModel == null && _animator != null)
@@ -92,24 +97,43 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleHorizontalMovement()
     {
-        // Se attacca, applica solo gravità, niente movimento orizzontale
+        // Calcoliamo la velocità (con il rallentamento per l'attacco se hai tenuto la modifica)
+        float currentSpeed = _input.IsRunning ? runSpeed : moveSpeed;
         if (_isAttacking)
         {
-            _controller.Move(new Vector3(0, _verticalVelocityY, 0) * Time.deltaTime);
-            return;
+            currentSpeed = currentSpeed * 0.4f;
         }
 
-        float currentSpeed = _input.IsRunning ? runSpeed : moveSpeed;
-        
-        // Calcolo movimento
         Vector3 moveDir = new Vector3(_input.MoveInput.x, 0, _input.MoveInput.y);
-        
-        // Normalizziamo solo se la lunghezza è > 1 per evitare scatti coi pad, 
-        // ma mantenendo controllo preciso con tastiera
         if (moveDir.magnitude > 1f) moveDir.Normalize();
 
+        // =========================================================
+        // SCUDO ANTI-SCAVALCAMENTO (SphereCast)
+        // =========================================================
+        if (moveDir.magnitude > 0.1f)
+        {
+            // Prendiamo il raggio attuale del tuo Character Controller
+            float playerRadius = _controller.radius;
+
+            // Alziamo il punto di partenza della sfera per non farla strusciare sul pavimento
+            Vector3 startPoint = transform.position + new Vector3(0, 0.2f, 0);
+
+            // Lanciamo una SFERA grande quanto il player nella direzione in cui stiamo correndo.
+            // Controlliamo solo per 0.2 metri davanti a noi (basta uno sfioramento).
+            if (Physics.SphereCast(startPoint, playerRadius, moveDir, out RaycastHit hit, 0.2f))
+            {
+                // Se la sfera tocca un nemico...
+                if (hit.collider.CompareTag("Enemie"))
+                {
+                    // ...azzeriamo la direzione! Il player si ferma sul posto e non spinge.
+                    moveDir = Vector3.zero;
+                }
+            }
+        }
+        // =========================================================
+
         Vector3 velocity = moveDir * currentSpeed;
-        velocity.y = _verticalVelocityY; // Aggiungiamo la gravità calcolata prima
+        velocity.y = _verticalVelocityY;
 
         _controller.Move(velocity * Time.deltaTime);
     }
@@ -138,16 +162,16 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator PerformAttack()
     {
         _isAttacking = true;
-        
+
         // Ferma il movimento orizzontale istantaneamente per evitare scivolamenti
         // (Opzionale, dipende dal game feel che vuoi)
-        
+
         _animator.ResetTrigger("AttackTrigger");
         _animator.SetTrigger("AttackTrigger");
 
         // SICUREZZA: Aspetta max 1 secondo (o la durata dell'animazione)
         // Se l'evento OnAttackAnimationEnd non arriva, questo sblocca il player
-        yield return new WaitForSeconds(0.8f); 
+        yield return new WaitForSeconds(0.8f);
 
         // Se siamo ancora in attacco dopo il tempo limite, forziamo l'uscita
         if (_isAttacking)
@@ -168,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _animator.SetTrigger("HitTrigger");
         // Opzionale: Interrompi attacco se colpito
-        _isAttacking = false; 
+        _isAttacking = false;
     }
 
     public void OnPlayerDeath()
@@ -184,23 +208,18 @@ public class PlayerMovement : MonoBehaviour
     // ===================================================================
     private void HandleSpriteFlip()
     {
-        if (_visualModel == null) return;
+        if (_spriteRenderer == null) return;
 
-        // Determina direzione basata sull'input, non sulla velocità (più reattivo)
         if (_input.MoveInput.x < -0.01f)
         {
-            _isFacingRight = false;
+            // Guarda a Sinistra (Specchia il disegno, la luce non si rompe!)
+            _spriteRenderer.flipX = true;
         }
         else if (_input.MoveInput.x > 0.01f)
         {
-            _isFacingRight = true;
+            // Guarda a Destra (Disegno normale)
+            _spriteRenderer.flipX = false;
         }
-
-        // Applica il flip SOLO al modello visivo figlio
-        // Mantiene la scala Y e Z originali, inverte solo la X
-        Vector3 currentScale = _visualModel.localScale;
-        currentScale.x = _isFacingRight ? Mathf.Abs(currentScale.x) : -Mathf.Abs(currentScale.x);
-        _visualModel.localScale = currentScale;
     }
 
     private void UpdateAnimatorParameters()
@@ -220,4 +239,5 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetFloat("MoveX", _input.MoveInput.x);
         _animator.SetFloat("MoveY", _input.MoveInput.y);
     }
+
 }
