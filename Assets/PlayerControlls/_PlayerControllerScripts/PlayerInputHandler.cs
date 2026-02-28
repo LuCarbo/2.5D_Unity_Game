@@ -30,7 +30,7 @@ public class PlayerInputHandler : MonoBehaviour
         _playerControls.Player.Run.performed += OnRunPerformed;
         _playerControls.Player.Run.canceled += OnRunCanceled;
 
-        _playerControls.Player.Interact.performed += OnInteractPerformed;
+        _playerControls.Player.Interact.started += OnInteractPerformed;
         _playerControls.Player.Cancel.performed += OnCancelPerformed;
         _playerControls.Player.Jump.performed += OnJumpPerformed;
         
@@ -44,7 +44,7 @@ public class PlayerInputHandler : MonoBehaviour
         _playerControls.Player.Move.canceled -= OnMoveCanceled;
         _playerControls.Player.Run.performed -= OnRunPerformed;
         _playerControls.Player.Run.canceled -= OnRunCanceled;
-        _playerControls.Player.Interact.performed -= OnInteractPerformed;
+        _playerControls.Player.Interact.started -= OnInteractPerformed;
         _playerControls.Player.Cancel.performed -= OnCancelPerformed;
         _playerControls.Player.Jump.performed -= OnJumpPerformed;
 
