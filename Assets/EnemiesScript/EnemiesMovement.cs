@@ -4,6 +4,7 @@ public class EnemiesScript : MonoBehaviour
 {
     [Header("Grafica")]
     public Transform graficaSlime; // Qui ci trascino il figlio
+
     [Header("Settings")]
     public float MaxSpeed = 5f;
     public float SightRange = 10f;      // Quanto lontano vede il raycast
@@ -15,9 +16,11 @@ public class EnemiesScript : MonoBehaviour
     private GameObject Target;
     private bool seePlayer;
     private float pauseEndTime = 0f;
+    private Vector3 eyeOffset = new Vector3(0, 1.5f, 0); // Offset per alzare il punto di vista (dagli occhi, non dai piedi)
 
-    // Offset per alzare il punto di vista (dagli occhi, non dai piedi)
-    private Vector3 eyeOffset = new Vector3(0, 1.5f, 0);
+    
+    public Animator _animator;       // Variabili per l'animazione
+    private Vector3 _scalaOriginale;  // e la grafica
 
     void Start()
     {
@@ -27,12 +30,23 @@ public class EnemiesScript : MonoBehaviour
         // SICUREZZA: Assicuriamoci che il Rigidbody non cada o ruoti male
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
         // freeziamo comunque la fisica per evitare che collisioni con muri lo facciano ruotare.
+
+        // _animator = GetComponentInChildren<Animator>(); (commentato temporaneamente)
+
+        if (graficaSlime != null)
+        {
+            _scalaOriginale = graficaSlime.localScale;
+        }
     }
 
     void FixedUpdate()
     {
         // Se il tempo di gioco attuale è minore del tempo in cui finisce la pausa, esci e non muoverti!
-        if (Time.time < pauseEndTime) return;
+        if (Time.time < pauseEndTime)
+        {
+            UpdateAnimator(false);
+            return;
+        }
 
         // Fine pausa: Rimuoviamo i vincoli di movimento (tranne quelli per evitare rotazione e caduta)
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
@@ -41,6 +55,7 @@ public class EnemiesScript : MonoBehaviour
         if (Target == null)
         {
             FindPlayer();
+            UpdateAnimator(false); // È fermo e cerca
         }
         else
         {
@@ -163,26 +178,23 @@ public class EnemiesScript : MonoBehaviour
 
         // ATTENZIONE: Se il raycast non colpisce nulla, potrebbe significare che il player 
         // non ha un collider o è su un layer ignorato.
-        // Assumiamo true se il raycast arriva a destinazione senza hit (caso raro se miriamo al player)
-        // Ma per sicurezza, nel 99% dei casi il raycast DEVE colpire il player.
         return true;
     }
 
-    // Gestisce la rotazione secca (Flip) invece di LookAt
+    // Gestisce la rotazione secca (Flip) usando la scala originale
     void HandleSpriteFlip(float directionX)
     {
         if (graficaSlime == null) return;
 
-        // Oso la Scale per "specchiare" il nemico.
         if (directionX > 0.1f)
         {
-            // Guarda a Destra (Scala normale)
-            graficaSlime.localScale = new Vector3(1, 1, 1);
+            // Guarda a Destra (Mantiene la scala originale intatta)
+            graficaSlime.localScale = new Vector3(Mathf.Abs(_scalaOriginale.x), _scalaOriginale.y, _scalaOriginale.z);
         }
         else if (directionX < -0.1f)
         {
-            // Guarda a Sinistra (Specchiato orizzontalmente sull'asse X)
-            graficaSlime.localScale = new Vector3(-1, 1, 1);
+            // Guarda a Sinistra (Rende la X negativa per fare da specchio)
+            graficaSlime.localScale = new Vector3(-Mathf.Abs(_scalaOriginale.x), _scalaOriginale.y, _scalaOriginale.z);
         }
     }
 
@@ -191,6 +203,22 @@ public class EnemiesScript : MonoBehaviour
         seePlayer = false;
         Target = null; // Perde il target se non lo vede
         rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+
+        UpdateAnimator(false); // Si ferma
+    }
+
+    void UpdateAnimator(bool isMoving, float dirX = 0f, float dirY = 0f)
+    {
+        if (_animator != null)
+        {
+            _animator.SetBool("IsMoving", isMoving);
+
+            if (isMoving)
+            {
+                _animator.SetFloat("MoveX", dirX);
+                _animator.SetFloat("MoveY", dirY); // Usiamo la Z del mondo come Y del BlendTree
+            }
+        }
     }
 
     void OnDrawGizmosSelected()
