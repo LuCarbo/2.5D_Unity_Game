@@ -119,6 +119,9 @@ public class EnemiesScript : MonoBehaviour
 
             // --- ROTAZIONE 2.5D (Solo Destra/Sinistra) ---
             HandleSpriteFlip(direction.x);
+
+            // Passa 'true' perché si muove, passa la X e la Z per il Blend Tree
+            UpdateAnimator(true, direction.x, direction.z);
         }
         else
         {
