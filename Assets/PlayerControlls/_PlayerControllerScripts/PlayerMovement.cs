@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInputHandler))]
 public class PlayerMovement : MonoBehaviour
 {
-    // ===================================================================
-    // DICHIARAZIONE DELLE VARIABILI
-    // ===================================================================
     [Header("Riferimenti")]
     private CharacterController _controller;
     private PlayerInputHandler _input;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
+    
+    // Riferimento al nuovo script di combattimento
+    private PlayerCombat _combat; 
 
     [Tooltip("Trascina qui l'oggetto FIGLIO che contiene lo SpriteRenderer")]
     [SerializeField] private Transform _visualModel;
@@ -23,221 +21,111 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float runSpeed = 8.0f;
 
     [Header("Fisica e Salto")]
-    [SerializeField] private float _gravity = -20.0f; // Gravità un po' più forte per feel migliore
+    [SerializeField] private float _gravity = -20.0f; 
     [SerializeField] private float _jumpHeight = 1.5f;
 
-    // Variabili di stato
     private float _verticalVelocityY;
-    private bool _isAttacking = false;
-    private bool _isFacingRight = true;
 
-    // Timeout sicurezza attacco
-    private Coroutine _attackCoroutine;
-
-    // ===================================================================
-    // METODI DI UNITY
-    // ===================================================================
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
         _input = GetComponent<PlayerInputHandler>();
-
-        // Cerca l'animator nel figlio se non assegnato manualmente
+        _combat = GetComponent<PlayerCombat>(); // Cerchiamo lo script del combat sullo stesso GameObject
         _animator = GetComponentInChildren<Animator>();
-
-        // Cerca lo Sprite Renderer nel figlio
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
-        // Auto-assegnazione del visual model se dimenticato nell'inspector
         if (_visualModel == null && _animator != null)
         {
             _visualModel = _animator.transform;
         }
-
-        if (_controller == null) Debug.LogError("CharacterController mancante!");
-        if (_visualModel == null) Debug.LogError("ATTENZIONE: Visual Model non assegnato! Il flip non funzionerà.");
     }
 
     private void Update()
     {
-        // Se il personaggio è morto o disabilitato, non fare nulla
         if (!this.enabled) return;
 
         HandleGravityAndJump();
         HandleHorizontalMovement();
         HandleInteraction();
-        HandleAttacks();
         HandleSpriteFlip();
         UpdateAnimatorParameters();
     }
 
-    // ===================================================================
-    // LOGICA FISICA E MOVIMENTO
-    // ===================================================================
     private void HandleGravityAndJump()
     {
         bool isGrounded = _controller.isGrounded;
 
-        // Reset velocità verticale a terra (piccolo valore negativo per tenerlo incollato)
         if (isGrounded && _verticalVelocityY < 0)
         {
             _verticalVelocityY = -2f;
         }
 
-        // Salto
-        if (_input.JumpPressed && isGrounded && !_isAttacking)
+        // Controlliamo se stiamo attaccando tramite lo script PlayerCombat
+        bool isAttacking = _combat != null && _combat.IsAttacking;
+
+        if (_input.JumpPressed && isGrounded && !isAttacking)
         {
-            // Formula fisica standard: v = sqrt(h * -2 * g)
             _verticalVelocityY = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
         }
 
-        // Applicazione Gravità
         _verticalVelocityY += _gravity * Time.deltaTime;
     }
 
     private void HandleHorizontalMovement()
     {
-        // Calcoliamo la velocità (con il rallentamento per l'attacco se hai tenuto la modifica)
+        // Nessun rallentamento: ti muovi a piena velocità anche attaccando
         float currentSpeed = _input.IsRunning ? runSpeed : moveSpeed;
-        if (_isAttacking)
-        {
-            currentSpeed = currentSpeed * 0.4f;
-        }
 
         Vector3 moveDir = new Vector3(_input.MoveInput.x, 0, _input.MoveInput.y);
         if (moveDir.magnitude > 1f) moveDir.Normalize();
 
-        // =========================================================
-        // SCUDO ANTI-SCAVALCAMENTO (SphereCast)
-        // =========================================================
         if (moveDir.magnitude > 0.1f)
         {
-            // Prendiamo il raggio attuale del tuo Character Controller
             float playerRadius = _controller.radius;
-
-            // Alziamo il punto di partenza della sfera per non farla strusciare sul pavimento
             Vector3 startPoint = transform.position + new Vector3(0, 0.2f, 0);
 
-            // Lanciamo una SFERA grande quanto il player nella direzione in cui stiamo correndo.
-            // Controlliamo solo per 0.2 metri davanti a noi (basta uno sfioramento).
             if (Physics.SphereCast(startPoint, playerRadius, moveDir, out RaycastHit hit, 0.2f))
             {
-                // Se la sfera tocca un nemico...
-                if (hit.collider.CompareTag("Enemie"))
+                if (hit.collider.CompareTag("Enemy")) // Ho corretto il tag in "Enemy"
                 {
-                    // ...azzeriamo la direzione! Il player si ferma sul posto e non spinge.
                     moveDir = Vector3.zero;
                 }
             }
         }
-        // =========================================================
 
         Vector3 velocity = moveDir * currentSpeed;
         velocity.y = _verticalVelocityY;
-
         _controller.Move(velocity * Time.deltaTime);
     }
 
-    // ===================================================================
-    // LOGICA INTERAZIONE E COMBATTIMENTO
-    // ===================================================================
     private void HandleInteraction()
     {
-        if (_input.InteractPressed && !_isAttacking)
+        bool isAttacking = _combat != null && _combat.IsAttacking;
+        if (_input.InteractPressed && !isAttacking)
         {
             Debug.Log("Interazione...");
-            // Qui potresti lanciare un Raycast o un OverlapSphere
         }
     }
 
-    private void HandleAttacks()
-    {
-        if (_input.AttackPressed && !_isAttacking && _controller.isGrounded)
-        {
-            StartCoroutine(PerformAttack());
-        }
-    }
-
-    // Coroutine per gestire l'attacco in sicurezza
-    private IEnumerator PerformAttack()
-    {
-        _isAttacking = true;
-
-        // Ferma il movimento orizzontale istantaneamente per evitare scivolamenti
-        // (Opzionale, dipende dal game feel che vuoi)
-
-        _animator.ResetTrigger("AttackTrigger");
-        _animator.SetTrigger("AttackTrigger");
-
-        // SICUREZZA: Aspetta max 1 secondo (o la durata dell'animazione)
-        // Se l'evento OnAttackAnimationEnd non arriva, questo sblocca il player
-        yield return new WaitForSeconds(0.8f);
-
-        // Se siamo ancora in attacco dopo il tempo limite, forziamo l'uscita
-        if (_isAttacking)
-        {
-            _isAttacking = false;
-        }
-    }
-
-    // Questo metodo va chiamato dagli Animation Events nell'Animation Clip
-    // È il modo "pulito" di finire l'attacco, la coroutine sopra è solo la rete di salvataggio
-    public void OnAttackAnimationEnd()
-    {
-        _isAttacking = false;
-        _animator.ResetTrigger("AttackTrigger");
-    }
-
-    public void OnPlayerHit()
-    {
-        _animator.SetTrigger("HitTrigger");
-        // Opzionale: Interrompi attacco se colpito
-        _isAttacking = false;
-    }
-
-    public void OnPlayerDeath()
-    {
-        _animator.SetTrigger("DieTrigger");
-        _controller.enabled = false; // Disabilita collisioni
-        this.enabled = false;        // Disabilita questo script
-        _input.enabled = false;      // Disabilita input
-    }
-
-    // ===================================================================
-    // LOGICA VISIVA
-    // ===================================================================
     private void HandleSpriteFlip()
     {
         if (_spriteRenderer == null) return;
 
-        if (_input.MoveInput.x < -0.01f)
-        {
-            // Guarda a Sinistra (Specchia il disegno, la luce non si rompe!)
-            _spriteRenderer.flipX = true;
-        }
-        else if (_input.MoveInput.x > 0.01f)
-        {
-            // Guarda a Destra (Disegno normale)
-            _spriteRenderer.flipX = false;
-        }
+        if (_input.MoveInput.x < -0.01f) _spriteRenderer.flipX = true;
+        else if (_input.MoveInput.x > 0.01f) _spriteRenderer.flipX = false;
     }
 
     private void UpdateAnimatorParameters()
     {
         if (_animator == null) return;
 
-        // Usa la velocità reale del controller per l'animazione, non l'input
-        // Questo evita che il personaggio "corra sul posto" se sbatte contro un muro
         Vector3 horizontalVelocity = new Vector3(_controller.velocity.x, 0, _controller.velocity.z);
         bool isMoving = horizontalVelocity.sqrMagnitude > 0.1f;
 
         _animator.SetBool("IsMoving", isMoving);
         _animator.SetBool("IsRunning", _input.IsRunning);
         _animator.SetBool("IsJumping", !_controller.isGrounded);
-
-        // Passiamo i parametri per Blend Tree (se li usi)
         _animator.SetFloat("MoveX", _input.MoveInput.x);
         _animator.SetFloat("MoveY", _input.MoveInput.y);
     }
-
 }
