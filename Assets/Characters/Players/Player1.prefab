@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 148966354187700831}
   - component: {fileID: 216878534607776756}
   - component: {fileID: 4993964093855871014}
+  - component: {fileID: 7847800977588568126}
+  - component: {fileID: 8560128700826292693}
   - component: {fileID: 5498674337056251611}
   - component: {fileID: 1643783418593255984}
   m_Layer: 0
@@ -39,10 +41,12 @@ Transform:
   m_Children:
   - {fileID: 5003150614123709510}
   - {fileID: 7909667660578746174}
+  - {fileID: 903830695637072295}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
 --- !u!212 &526365868505669895
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -88,6 +92,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -921060987, guid: a5aaf6618410047b999b7bf7aa3eead7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -97,7 +102,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &6517910951649385091
 Animator:
@@ -190,6 +194,44 @@ MonoBehaviour:
   walkDustPrefab: {fileID: 5611828750789650258, guid: 1c9392042e6d344b6a897b3ebf211326, type: 3}
   jumpDustPrefab: {fileID: 8288621946027683456, guid: 761c1d65ce4564f21ba2fe733b067374, type: 3}
   feetPosition: {fileID: 7909667660578746174}
+--- !u!114 &7847800977588568126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374201131180061626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3674d15ff2b6d548a4fa45e05aa3929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  currentHealth: 5
+  maxHealth: 5
+  invincibilityTime: 1
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8560128700826292693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374201131180061626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c264092a52d813c42b91070edd6d899e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
+  inputHandler: {fileID: 5854214544480991653}
+  attackPoint: {fileID: 903830695637072295}
+  attackDamage: 1
+  attackRange: 0.5
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  attackRate: 1
 --- !u!54 &5498674337056251611
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -238,6 +280,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.11610609, y: 0.22450483, z: 0.006051002}
   m_Center: {x: -0.008059457, y: 0.11226088, z: 0.0031640632}
+--- !u!1 &981994175188415195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903830695637072295}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &903830695637072295
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981994175188415195}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.21643952, y: 0, z: 0, w: 0.97629607}
+  m_LocalPosition: {x: 0, y: 0, z: -0.15}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6412705518931850459}
+  m_LocalEulerAnglesHint: {x: -25, y: 0, z: 0}
 --- !u!1 &6137851447501043367
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInputHandler))]
@@ -9,16 +10,15 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputHandler _input;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
-    
-    // Riferimento al nuovo script di combattimento
-    private PlayerCombat _combat; 
 
-    [Tooltip("Trascina qui l'oggetto FIGLIO che contiene lo SpriteRenderer")]
     [SerializeField] private Transform _visualModel;
 
     [Header("Impostazioni Movimento")]
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float runSpeed = 8.0f;
+
+    [Tooltip("Layer dei nemici per non scavalcarli")]
+    [SerializeField] private LayerMask enemyLayer;
 
     [Header("Fisica e Salto")]
     [SerializeField] private float _gravity = -20.0f; 
@@ -81,15 +81,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveDir.magnitude > 0.1f)
         {
+            // Prendiamo il raggio attuale del tuo Character Controller
             float playerRadius = _controller.radius;
+
+            // Alziamo il punto di partenza della sfera per non farla strusciare sul pavimento
             Vector3 startPoint = transform.position + new Vector3(0, 0.2f, 0);
 
-            if (Physics.SphereCast(startPoint, playerRadius, moveDir, out RaycastHit hit, 0.2f))
+            // usa 'enemyLayer' per intercettare i nemici prima ancora di toccarli fisicamente
+            if (Physics.SphereCast(startPoint, playerRadius, moveDir, out RaycastHit hit, 0.2f, enemyLayer))
             {
-                if (hit.collider.CompareTag("Enemy")) // Ho corretto il tag in "Enemy"
-                {
-                    moveDir = Vector3.zero;
-                }
+                moveDir = Vector3.zero; // Ti blocca istantaneamente
             }
         }
 
