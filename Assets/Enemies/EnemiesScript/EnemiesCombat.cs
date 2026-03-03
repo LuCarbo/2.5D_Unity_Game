@@ -16,10 +16,10 @@ public class EnemiesCombat : MonoBehaviour
             if (Time.time >= nextAttackTime)
             {
                 // Infligge danno
-                PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
+                Health player = collision.gameObject.GetComponent<Health>();
                 if (player != null)
                 {
-                    player.changeHealth(-damage);
+                    player.ChangeHealth(-damage);
                 }
 
                 // Imposta il tempo del prossimo attacco

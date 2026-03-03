@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Runtime.ConstrainedExecution;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInputHandler))]
@@ -15,12 +16,14 @@ public class PlayerMovement : MonoBehaviour
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
 
-    [Tooltip("Trascina qui l'oggetto FIGLIO che contiene lo SpriteRenderer")]
     [SerializeField] private Transform _visualModel;
 
     [Header("Impostazioni Movimento")]
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float runSpeed = 8.0f;
+
+    [Tooltip("Layer dei nemici per non scavalcarli")]
+    [SerializeField] private LayerMask enemyLayer;
 
     [Header("Fisica e Salto")]
     [SerializeField] private float _gravity = -20.0f; // Gravità un po' più forte per feel migliore
@@ -118,23 +121,16 @@ public class PlayerMovement : MonoBehaviour
             // Alziamo il punto di partenza della sfera per non farla strusciare sul pavimento
             Vector3 startPoint = transform.position + new Vector3(0, 0.2f, 0);
 
-            // Lanciamo una SFERA grande quanto il player nella direzione in cui stiamo correndo.
-            // Controlliamo solo per 0.2 metri davanti a noi (basta uno sfioramento).
-            if (Physics.SphereCast(startPoint, playerRadius, moveDir, out RaycastHit hit, 0.2f))
+            // usa 'enemyLayer' per intercettare i nemici prima ancora di toccarli fisicamente
+            if (Physics.SphereCast(startPoint, playerRadius, moveDir, out RaycastHit hit, 0.2f, enemyLayer))
             {
-                // Se la sfera tocca un nemico...
-                if (hit.collider.CompareTag("Enemie"))
-                {
-                    // ...azzeriamo la direzione! Il player si ferma sul posto e non spinge.
-                    moveDir = Vector3.zero;
-                }
+                moveDir = Vector3.zero; // Ti blocca istantaneamente
             }
         }
         // =========================================================
 
         Vector3 velocity = moveDir * currentSpeed;
         velocity.y = _verticalVelocityY;
-
         _controller.Move(velocity * Time.deltaTime);
     }
 

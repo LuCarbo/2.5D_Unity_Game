@@ -3,13 +3,14 @@ using UnityEngine;
 public class EnemiesScript : MonoBehaviour
 {
     [Header("Grafica")]
-    public Transform graficaSlime; // Qui ci trascino il figlio
+    public Transform graficaNemico; // Qui ci trascino il figlio
 
     [Header("Settings")]
     public float MaxSpeed = 5f;
     public float SightRange = 10f;      // Quanto lontano vede il raycast
     public float DetectionRange = 10f;  // Raggio della sfera di ricerca
-    public LayerMask ObstacleMask;      // Layer per i muri (per evitare che il raycast colpisca oggetti a caso)
+    public LayerMask PlayerMask;        // Layer esclusivo per il Player
+    public LayerMask ObstacleMask;      // Layer per i muri/ostacoli
 
     private float Speed;
     private Rigidbody rb;
@@ -19,7 +20,7 @@ public class EnemiesScript : MonoBehaviour
     private Vector3 eyeOffset = new Vector3(0, 1.5f, 0); // Offset per alzare il punto di vista (dagli occhi, non dai piedi)
 
     
-    public Animator _animator;       // Variabili per l'animazione
+    private Animator _animator;       // Variabili per l'animazione
     private Vector3 _scalaOriginale;  // e la grafica
 
     void Start()
@@ -31,11 +32,11 @@ public class EnemiesScript : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
         // freeziamo comunque la fisica per evitare che collisioni con muri lo facciano ruotare.
 
-        // _animator = GetComponentInChildren<Animator>(); (commentato temporaneamente)
+        _animator = GetComponentInChildren<Animator>();
 
-        if (graficaSlime != null)
+        if (graficaNemico != null)
         {
-            _scalaOriginale = graficaSlime.localScale;
+            _scalaOriginale = graficaNemico.localScale;
         }
     }
 
@@ -73,7 +74,7 @@ public class EnemiesScript : MonoBehaviour
         void FindPlayer()
     {
         // Fase di ricerca: cerchiamo il player entro un certo raggio
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, DetectionRange);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, DetectionRange, PlayerMask);
 
         foreach (var hitCollider in hitColliders)
         {
@@ -117,7 +118,7 @@ public class EnemiesScript : MonoBehaviour
             Vector3 move = new Vector3(direction.x * Speed, rb.linearVelocity.y, direction.z * Speed);
             rb.linearVelocity = move;
 
-            // --- ROTAZIONE 2.5D (Solo Destra/Sinistra) ---
+            // --- ROTAZIONE (Solo Destra/Sinistra) ---
             HandleSpriteFlip(direction.x);
 
             // Passa 'true' perché si muove, passa la X e la Z per il Blend Tree
@@ -157,6 +158,9 @@ public class EnemiesScript : MonoBehaviour
         // DEBUG: Disegna il raggio nella scena così vedi cosa sta colpendo
         Debug.DrawRay(startPoint, direction * adjustedDistance, Color.cyan);
 
+        // Il raggio sbatte solo contro Player e Muri (ignora altri nemici o oggetti a terra)
+        LayerMask maskToCheck = PlayerMask | ObstacleMask;  
+
         // Lanciamo il raggio
         if (Physics.Raycast(startPoint, direction, out hit, adjustedDistance))
         {
@@ -187,17 +191,17 @@ public class EnemiesScript : MonoBehaviour
     // Gestisce la rotazione secca (Flip) usando la scala originale
     void HandleSpriteFlip(float directionX)
     {
-        if (graficaSlime == null) return;
+        if (graficaNemico == null) return;
 
         if (directionX > 0.1f)
         {
             // Guarda a Destra (Mantiene la scala originale intatta)
-            graficaSlime.localScale = new Vector3(Mathf.Abs(_scalaOriginale.x), _scalaOriginale.y, _scalaOriginale.z);
+            graficaNemico.localScale = new Vector3(Mathf.Abs(_scalaOriginale.x), _scalaOriginale.y, _scalaOriginale.z);
         }
         else if (directionX < -0.1f)
         {
             // Guarda a Sinistra (Rende la X negativa per fare da specchio)
-            graficaSlime.localScale = new Vector3(-Mathf.Abs(_scalaOriginale.x), _scalaOriginale.y, _scalaOriginale.z);
+            graficaNemico.localScale = new Vector3(-Mathf.Abs(_scalaOriginale.x), _scalaOriginale.y, _scalaOriginale.z);
         }
     }
 
@@ -222,6 +226,31 @@ public class EnemiesScript : MonoBehaviour
                 _animator.SetFloat("MoveY", dirY); // Usiamo la Z del mondo come Y del BlendTree
             }
         }
+    }
+
+    public void Die()
+    {
+        // 1. Ferma il nemico istantaneamente
+        StopEnemy();
+
+        // Disabilita questo script così smette di cercare o inseguire il player
+        this.enabled = false;
+
+        // 2. Fai partire l'animazione di morte
+        if (_animator != null)
+        {
+            _animator.SetTrigger("Die"); // Usa lo stesso identico nome messo nell'Animator!
+        }
+
+        // 3. Disabilita il Collider per non far sbattere il Player contro il cadavere
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        // 4. Distruggi l'oggetto definitivamente dopo x tempo
+        Destroy(gameObject, 0.7f);
     }
 
     void OnDrawGizmosSelected()

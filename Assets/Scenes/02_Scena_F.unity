@@ -135,6 +135,34 @@ PrefabInstance:
       propertyPath: m_Center.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 264226976054639468, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 264226976054639468, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 264226976054639468, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6264686}
+    - target: {fileID: 264226976054639468, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 264226976054639468, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Die
+      objectReference: {fileID: 0}
+    - target: {fileID: 264226976054639468, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EnemiesScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 264226976054639468, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2059975399385107762, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
       propertyPath: m_LocalScale.x
       value: 5
@@ -149,11 +177,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2059975399385107762, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.08
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2059975399385107762, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2059975399385107762, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -178,6 +206,10 @@ PrefabInstance:
     - target: {fileID: 2998629010387137555, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
       propertyPath: m_Name
       value: EnemyBigSlimeSprites
+      objectReference: {fileID: 0}
+    - target: {fileID: 2998629010387137555, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3726680209787683779, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -223,6 +255,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PernoBigSlime
       objectReference: {fileID: 0}
+    - target: {fileID: 5225636705185638365, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5631347746116256620, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
       propertyPath: attackCooldown
       value: 1
@@ -256,12 +292,28 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7800732280660379606, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: graficaNemico
+      value: 
+      objectReference: {fileID: 1778744502}
+    - target: {fileID: 7800732280660379606, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
       propertyPath: DetectionRange
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7800732280660379606, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: PlayerMask.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 7800732280660379606, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: ObstacleMask.m_Bits
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7912658327068140277, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
       propertyPath: m_Name
       value: EnemyBigSlime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912658327068140277, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8773266178392152988, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
       propertyPath: MaxSpeed
@@ -289,6 +341,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1778744500}
   m_SourcePrefab: {fileID: 100100000, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+--- !u!114 &6264686 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7800732280660379606, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+  m_PrefabInstance: {fileID: 6264685}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8298540d5b5c04b48b6cdff851e96bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemiesScript
 --- !u!4 &43485376 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8001853375257659088, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
@@ -429,13 +492,53 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 148966354187700831, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: m_Height
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 148966354187700831, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: m_Radius
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 148966354187700831, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: m_Center.y
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 216878534607776756, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 374201131180061626, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
       propertyPath: m_Name
       value: Player1
       objectReference: {fileID: 0}
     - target: {fileID: 374201131180061626, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 374201131180061626, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 903830695637072295, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 903830695637072295, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3755429725958933356, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: maxHealth
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3755429725958933356, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: currentHealth
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137851447501043367, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6412705518931850459, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -477,14 +580,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7921050477116723587, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560128700826292693, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: attackPoint
+      value: 
+      objectReference: {fileID: 833118099}
+    - target: {fileID: 8560128700826292693, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: attackRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560128700826292693, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: attackDamage
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560128700826292693, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: enemyLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 374201131180061626, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1529313828}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+--- !u!4 &833118099 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 903830695637072295, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+  m_PrefabInstance: {fileID: 833118098}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1168031492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -496,6 +621,10 @@ PrefabInstance:
     - target: {fileID: 1367971109436346426, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
       propertyPath: m_Name
       value: AnimalBeeSprites
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367971109436346426, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2474448731459299874, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -541,6 +670,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PernoBee
       objectReference: {fileID: 0}
+    - target: {fileID: 2806929308547579177, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3166241154932305564, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
       propertyPath: m_LocalScale.x
       value: 4
@@ -581,6 +714,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 4700780805839030692, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4700780805839030692, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4700780805839030692, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1168031497}
+    - target: {fileID: 4700780805839030692, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4700780805839030692, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Die
+      objectReference: {fileID: 0}
+    - target: {fileID: 4700780805839030692, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AnimalsMovement, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4700780805839030692, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6293440062526192212, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
       propertyPath: wanderRadius
       value: 4
@@ -589,9 +750,17 @@ PrefabInstance:
       propertyPath: graficaAnimale
       value: 
       objectReference: {fileID: 1819726639}
+    - target: {fileID: 6293440062526192212, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+      propertyPath: tempoDiDistruzione
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 6305803049136244628, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
       propertyPath: m_Name
       value: AnimalBee
+      objectReference: {fileID: 0}
+    - target: {fileID: 6305803049136244628, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7091842513302697926, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
       propertyPath: m_Size.x
@@ -649,26 +818,17 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!1 &1529313827 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 374201131180061626, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
-  m_PrefabInstance: {fileID: 833118098}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1529313828
+--- !u!114 &1168031497 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 6293440062526192212, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}
+  m_PrefabInstance: {fileID: 1168031492}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529313827}
+  m_GameObject: {fileID: 1168031493}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c0ce45c20f3b142b6690b7dde1ed98, type: 3}
+  m_Script: {fileID: 11500000, guid: ad67a2cdd9f1bf845a187c66124ae710, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  currentHealth: 3
-  maxHealth: 3
-  invincibilityTime: 1
+  m_EditorClassIdentifier: Assembly-CSharp::AnimalsMovement
 --- !u!1 &1778744498 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2998629010387137555, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
@@ -696,6 +856,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!4 &1778744502 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2059975399385107762, guid: 3794cc5c1acc9ce469427f3cbab2b36b, type: 3}
+  m_PrefabInstance: {fileID: 6264685}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1819726638 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1367971109436346426, guid: d9f77c8b753ce704e9bb705b96064ff3, type: 3}

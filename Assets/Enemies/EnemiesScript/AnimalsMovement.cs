@@ -8,7 +8,11 @@ public class AnimalsMovement : MonoBehaviour
     public float wanderRadius = 10f;
     public float wanderTimer = 4f;
 
-    [Header("Grafica 2.5D")]
+    [Header("Morte")]
+    public float tempoDiDistruzione = 1f;
+    private bool _isDead = false;
+
+    [Header("Grafica")]
     [Tooltip("Trascina qui l'oggetto figlio che contiene la grafica/sprite dell'animale")]
     public Transform graficaAnimale;
     private Animator _animator;
@@ -36,6 +40,9 @@ public class AnimalsMovement : MonoBehaviour
 
     void Update()
     {
+
+        if (_isDead) return;
+
         _timer += Time.deltaTime;
 
         if (_timer >= wanderTimer)
@@ -52,6 +59,34 @@ public class AnimalsMovement : MonoBehaviour
 
         HandleSpriteFlip();
         UpdateAnimator();
+    }
+
+    public void Die()
+    {
+        // Se è già morta, ignora (evita di chiamarlo due volte)
+        if (_isDead) return;
+
+        _isDead = true;
+
+        // 1. Ferma fisicamente il NavMeshAgent
+        if (_agent != null)
+        {
+            _agent.isStopped = true;
+            _agent.velocity = Vector3.zero;
+        }
+
+        // 2. Fai partire l'animazione di morte
+        if (_animator != null)
+        {
+            _animator.SetTrigger("Die");
+        }
+
+        // 3. Disabilita il Collider così il Player non ci sbatte più contro
+        Collider col = GetComponent<Collider>();
+        if (col != null) col.enabled = false;
+
+        // 5. Distruggi l'oggetto dopo il tempo stabilito
+        Destroy(gameObject, tempoDiDistruzione);
     }
 
     void HandleSpriteFlip()

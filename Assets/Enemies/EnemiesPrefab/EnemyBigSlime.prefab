@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2059975399385107762}
   - component: {fileID: 7319449015754417748}
+  - component: {fileID: 9005646738800473732}
   m_Layer: 0
   m_Name: EnemyBigSlimeSprites
   m_TagString: Enemie
@@ -91,6 +92,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
+--- !u!95 &9005646738800473732
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2998629010387137555}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 29d29805fd3cb5a4f9f1f8dd07854067, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5225636705185638365
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,6 +159,7 @@ GameObject:
   - component: {fileID: 13459130345561547}
   - component: {fileID: 3336670494115412051}
   - component: {fileID: 7800732280660379606}
+  - component: {fileID: 264226976054639468}
   m_Layer: 0
   m_Name: EnemyBigSlime
   m_TagString: Enemie
@@ -234,11 +258,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8298540d5b5c04b48b6cdff851e96bef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesScript
-  graficaSlime: {fileID: 0}
-  MaxSpeed: 5
-  SightRange: 10
-  DetectionRange: 10
+  graficaNemico: {fileID: 2059975399385107762}
+  MaxSpeed: 3
+  SightRange: 4
+  DetectionRange: 4
   ObstacleMask:
     serializedVersion: 2
     m_Bits: 0
-  _animator: {fileID: 0}
+--- !u!114 &264226976054639468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7912658327068140277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3674d15ff2b6d548a4fa45e05aa3929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  currentHealth: 3
+  maxHealth: 3
+  invincibilityTime: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
