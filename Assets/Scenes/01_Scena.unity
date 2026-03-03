@@ -3369,8 +3369,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ef600af7e63742188c865a7cc832d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
-  _maxComboSteps: 3
   _comboResetTime: 0.8
+  _maxLightComboSteps: 3
 --- !u!1001 &1787133408
 PrefabInstance:
   m_ObjectHideFlags: 0

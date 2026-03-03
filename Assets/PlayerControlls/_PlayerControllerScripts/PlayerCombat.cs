@@ -1,102 +1,109 @@
-using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(PlayerInputHandler))]
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Riferimenti")]
-    private CharacterController _controller;
-    private PlayerInputHandler _input;
     private Animator _animator;
+    private PlayerInputHandler _input;
 
-    [Header("Sistema Combo")]
-    [SerializeField] private int _maxComboSteps = 3; 
-    [SerializeField] private float _comboResetTime = 0.8f; 
+    [Header("Stato Combattimento")]
+    public bool IsAttacking { get; private set; }
 
-    private int _comboStep = 0;
-    private float _lastAttackTime = 0f;
+    [Header("Impostazioni Combo")]
+    [SerializeField] private float _comboResetTime = 1.0f; // Tempo prima che la combo si resetti
+    [SerializeField] private int _maxLightComboSteps = 3;  // Numero massimo di attacchi nella combo leggera
 
-    // Proprietà pubblica: PlayerMovement può leggerla, ma solo PlayerCombat può modificarla
-    public bool IsAttacking { get; private set; } = false;
+    private float _lastAttackTime;
+    private int _currentLightComboStep = 0;
 
     private void Awake()
     {
-        _controller = GetComponent<CharacterController>();
-        _input = GetComponent<PlayerInputHandler>();
         _animator = GetComponentInChildren<Animator>();
+        _input = GetComponent<PlayerInputHandler>();
     }
 
     private void Update()
     {
         if (!this.enabled) return;
-        HandleAttacks();
+
+        CheckComboReset();
+        HandleCombatInputs();
     }
 
-    private void HandleAttacks()
+    private void HandleCombatInputs()
     {
-        // 1. Reset della combo se passa troppo tempo
-        if (Time.time - _lastAttackTime > _comboResetTime && !IsAttacking)
+        // Se l'input per l'attacco leggero è stato premuto
+        if (_input.LightAttackPressed)
         {
-            _comboStep = 0;
-            if (_animator != null) _animator.SetInteger("ComboStep", 0);
+            PerformLightAttack();
         }
-
-        // 2. Logica di innesco attacco
-        if (_input.AttackPressed && _controller.isGrounded && !IsAttacking)
+        // Se l'input per l'attacco pesante è stato premuto
+        else if (_input.HeavyAttackPressed)
         {
-            _lastAttackTime = Time.time;
-            _comboStep++;
-
-            if (_comboStep > _maxComboSteps)
-            {
-                _comboStep = 1; 
-            }
-
-            StartCoroutine(PerformAttackSequence());
+            PerformHeavyAttack();
         }
     }
 
-    private IEnumerator PerformAttackSequence()
+    private void PerformLightAttack()
     {
+
+        Debug.Log("ATTACCO LEGGERO ESEGUITO DAL CODICE!"); // <-- Aggiungi questa riga
+
+        _lastAttackTime = Time.time;
+        IsAttacking = true;
+        _currentLightComboStep++;
+
+        // Aggiorniamo il tempo dell'ultimo attacco
+        _lastAttackTime = Time.time;
         IsAttacking = true;
 
-        if (_animator != null)
+        // Avanziamo nella combo
+        _currentLightComboStep++;
+
+        // Se superiamo il limite della combo, ricominciamo dal primo colpo
+        if (_currentLightComboStep > _maxLightComboSteps)
         {
-            _animator.SetInteger("ComboStep", _comboStep);
-            _animator.SetTrigger("AttackTrigger");
+            _currentLightComboStep = 1;
         }
 
-        // Finestra in cui non accetti nuovi input di attacco
-        yield return new WaitForSeconds(0.35f); 
-
-        IsAttacking = false;
+        // Comunichiamo all'Animator quale colpo della combo eseguire
+        _animator.SetTrigger("LightAttack");
+        _animator.SetInteger("LightComboStep", _currentLightComboStep);
     }
 
-    // Ricordati di associare questo metodo agli Animation Events!
-    public void OnAttackAnimationEnd()
+    private void PerformHeavyAttack()
     {
-        IsAttacking = false;
+        // Un attacco pesante resetta la combo leggera
+        _currentLightComboStep = 0;
+        _lastAttackTime = Time.time;
+        IsAttacking = true;
+
+        _animator.SetTrigger("HeavyAttack");
     }
 
-    public void OnPlayerHit()
+    private void CheckComboReset()
     {
-        if (_animator != null) _animator.SetTrigger("HitTrigger");
-        
-        IsAttacking = false;
-        _comboStep = 0; // Se vieni colpito, perdi la combo!
+        // Se è passato troppo tempo dall'ultimo attacco, azzeriamo la combo
+        if (Time.time - _lastAttackTime > _comboResetTime)
+        {
+            _currentLightComboStep = 0;
+        }
     }
 
-    public void OnPlayerDeath()
+    // ==========================================
+    // ATTENZIONE: EVENTI DI ANIMAZIONE
+    // ==========================================
+
+    /// <summary>
+    /// Questo metodo deve essere richiamato tramite un "Animation Event" 
+    /// nell'ultimo frame di OGNI animazione di attacco.
+    /// </summary>
+    public void EndAttack()
     {
-        if (_animator != null) _animator.SetTrigger("DieTrigger");
-        _controller.enabled = false; 
-        
-        // Spegniamo tutto
-        this.enabled = false;
-        _input.enabled = false;
-        
-        PlayerMovement movement = GetComponent<PlayerMovement>();
-        if (movement != null) movement.enabled = false;
+        IsAttacking = false;
+
+        // Opzionale: Resetta i trigger per evitare che gli attacchi si accumulino se spammi il tasto
+        _animator.ResetTrigger("LightAttack");
+        _animator.ResetTrigger("HeavyAttack");
     }
 }
