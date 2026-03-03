@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3166241154932305564}
   - component: {fileID: 7091842513302697926}
+  - component: {fileID: 6760951963822871686}
   m_Layer: 0
-  m_Name: EnemyGreen
+  m_Name: AnimalBeeSprites
   m_TagString: Enemie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,8 +90,30 @@ SpriteRenderer:
   m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6760951963822871686
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367971109436346426}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4dc51ae979332ab4f801c7e59ea439b5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2806929308547579177
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4670358261343834389}
   m_Layer: 0
-  m_Name: PernoGreen
+  m_Name: PernoBee
   m_TagString: Enemie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,11 +156,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2474448731459299874}
   - component: {fileID: 1693080656487221631}
-  - component: {fileID: 1755520052078393404}
-  - component: {fileID: 4871331593234301243}
   - component: {fileID: 3719217978024946588}
+  - component: {fileID: 4863670519694116327}
+  - component: {fileID: 6293440062526192212}
+  - component: {fileID: 4700780805839030692}
   m_Layer: 0
-  m_Name: EnemyGreenFisica
+  m_Name: AnimalBee
   m_TagString: Enemie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,40 +210,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &1755520052078393404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6305803049136244628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d2466939888b8542944463a6f463ddc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemiesScript
-  graficaSlime: {fileID: 4670358261343834389}
-  MaxSpeed: 5
-  SightRange: 4
-  DetectionRange: 6
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 1
---- !u!114 &4871331593234301243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6305803049136244628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c09cb367c1475ec47a0de069b12281ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemiesCombat
-  damage: 1
-  attackCooldown: 0.7
-  nextAttackTime: 0
 --- !u!65 &3719217978024946588
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -241,3 +231,58 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.55, y: 1, z: 0.2}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!195 &4863670519694116327
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6305803049136244628}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &6293440062526192212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6305803049136244628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad67a2cdd9f1bf845a187c66124ae710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimalsMovement
+  wanderRadius: 5
+  wanderTimer: 4
+  graficaAnimale: {fileID: 3166241154932305564}
+--- !u!114 &4700780805839030692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6305803049136244628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3674d15ff2b6d548a4fa45e05aa3929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  currentHealth: 1
+  maxHealth: 1
+  invincibilityTime: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
