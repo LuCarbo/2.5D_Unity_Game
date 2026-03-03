@@ -26,6 +26,6 @@ ScriptedImporter:
     sceneObjectCreation: 2
   assetDependencies:
   - type: 0
-    originalUri: Assets\BP_BD_Mount\StaticMesh\MbdMD_Co_T_Mount_L_A_Build_02.bin
-    assetPath: Assets\BP_BD_Mount\StaticMesh\MbdMD_Co_T_Mount_L_A_Build_02.bin
+    originalUri: Assets\Asset_scaricati\ASSET_Octopath\BP_BD_Mount\StaticMesh\MbdMD_Co_T_Mount_L_A_Build_02.bin
+    assetPath: Assets\Asset_scaricati\ASSET_Octopath\BP_BD_Mount\StaticMesh\MbdMD_Co_T_Mount_L_A_Build_02.bin
   reportItems: []

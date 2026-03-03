@@ -1,10 +1,25 @@
+using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerInputHandler))]
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Riferimenti")]
-    public PlayerInputHandler inputHandler; // Script degli input
-    public Transform attackPoint;           // Un oggetto che fa da centro dell'attacco
+    private CharacterController _controller;
+    private PlayerInputHandler _inputHandler; // Script degli input
+    private Animator _animator;
+    public Transform attackPoint;             // Un oggetto che fa da centro dell'attacco
+
+    [Header("Sistema Combo")]
+    [SerializeField] private int _maxComboSteps = 3; 
+    [SerializeField] private float _comboResetTime = 0.8f;
+
+    private int _comboStep = 0;
+    private float _lastAttackTime = 0f;
+
+    // Propriet√† pubblica: PlayerMovement pu√≤ leggerla, ma solo PlayerCombat pu√≤ modificarla
+    public bool IsAttacking { get; private set; } = false;
 
     [Header("Statistiche Attacco")]
     public int attackDamage = 1;
@@ -19,11 +34,18 @@ public class PlayerCombat : MonoBehaviour
     private float attackDistance;
     private float defaultHeight;
 
+    private void Awake()
+    {
+        _controller = GetComponent<CharacterController>();
+        _input = GetComponent<PlayerInputHandler>();
+        _animator = GetComponentInChildren<Animator>();
+    }
+
     void Start()
     {
         if (attackPoint != null)
         {
-            // Calcoliamo quanto Ë distante l'attackPoint dal centro del giocatore (es. 0.8)
+            // Calcoliamo quanto ÔøΩ distante l'attackPoint dal centro del giocatore (es. 0.8)
             attackDistance = Mathf.Abs(attackPoint.localPosition.x);
 
             if (attackDistance == 0) attackDistance = Mathf.Abs(attackPoint.localPosition.z);
@@ -36,12 +58,12 @@ public class PlayerCombat : MonoBehaviour
     {
         // 1. GESTIONE DELLA DIREZIONE DELL'ATTACCO
         float moveX = inputHandler.MoveInput.x;
-        float moveY = inputHandler.MoveInput.y; // Attenzione: la "Y" dell'input Ë "Su/Gi˘" sulla tastiera
+        float moveY = inputHandler.MoveInput.y; // Attenzione: la "Y" dell'input ÔøΩ "Su/GiÔøΩ" sulla tastiera
 
         // Controllo se il giocatore si sta muovendo
         if (Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveY) > 0.1f)
         {
-            // Capisco se sta andando pi˘ in orizzontale o pi˘ in verticale
+            // Capisco se sta andando piÔøΩ in orizzontale o piÔøΩ in verticale
             if (Mathf.Abs(moveX) > Mathf.Abs(moveY))
             {
                 // MOVIMENTO ORIZZONTALE (Destra/Sinistra sull'asse X)
@@ -63,7 +85,7 @@ public class PlayerCombat : MonoBehaviour
                 }
                 else
                 {
-                    attackPoint.localPosition = new Vector3(0, defaultHeight, -attackDistance); // Gi˘ (Avvicina)
+                    attackPoint.localPosition = new Vector3(0, defaultHeight, -attackDistance); // GiÔøΩ (Avvicina)
                 }
             }
         }
@@ -77,6 +99,60 @@ public class PlayerCombat : MonoBehaviour
                 nextAttackTime = Time.time + 1f / attackRate;
             }
         }
+    }
+
+    private void HandleAttacks()
+    {
+        // 1. Reset della combo se passa troppo tempo
+        if (Time.time - _lastAttackTime > _comboResetTime && !IsAttacking)
+        {
+            _comboStep = 0;
+            if (_animator != null) _animator.SetInteger("ComboStep", 0);
+        }
+
+        // 2. Logica di innesco attacco
+        if (_input.AttackPressed && _controller.isGrounded && !IsAttacking)
+        {
+            _lastAttackTime = Time.time;
+            _comboStep++;
+
+            if (_comboStep > _maxComboSteps)
+            {
+                _comboStep = 1; 
+            }
+
+            StartCoroutine(PerformAttackSequence());
+        }
+    }
+
+    private IEnumerator PerformAttackSequence()
+    {
+        IsAttacking = true;
+
+        if (_animator != null)
+        {
+            _animator.SetInteger("ComboStep", _comboStep);
+            _animator.SetTrigger("AttackTrigger");
+        }
+
+        // Finestra in cui non accetti nuovi input di attacco
+        yield return new WaitForSeconds(0.35f); 
+
+        IsAttacking = false;
+    }
+
+    // Ricordati di associare questo metodo agli Animation Events!
+    public void OnAttackAnimationEnd()
+    {
+        IsAttacking = false;
+    }
+
+    public void OnPlayerHit()
+    {
+        if (_animator != null) _animator.SetTrigger("HitTrigger");
+        
+        IsAttacking = false;
+        _comboStep = 0; // Se vieni colpito, perdi la combo!
     }
 
     void Attack()
@@ -101,7 +177,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    // Questa funzione serve solo a noi per vedere la sfera di attacco in Unity
+
     void OnDrawGizmosSelected()
     {
         if (attackPoint == null) return;
