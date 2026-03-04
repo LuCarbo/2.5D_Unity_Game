@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _controller;
     private PlayerInputHandler _input;
     private Animator _animator;
+    private PlayerCombat _combat;
     private SpriteRenderer _spriteRenderer;
 
     [SerializeField] private Transform _visualModel;
