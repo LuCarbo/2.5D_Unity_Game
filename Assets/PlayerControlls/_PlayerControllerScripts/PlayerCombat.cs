@@ -3,58 +3,127 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Riferimenti")]
+    private CharacterController _controller;
+    private PlayerInputHandler _inputHandler; // Script degli input
     private Animator _animator;
-    private PlayerInputHandler _input;
+    public Transform attackPoint;             // Un oggetto che fa da centro dell'attacco
 
-    [Header("Stato Combattimento")]
-    public bool IsAttacking { get; private set; }
+    [Header("Sistema Combo")]
+    [SerializeField] private int _maxComboSteps = 3; 
+    [SerializeField] private float _comboResetTime = 0.8f;
 
-    [Header("Impostazioni Combo")]
-    [SerializeField] private float _comboResetTime = 1.0f; // Tempo prima che la combo si resetti
-    [SerializeField] private int _maxLightComboSteps = 3;  // Numero massimo di attacchi nella combo leggera
+    private int _comboStep = 0;
+    private float _lastAttackTime = 0f;
 
-    private float _lastAttackTime;
-    private int _currentLightComboStep = 0;
+    // Proprietà pubblica: PlayerMovement può leggerla, ma solo PlayerCombat può modificarla
+    public bool IsAttacking { get; private set; } = false;
+
+    [Header("Statistiche Attacco")]
+    public int attackDamage = 1;
+    public float attackRange = 1f;          // Raggio della sfera di attacco
+    public LayerMask enemyLayers;           // Per colpire solo i nemici (ignora i muri)
+
+    [Header("Cooldown")]
+    public float attackRate = 2f;           // Quanti attacchi al secondo
+    private float nextAttackTime = 0f;
+
+    // Variabili per memorizzare la posizione
+    private float attackDistance;
+    private float defaultHeight;
 
     private void Awake()
     {
-        _animator = GetComponentInChildren<Animator>();
+        _controller = GetComponent<CharacterController>();
         _input = GetComponent<PlayerInputHandler>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
-    private void Update()
+    void Start()
     {
-        if (!this.enabled) return;
-
-        CheckComboReset();
-        HandleCombatInputs();
-    }
-
-    private void HandleCombatInputs()
-    {
-        // Se l'input per l'attacco leggero è stato premuto
-        if (_input.LightAttackPressed)
+        if (attackPoint != null)
         {
-            PerformLightAttack();
-        }
-        // Se l'input per l'attacco pesante è stato premuto
-        else if (_input.HeavyAttackPressed)
-        {
-            PerformHeavyAttack();
+            // Calcoliamo quanto � distante l'attackPoint dal centro del giocatore (es. 0.8)
+            attackDistance = Mathf.Abs(attackPoint.localPosition.x);
+
+            if (attackDistance == 0) attackDistance = Mathf.Abs(attackPoint.localPosition.z);
+
+            defaultHeight = attackPoint.localPosition.y;
         }
     }
 
-    private void PerformLightAttack()
+    void Update()
     {
+        // 1. GESTIONE DELLA DIREZIONE DELL'ATTACCO
+        float moveX = inputHandler.MoveInput.x;
+        float moveY = inputHandler.MoveInput.y; // Attenzione: la "Y" dell'input � "Su/Gi�" sulla tastiera
 
-        Debug.Log("ATTACCO LEGGERO ESEGUITO DAL CODICE!"); // <-- Aggiungi questa riga
+        // Controllo se il giocatore si sta muovendo
+        if (Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveY) > 0.1f)
+        {
+            // Capisco se sta andando pi� in orizzontale o pi� in verticale
+            if (Mathf.Abs(moveX) > Mathf.Abs(moveY))
+            {
+                // MOVIMENTO ORIZZONTALE (Destra/Sinistra sull'asse X)
+                if (moveX > 0)
+                {
+                    attackPoint.localPosition = new Vector3(attackDistance, defaultHeight, 0); // Destra
+                }
+                else
+                {
+                    attackPoint.localPosition = new Vector3(-attackDistance, defaultHeight, 0); // Sinistra
+                }
+            }
+            else
+            {
+                // MOVIMENTO VERTICALE
+                if (moveY > 0)
+                {
+                    attackPoint.localPosition = new Vector3(0, defaultHeight, attackDistance); // Su (Allontana)
+                }
+                else
+                {
+                    attackPoint.localPosition = new Vector3(0, defaultHeight, -attackDistance); // Gi� (Avvicina)
+                }
+            }
+        }
 
-        _lastAttackTime = Time.time;
-        IsAttacking = true;
-        _currentLightComboStep++;
+        // 2. LOGICA DI ATTACCO
+        if (Time.time >= nextAttackTime)
+        {
+            if (inputHandler.AttackPressed)
+            {
+                Attack();
+                nextAttackTime = Time.time + 1f / attackRate;
+            }
+        }
+    }
 
-        // Aggiorniamo il tempo dell'ultimo attacco
-        _lastAttackTime = Time.time;
+    private void HandleAttacks()
+    {
+        // 1. Reset della combo se passa troppo tempo
+        if (Time.time - _lastAttackTime > _comboResetTime && !IsAttacking)
+        {
+            _comboStep = 0;
+            if (_animator != null) _animator.SetInteger("ComboStep", 0);
+        }
+
+        // 2. Logica di innesco attacco
+        if (_input.AttackPressed && _controller.isGrounded && !IsAttacking)
+        {
+            _lastAttackTime = Time.time;
+            _comboStep++;
+
+            if (_comboStep > _maxComboSteps)
+            {
+                _comboStep = 1; 
+            }
+
+            StartCoroutine(PerformAttackSequence());
+        }
+    }
+
+    private IEnumerator PerformAttackSequence()
+    {
         IsAttacking = true;
 
         // Avanziamo nella combo
@@ -66,44 +135,53 @@ public class PlayerCombat : MonoBehaviour
             _currentLightComboStep = 1;
         }
 
-        // Comunichiamo all'Animator quale colpo della combo eseguire
-        _animator.SetTrigger("LightAttack");
-        _animator.SetInteger("LightComboStep", _currentLightComboStep);
+        // Finestra in cui non accetti nuovi input di attacco
+        yield return new WaitForSeconds(0.35f); 
+
+        IsAttacking = false;
     }
 
-    private void PerformHeavyAttack()
+    // Ricordati di associare questo metodo agli Animation Events!
+    public void OnAttackAnimationEnd()
     {
-        // Un attacco pesante resetta la combo leggera
-        _currentLightComboStep = 0;
-        _lastAttackTime = Time.time;
-        IsAttacking = true;
-
-        _animator.SetTrigger("HeavyAttack");
+        IsAttacking = false;
     }
 
-    private void CheckComboReset()
+    public void OnPlayerHit()
     {
-        // Se è passato troppo tempo dall'ultimo attacco, azzeriamo la combo
-        if (Time.time - _lastAttackTime > _comboResetTime)
+        if (_animator != null) _animator.SetTrigger("HitTrigger");
+        
+        IsAttacking = false;
+        _comboStep = 0; // Se vieni colpito, perdi la combo!
+    }
+
+    void Attack()
+    {
+        // 1. (Opzionale in futuro) Fai partire l'animazione di attacco dell'Animator del Player qui
+
+        // 2. Rileva tutti i nemici nel raggio d'azione
+        // Crea una sfera invisibile partendo dall'attackPoint
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
+
+        // 3. Infliggi danno a ciascun nemico colpito
+        foreach (Collider enemy in hitEnemies)
         {
-            _currentLightComboStep = 0;
+            // Cerchiamo il nostro famoso script universale 'Health' sul nemico
+            Health enemyHealth = enemy.GetComponent<Health>();
+
+            if (enemyHealth != null)
+            {
+                enemyHealth.ChangeHealth(-attackDamage);
+                Debug.Log("Colpito: " + enemy.name + " per " + attackDamage + " danni!");
+            }
         }
     }
 
-    // ==========================================
-    // ATTENZIONE: EVENTI DI ANIMAZIONE
-    // ==========================================
 
-    /// <summary>
-    /// Questo metodo deve essere richiamato tramite un "Animation Event" 
-    /// nell'ultimo frame di OGNI animazione di attacco.
-    /// </summary>
-    public void EndAttack()
+    void OnDrawGizmosSelected()
     {
-        IsAttacking = false;
-
-        // Opzionale: Resetta i trigger per evitare che gli attacchi si accumulino se spammi il tasto
-        _animator.ResetTrigger("LightAttack");
-        _animator.ResetTrigger("HeavyAttack");
+        if (attackPoint == null) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

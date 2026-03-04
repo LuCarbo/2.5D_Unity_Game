@@ -13,10 +13,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool InteractPressed { get; private set; }
     public bool CancelPressed { get; private set; }
     public bool JumpPressed { get; private set; }
-
-    // --- NUOVO: Le due proprietà separate per gli attacchi ---
-    public bool LightAttackPressed { get; private set; }
-    public bool HeavyAttackPressed { get; private set; }
+    public bool AttackPressed { get; private set; }
 
     private void Awake()
     {
@@ -36,10 +33,8 @@ public class PlayerInputHandler : MonoBehaviour
         _playerControls.Player.Interact.started += OnInteractPerformed;
         _playerControls.Player.Cancel.performed += OnCancelPerformed;
         _playerControls.Player.Jump.performed += OnJumpPerformed;
-
-        // --- NUOVO: Registriamo entrambe le azioni ---
-        _playerControls.Player.LightAttack.performed += OnLightAttackPerformed;
-        _playerControls.Player.HeavyAttack.performed += OnHeavyAttackPerformed;
+        
+        _playerControls.Player.Attack.performed += OnAttackPerformed;
     }
 
     private void OnDisable()
@@ -51,11 +46,8 @@ public class PlayerInputHandler : MonoBehaviour
         _playerControls.Player.Interact.started -= OnInteractPerformed;
         _playerControls.Player.Cancel.performed -= OnCancelPerformed;
         _playerControls.Player.Jump.performed -= OnJumpPerformed;
-
-        // --- NUOVO: Deregistriamo entrambe le azioni ---
-        _playerControls.Player.LightAttack.performed -= OnLightAttackPerformed;
-        _playerControls.Player.HeavyAttack.performed -= OnHeavyAttackPerformed;
-
+        _playerControls.Player.Attack.performed -= OnAttackPerformed;
+        
         _playerControls.Player.Disable();
     }
 
@@ -69,10 +61,8 @@ public class PlayerInputHandler : MonoBehaviour
     private void OnCancelPerformed(InputAction.CallbackContext context) { CancelPressed = true; }
     private void OnJumpPerformed(InputAction.CallbackContext context) { JumpPressed = true; }
 
-    // --- NUOVO: Callback separati per i due attacchi ---
-    private void OnLightAttackPerformed(InputAction.CallbackContext context) { LightAttackPressed = true; }
-    private void OnHeavyAttackPerformed(InputAction.CallbackContext context) { HeavyAttackPressed = true; }
-
+    private void OnAttackPerformed(InputAction.CallbackContext context) { AttackPressed = true; }
+    
 
     private void LateUpdate()
     {
@@ -80,9 +70,6 @@ public class PlayerInputHandler : MonoBehaviour
         if (InteractPressed) InteractPressed = false;
         if (CancelPressed) CancelPressed = false;
         if (JumpPressed) JumpPressed = false;
-
-        // Entrambi gli attacchi vengono resettati a fine frame
-        if (LightAttackPressed) LightAttackPressed = false;
-        if (HeavyAttackPressed) HeavyAttackPressed = false;
+        if (AttackPressed) AttackPressed = false;
     }
 }

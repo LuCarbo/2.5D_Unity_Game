@@ -1,0 +1,76 @@
+Parent = MaterialInstanceConstant'/Game/Object/Resource/_Common/Material/MI_KSObject_Wind_Emissive_UsgInstance.MI_KSObject_Wind_Emissive_UsgInstance'
+ScalarParameterValues[4] =
+{
+    ScalarParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 10
+        ParameterName = EmissiveMaskValue
+    }
+    ScalarParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 5
+        ParameterName = EmissiveMax
+    }
+    ScalarParameterValues[2] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 2
+        ParameterName = EmissiveMin
+    }
+    ScalarParameterValues[3] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0
+        ParameterName = RefractionDepthBias
+    }
+}
+TextureParameterValues[3] =
+{
+    TextureParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Object/Resource/Obj/Obj_grass/Texture/ObjTX_Grass_J_cl.ObjTX_Grass_J_cl'
+        ParameterName = ColorMap
+    }
+    TextureParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/Environment/Godray/T_TilingNoise02_M.T_TilingNoise02_M'
+        ParameterName = EmissiveMask
+    }
+    TextureParameterValues[2] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Object/Resource/Obj/Obj_grass/Texture/ObjTX_Grass_J_no.ObjTX_Grass_J_no'
+        ParameterName = NormalMap
+    }
+}
+VectorParameterValues[0] = {}
+BasePropertyOverrides =
+{
+    bOverride_BlendMode = false
+    BlendMode = BLEND_Opaque (0)
+    bOverride_TwoSided = false
+    TwoSided = false
+    bOverride_OpacityMaskClipValue = false
+    OpacityMaskClipValue = 0
+}
+StaticParameters =
+{
+    StaticSwitchParameters[0] = {}
+    StaticComponentMaskParameters[0] = {}
+    TerrainLayerWeightParameters[0] = {}
+    MaterialLayersParameters[0] = {}
+}
+RuntimeVirtualTextureParameterValues[0] = {}
+FontParameterValues[0] = {}
+FlattenedTexture = None
+MobileBaseTexture = None
+MobileNormalTexture = None
+bUseMobileSpecular = false
+MobileSpecularPower = 16
+MobileSpecularMask = MSM_Constant (0)
+MobileMaskTexture = None
+TextureStreamingData[0] = {}

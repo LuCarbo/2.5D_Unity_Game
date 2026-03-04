@@ -1,0 +1,90 @@
+Parent = MaterialInstanceConstant'/Game/Object/Resource/_Common/Material/MI_KSObject_Wind_Emissive_UsgInstance.MI_KSObject_Wind_Emissive_UsgInstance'
+ScalarParameterValues[5] =
+{
+    ScalarParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0.1
+        ParameterName = EmissiveMaskSpeed
+    }
+    ScalarParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0.5
+        ParameterName = EmissiveMaskValue
+    }
+    ScalarParameterValues[2] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 1
+        ParameterName = EmissiveMax
+    }
+    ScalarParameterValues[3] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0.5
+        ParameterName = EmissiveMin
+    }
+    ScalarParameterValues[4] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0
+        ParameterName = RefractionDepthBias
+    }
+}
+TextureParameterValues[3] =
+{
+    TextureParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Object/Resource/Obj/Obj_grass/Texture/ObjTX_Grass_A_BlueFlower_01_cl.ObjTX_Grass_A_BlueFlower_01_cl'
+        ParameterName = ColorMap
+    }
+    TextureParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_Building/BP_BD_Snow/Texture/MbdTX_Snow_White_mk.MbdTX_Snow_White_mk'
+        ParameterName = EmissiveMask
+    }
+    TextureParameterValues[2] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Object/Resource/Obj/Obj_grass/Texture/ObjTX_Grass_A_BlueFlower_01_no.ObjTX_Grass_A_BlueFlower_01_no'
+        ParameterName = NormalMap
+    }
+}
+VectorParameterValues[1] =
+{
+    VectorParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = { R=0, G=0.55725, B=1, A=1 }
+        ParameterName = EmmisiveColor
+    }
+}
+BasePropertyOverrides =
+{
+    bOverride_BlendMode = false
+    BlendMode = BLEND_Opaque (0)
+    bOverride_TwoSided = false
+    TwoSided = true
+    bOverride_OpacityMaskClipValue = false
+    OpacityMaskClipValue = 0
+}
+StaticParameters =
+{
+    StaticSwitchParameters[0] = {}
+    StaticComponentMaskParameters[0] = {}
+    TerrainLayerWeightParameters[0] = {}
+    MaterialLayersParameters[0] = {}
+}
+RuntimeVirtualTextureParameterValues[0] = {}
+FontParameterValues[0] = {}
+FlattenedTexture = None
+MobileBaseTexture = None
+MobileNormalTexture = None
+bUseMobileSpecular = false
+MobileSpecularPower = 16
+MobileSpecularMask = MSM_Constant (0)
+MobileMaskTexture = None
+TextureStreamingData[0] = {}
