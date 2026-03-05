@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cfec3ddd37ad96648995faed69f80535
-      internalID: -2016148551
+      spriteID: d94088a4957da4e4c9c67923e2331565
+      internalID: 264221986
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbbb09ee909902142850658aa49605a4
-      internalID: 537086560
+      spriteID: aba3e55b20c8d2149b324b034d6e6dc7
+      internalID: 1335278369
       vertices: []
       indices: 
       edges: []
@@ -156,8 +156,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 898fd7e88aace9d4da04064aac8b1062
-      internalID: 299127315
+      spriteID: a4c3e65efe973d34884261d69e3b633e
+      internalID: -366400732
       vertices: []
       indices: 
       edges: []
@@ -178,8 +178,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6ab5e53b84edd5746a3d0b76ced7998a
-      internalID: -1260045500
+      spriteID: bfc0dd6981b47c5488c2bb388d818eb5
+      internalID: -244934129
       vertices: []
       indices: 
       edges: []
@@ -188,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 950fed9df2f4a5946816b214f7e02342
+    spriteID: d26514e569e74ad42beabdfc6862f3c3
     internalID: 0
     vertices: []
     indices: 
@@ -200,10 +200,10 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      S_Idle_0: -2016148551
-      S_Idle_1: 537086560
-      S_Idle_2: 299127315
-      S_Idle_3: -1260045500
+      S_Idle_0: 264221986
+      S_Idle_1: 1335278369
+      S_Idle_2: -366400732
+      S_Idle_3: -244934129
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
