@@ -1419,6 +1419,9 @@ MonoBehaviour:
   dialogo: {fileID: 11400000, guid: 92940b6ba10863a49af8f775264daaae, type: 2}
   ilTuoPersonaggio: {fileID: 1734154658}
   raggioDiAzione: 3
+  EventoFineDialogo:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &776103182 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9040383985399980286, guid: 511fcc1e269ad0b4eb9464ee80eca14d, type: 3}
@@ -3369,8 +3372,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ef600af7e63742188c865a7cc832d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
+  attackPoint: {fileID: 0}
   _comboResetTime: 0.8
   _maxLightComboSteps: 3
+  _maxHeavyComboSteps: 2
+  lightAttackDamage: 1
+  lightAttackRange: 1
+  lightAttackRate: 3
+  heavyAttackDamage: 3
+  heavyAttackRange: 1.3
+  heavyAttackRate: 1
+  enemyLayers:
+    m_Bits: 0
 --- !u!1001 &1787133408
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4269,6 +4282,14 @@ PrefabInstance:
     - target: {fileID: 6412705518931850459, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7847800977588568126, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7847800977588568126, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

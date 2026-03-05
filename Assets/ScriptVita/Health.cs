@@ -24,6 +24,11 @@ public class Health : MonoBehaviour
 
         currentHealth += amount;
 
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+        
         // Controllo morte universale
         if (currentHealth <= 0)
         {
