@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events; // Aggiunto per usare gli Eventi
 
 public class DialogueTrigger : MonoBehaviour
 {
@@ -12,10 +13,15 @@ public class DialogueTrigger : MonoBehaviour
     [Tooltip("Distanza massima per poter parlare con l'NPC")]
     public float raggioDiAzione = 3f;
 
+    [Header("Eventi Speciali")]
+    [Tooltip("Cosa succede quando il dialogo finisce normalmente?")]
+    public UnityEvent EventoFineDialogo; // Lo slot dove metteremo la pozione!
+
     private DialogueManager manager;
     private PlayerInputHandler inputPersonaggio;
 
     private bool playerVicino = false;
+    private bool dialogoInCorso = false; // Ci serve per capire se stavamo parlando
 
     void Start()
     {
@@ -25,40 +31,50 @@ public class DialogueTrigger : MonoBehaviour
 
     void Update()
     {
-        // Misura la distanza esatta tra l'NPC e il personaggio
         float distanza = Vector3.Distance(transform.position, ilTuoPersonaggio.transform.position);
 
-        // Controlla se il personaggio è dentro il raggio d'azione
         if (distanza <= raggioDiAzione)
         {
             playerVicino = true;
 
-            // Se siamo vicini, premiamo E e il Manager non sta già parlando
+            // 1. Avvio del Dialogo
             if (inputPersonaggio != null && inputPersonaggio.InteractPressed)
             {
                 if (manager != null && !manager.staParlando)
                 {
                     manager.AvviaDialogo(dialogo);
+                    dialogoInCorso = true; // Segniamo che la conversazione è iniziata
+                }
+            }
+
+            // 2. Controllo Fine Dialogo
+            // Se c'era un dialogo in corso, ma il manager dice che non stiamo più parlando...
+            if (dialogoInCorso && manager != null && !manager.staParlando)
+            {
+                dialogoInCorso = false; // Il dialogo è finito
+
+                // Lancia l'evento di fine dialogo!
+                if (EventoFineDialogo != null)
+                {
+                    EventoFineDialogo.Invoke();
                 }
             }
         }
         else
         {
-            // Se usciamo dal raggio d'azione
             if (playerVicino)
             {
                 playerVicino = false;
 
-                // Chiude il dialogo in automatico se ci allontaniamo
                 if (manager != null && manager.staParlando)
                 {
                     manager.TerminaDialogo();
+                    dialogoInCorso = false; // Resetta se ci allontaniamo bruscamente
                 }
             }
         }
     }
 
-    // BONUS VISIVO: Disegna una sfera gialla attorno all'NPC nella finestra Scene!
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
