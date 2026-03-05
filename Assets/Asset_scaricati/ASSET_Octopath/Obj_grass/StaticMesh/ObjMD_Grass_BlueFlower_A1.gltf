@@ -1,0 +1,187 @@
+{
+  "asset" : {
+    "generator" : "UE Viewer (umodel) build 1590",
+    "version" : "2.0"
+  },
+  "scene" : 0,
+  "scenes" : [
+    {
+      "nodes" : [ 0 ]
+    }
+  ],
+  "nodes" : [
+    {
+      "name" : "ObjMD_Grass_BlueFlower_A1",
+      "mesh" : 0
+    }
+  ],
+  "materials" : [
+    {
+      "name" : "ObjMI_Grass_A_BlueFlower_A",
+      "pbrMetallicRoughness" : {
+        "baseColorFactor" : [ 0.3, 0.3, 0.3, 1.0 ],
+        "metallicFactor" : 0.1,
+        "roughnessFactor" : 0.5
+      }
+    },
+    {
+      "name" : "ObjMI_Grass_A_BlueFlower_A",
+      "pbrMetallicRoughness" : {
+        "baseColorFactor" : [ 0.9, 0.3, 0.3, 1.0 ],
+        "metallicFactor" : 0.1,
+        "roughnessFactor" : 0.5
+      }
+    }
+  ],
+  "meshes" : [
+    {
+      "primitives" : [
+        {
+          "attributes" : {
+            "POSITION" : 1,
+            "NORMAL" : 2,
+            "TANGENT" : 3,
+            "TEXCOORD_0" : 4
+          },
+          "indices" : 0,
+          "material" : 0
+        },
+        {
+          "attributes" : {
+            "POSITION" : 6,
+            "NORMAL" : 7,
+            "TANGENT" : 8,
+            "TEXCOORD_0" : 9
+          },
+          "indices" : 5,
+          "material" : 1
+        }
+      ],
+      "name" : "ObjMD_Grass_BlueFlower_A1"
+    }
+  ],
+  "buffers" : [
+    {
+      "uri" : "ObjMD_Grass_BlueFlower_A1.bin",
+      "byteLength" : 28800
+    }
+  ],
+  "bufferViews" : [
+    {
+      "buffer" : 0,
+      "byteOffset" : 0,
+      "byteLength" : 1440
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 1440,
+      "byteLength" : 3000
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 4440,
+      "byteLength" : 3000
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 7440,
+      "byteLength" : 4000
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 11440,
+      "byteLength" : 2000
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 13440,
+      "byteLength" : 960
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 14400,
+      "byteLength" : 3600
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 18000,
+      "byteLength" : 3600
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 21600,
+      "byteLength" : 4800
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 26400,
+      "byteLength" : 2400
+    }
+  ],
+  "accessors" : [
+    {
+      "bufferView" : 0,
+      "componentType" : 5123,
+      "count" : 720,
+      "type" : "SCALAR"
+    },
+    {
+      "bufferView" : 1,
+      "min" : [ -1.17071, -0.0823795, -1.00613 ],
+      "max" : [ 0.905667, 0.146687, 1.13113 ],
+      "componentType" : 5126,
+      "count" : 250,
+      "type" : "VEC3"
+    },
+    {
+      "bufferView" : 2,
+      "componentType" : 5126,
+      "count" : 250,
+      "type" : "VEC3"
+    },
+    {
+      "bufferView" : 3,
+      "componentType" : 5126,
+      "count" : 250,
+      "type" : "VEC4"
+    },
+    {
+      "bufferView" : 4,
+      "componentType" : 5126,
+      "count" : 250,
+      "type" : "VEC2"
+    },
+    {
+      "bufferView" : 5,
+      "componentType" : 5123,
+      "count" : 480,
+      "type" : "SCALAR"
+    },
+    {
+      "bufferView" : 6,
+      "min" : [ -1.16181, -0.0404808, -0.984017 ],
+      "max" : [ 0.875601, 0.188854, 1.10902 ],
+      "componentType" : 5126,
+      "count" : 300,
+      "type" : "VEC3"
+    },
+    {
+      "bufferView" : 7,
+      "componentType" : 5126,
+      "count" : 300,
+      "type" : "VEC3"
+    },
+    {
+      "bufferView" : 8,
+      "componentType" : 5126,
+      "count" : 300,
+      "type" : "VEC4"
+    },
+    {
+      "bufferView" : 9,
+      "componentType" : 5126,
+      "count" : 300,
+      "type" : "VEC2"
+    }
+  ]
+}

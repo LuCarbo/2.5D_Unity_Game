@@ -11,8 +11,10 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputHandler _input;
     private PlayerCombat _combat;
     private Animator _animator;
+    private PlayerCombat _combat;
     private SpriteRenderer _spriteRenderer;
 
+    
     [SerializeField] private Transform _visualModel;
 
     [Header("Impostazioni Movimento")]
@@ -65,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
         // Controlliamo se stiamo attaccando tramite lo script PlayerCombat
         bool isAttacking = _combat != null && _combat.IsAttacking;
 
-        if (_input.JumpPressed && isGrounded && !isAttacking)
+        if (_input.JumpPressed && isGrounded)
         {
             _verticalVelocityY = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
         }

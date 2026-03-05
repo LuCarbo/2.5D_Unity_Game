@@ -1,0 +1,88 @@
+Parent = MaterialInstanceConstant'/Game/Object/Resource/_Common/Material/MI_KSObject_WindLeaf_UsgInstance.MI_KSObject_WindLeaf_UsgInstance'
+ScalarParameterValues[7] =
+{
+    ScalarParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0.2
+        ParameterName = G.WindIntensity
+    }
+    ScalarParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 1
+        ParameterName = G.WindSpeed
+    }
+    ScalarParameterValues[2] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0.2
+        ParameterName = G.WindWeight
+    }
+    ScalarParameterValues[3] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 1024
+        ParameterName = R.LargeWaveScaleY
+    }
+    ScalarParameterValues[4] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 1
+        ParameterName = R.SpeedY
+    }
+    ScalarParameterValues[5] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 2
+        ParameterName = R.WaveAmplitudeY
+    }
+    ScalarParameterValues[6] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0
+        ParameterName = RefractionDepthBias
+    }
+}
+TextureParameterValues[2] =
+{
+    TextureParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Object/Resource/Obj/Obj_Tree/Texture/ObjTX_Tree_Plain_A_cl.ObjTX_Tree_Plain_A_cl'
+        ParameterName = ColorMap
+    }
+    TextureParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Object/Resource/Obj/Obj_Tree/Texture/ObjTX_Tree_Plain_A_no.ObjTX_Tree_Plain_A_no'
+        ParameterName = NormalMap
+    }
+}
+VectorParameterValues[0] = {}
+BasePropertyOverrides =
+{
+    bOverride_BlendMode = true
+    BlendMode = BLEND_Masked (1)
+    bOverride_TwoSided = false
+    TwoSided = false
+    bOverride_OpacityMaskClipValue = false
+    OpacityMaskClipValue = 0
+}
+StaticParameters =
+{
+    StaticSwitchParameters[0] = {}
+    StaticComponentMaskParameters[0] = {}
+    TerrainLayerWeightParameters[0] = {}
+    MaterialLayersParameters[0] = {}
+}
+RuntimeVirtualTextureParameterValues[0] = {}
+FontParameterValues[0] = {}
+FlattenedTexture = None
+MobileBaseTexture = None
+MobileNormalTexture = None
+bUseMobileSpecular = false
+MobileSpecularPower = 16
+MobileSpecularMask = MSM_Constant (0)
+MobileMaskTexture = None
+TextureStreamingData[0] = {}
