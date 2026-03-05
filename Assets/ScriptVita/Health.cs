@@ -23,7 +23,7 @@ public class Health : MonoBehaviour
         }
 
         currentHealth += amount;
-
+        
         if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
@@ -34,7 +34,7 @@ public class Health : MonoBehaviour
         {
             currentHealth = 0;
 
-            // Lancia l'evento! Chiunque stia ascoltando reagirà.
+            // Lancia l'evento! Chiunque stia ascoltando reagirï¿½.
             if (OnDeath != null)
             {
                 OnDeath.Invoke();

@@ -1545,6 +1545,144 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -29.549, y: -90, z: 0}
+--- !u!1 &795318336
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 795318340}
+  - component: {fileID: 795318339}
+  - component: {fileID: 795318338}
+  - component: {fileID: 795318337}
+  m_Layer: 0
+  m_Name: S_Idle_0 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &795318337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795318336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd08eb33c7680c140893bc00a3bb236c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GivePotion
+  quantitaDaConsegnare: 1
+  haGiaDatoPozione: 0
+  inventarioGiocatore: {fileID: 1734154659}
+--- !u!114 &795318338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795318336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1b0614892faa6647b99956679936006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueTrigger
+  dialogo: {fileID: 11400000, guid: 92940b6ba10863a49af8f775264daaae, type: 2}
+  ilTuoPersonaggio: {fileID: 1734154658}
+  raggioDiAzione: 3
+  EventoFineDialogo:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 795318337}
+        m_TargetAssemblyTypeName: GivePotion, Assembly-CSharp
+        m_MethodName: Consegna
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!212 &795318339
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795318336}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -675317577, guid: d40834e2a5c0449a7a5a5154b712488c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.16, y: 0.26}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!4 &795318340
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795318336}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.97629607}
+  m_LocalPosition: {x: 12.29, y: 0.74, z: -73.27}
+  m_LocalScale: {x: 7, y: 7, z: 7}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
 --- !u!1001 &878429153
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2985,9 +3123,21 @@ PrefabInstance:
     - target: {fileID: 9040383985399980286, guid: 511fcc1e269ad0b4eb9464ee80eca14d, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 7d59eb7cba6c84b4990f8abc9792bd7a, type: 2}
+      objectReference: {fileID: 11400000, guid: db18bc1d26ff34fd7845c76f9c460d75, type: 2}
     - target: {fileID: 9040383985399980286, guid: 511fcc1e269ad0b4eb9464ee80eca14d, type: 3}
       propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9040383985399980286, guid: 511fcc1e269ad0b4eb9464ee80eca14d, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9040383985399980286, guid: 511fcc1e269ad0b4eb9464ee80eca14d, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9040383985399980286, guid: 511fcc1e269ad0b4eb9464ee80eca14d, type: 3}
+      propertyPath: m_fontColor.r
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9040383985399980286, guid: 511fcc1e269ad0b4eb9464ee80eca14d, type: 3}
@@ -2997,10 +3147,14 @@ PrefabInstance:
     - target: {fileID: 9040383985399980286, guid: 511fcc1e269ad0b4eb9464ee80eca14d, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 1410727782825784217, guid: 7d59eb7cba6c84b4990f8abc9792bd7a, type: 2}
+      objectReference: {fileID: 3503164567842530242, guid: db18bc1d26ff34fd7845c76f9c460d75, type: 2}
     - target: {fileID: 9040383985399980286, guid: 511fcc1e269ad0b4eb9464ee80eca14d, type: 3}
       propertyPath: m_enableAutoSizing
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9040383985399980286, guid: 511fcc1e269ad0b4eb9464ee80eca14d, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
       objectReference: {fileID: 0}
     - target: {fileID: 9040383985399980286, guid: 511fcc1e269ad0b4eb9464ee80eca14d, type: 3}
       propertyPath: m_VerticalAlignment
@@ -3360,6 +3514,32 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 374201131180061626, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
   m_PrefabInstance: {fileID: 7174287784101470074}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1734154659 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 961772087969777112, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+  m_PrefabInstance: {fileID: 7174287784101470074}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734154658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41b16ecc619cfa445abde4742e56a42a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPotions
+--- !u!114 &1734154660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734154658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41b16ecc619cfa445abde4742e56a42a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPotions
+  potionCount: 0
+  healAmount: 20
+  healKey: 102
 --- !u!1001 &1787133408
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4270,7 +4450,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 374201131180061626, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 1734154660}
   m_SourcePrefab: {fileID: 100100000, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
 --- !u!1001 &9054764676106975749
 PrefabInstance:
@@ -4396,4 +4579,5 @@ SceneRoots:
   - {fileID: 2094627295}
   - {fileID: 1167389442}
   - {fileID: 670081373}
+  - {fileID: 795318340}
   - {fileID: 5218316}
