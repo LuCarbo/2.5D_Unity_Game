@@ -6,7 +6,7 @@ public class DialogueTrigger : MonoBehaviour
     [Header("Impostazioni Dialogo")]
     public DialogueData dialogo;
 
-    [Header("Chi può far partire il dialogo?")]
+    [Header("Chi puÃ² far partire il dialogo?")]
     public GameObject ilTuoPersonaggio;
 
     [Header("Raggio d'azione")]
@@ -43,16 +43,16 @@ public class DialogueTrigger : MonoBehaviour
                 if (manager != null && !manager.staParlando)
                 {
                     manager.AvviaDialogo(dialogo);
-                    dialogoInCorso = true; // Segniamo che la conversazione è iniziata
+                    dialogoInCorso = true; // Segniamo che la conversazione Ã¨ iniziata
                 }
             }
 
             // 2. Controllo Fine Dialogo
-            // Se c'era un dialogo in corso, ma il manager dice che non stiamo più parlando...
+            // Se c'era un dialogo in corso, ma il manager dice che non stiamo piÃ¹ parlando...
             if (dialogoInCorso && manager != null && !manager.staParlando)
             {
-                dialogoInCorso = false; // Il dialogo è finito
-
+                dialogoInCorso = false; // Il dialogo Ã¨ finito
+                
                 // Lancia l'evento di fine dialogo!
                 if (EventoFineDialogo != null)
                 {
