@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInputHandler))]
@@ -8,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Riferimenti")]
     private CharacterController _controller;
     private PlayerInputHandler _input;
+    private PlayerCombat _combat;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
 
@@ -128,5 +130,53 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("IsJumping", !_controller.isGrounded);
         _animator.SetFloat("MoveX", _input.MoveInput.x);
         _animator.SetFloat("MoveY", _input.MoveInput.y);
+    }
+
+    public void Die()
+    {
+        // 1. Fai partire l'animazione di morte
+        if (_animator != null)
+        {
+            _animator.SetTrigger("DieTrigger");
+        }
+
+        // 2. Disabilita il movimento
+        this.enabled = false;
+
+        // 3. Disabilita il combattimento
+        if (_combat != null)
+        {
+            _combat.enabled = false;
+        }
+
+        // 4. Cambiamo il Tag così i nemici che cercano il "Player" smettono di vederlo
+        gameObject.tag = "Untagged";
+
+        // Se il tuo Player ha un Rigidbody, congeliamo la posizione Y: (toppa per evitare che sprofondi dopo la morte)
+        //Rigidbody rb = GetComponent<Rigidbody>();
+        //if (rb != null)
+        //{
+        //    rb.constraints = RigidbodyConstraints.FreezeAll;
+        //}
+
+        Debug.Log("Il Player è morto!");
+
+        StartCoroutine(DeathSequence());
+    }
+
+    private IEnumerator DeathSequence()
+    {
+        // 1. Aspetta che l'animazione finisca (es. 2 secondi)
+        // Regola questo tempo in base a quanto dura la tua animazione di morte
+        yield return new WaitForSeconds(1.2f);
+
+        // 2. Nascondi il disegno del personaggio
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.enabled = false;
+        }
+
+        // --- QUI IN FUTURO METTERAI IL CODICE DEL RESPAWN ---
+        Debug.Log("Il corpo è sparito. In attesa del respawn...");
     }
 }

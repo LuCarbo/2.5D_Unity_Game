@@ -37,7 +37,7 @@ public class PlayerCombat : MonoBehaviour
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
-        _input = GetComponent<PlayerInputHandler>();
+        _inputHandler = GetComponent<PlayerInputHandler>();
         _animator = GetComponentInChildren<Animator>();
     }
 
@@ -57,48 +57,25 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         // 1. GESTIONE DELLA DIREZIONE DELL'ATTACCO
-        float moveX = inputHandler.MoveInput.x;
-        float moveY = inputHandler.MoveInput.y; // Attenzione: la "Y" dell'input � "Su/Gi�" sulla tastiera
+        float moveX = _inputHandler.MoveInput.x;
+        float moveY = _inputHandler.MoveInput.y;
 
-        // Controllo se il giocatore si sta muovendo
         if (Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveY) > 0.1f)
         {
-            // Capisco se sta andando pi� in orizzontale o pi� in verticale
             if (Mathf.Abs(moveX) > Mathf.Abs(moveY))
             {
-                // MOVIMENTO ORIZZONTALE (Destra/Sinistra sull'asse X)
-                if (moveX > 0)
-                {
-                    attackPoint.localPosition = new Vector3(attackDistance, defaultHeight, 0); // Destra
-                }
-                else
-                {
-                    attackPoint.localPosition = new Vector3(-attackDistance, defaultHeight, 0); // Sinistra
-                }
+                if (moveX > 0) attackPoint.localPosition = new Vector3(attackDistance, defaultHeight, 0);
+                else attackPoint.localPosition = new Vector3(-attackDistance, defaultHeight, 0);
             }
             else
             {
-                // MOVIMENTO VERTICALE
-                if (moveY > 0)
-                {
-                    attackPoint.localPosition = new Vector3(0, defaultHeight, attackDistance); // Su (Allontana)
-                }
-                else
-                {
-                    attackPoint.localPosition = new Vector3(0, defaultHeight, -attackDistance); // Gi� (Avvicina)
-                }
+                if (moveY > 0) attackPoint.localPosition = new Vector3(0, defaultHeight, attackDistance);
+                else attackPoint.localPosition = new Vector3(0, defaultHeight, -attackDistance);
             }
         }
 
-        // 2. LOGICA DI ATTACCO
-        if (Time.time >= nextAttackTime)
-        {
-            if (inputHandler.AttackPressed)
-            {
-                Attack();
-                nextAttackTime = Time.time + 1f / attackRate;
-            }
-        }
+        // ---> MODIFICA QUI: Chiamiamo la tua nuova funzione per le combo e le animazioni! <---
+        HandleAttacks();
     }
 
     private void HandleAttacks()
@@ -111,7 +88,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         // 2. Logica di innesco attacco
-        if (_input.AttackPressed && _controller.isGrounded && !IsAttacking)
+        if (_inputHandler.AttackPressed && _controller.isGrounded && !IsAttacking)
         {
             _lastAttackTime = Time.time;
             _comboStep++;
@@ -129,14 +106,16 @@ public class PlayerCombat : MonoBehaviour
     {
         IsAttacking = true;
 
+        // 1. Fai partire l'animazione
         if (_animator != null)
         {
             _animator.SetInteger("ComboStep", _comboStep);
             _animator.SetTrigger("AttackTrigger");
         }
 
-        // Finestra in cui non accetti nuovi input di attacco
-        yield return new WaitForSeconds(0.35f); 
+        Attack(); // Infliggi il danno
+
+        yield return new WaitForSeconds(0.35f); // Finestra in cui non accetti nuovi input di attacco
 
         IsAttacking = false;
     }
