@@ -141,6 +141,11 @@ public class PlayerCombat : MonoBehaviour
         yield return new WaitForSeconds(waitTime); 
 
         IsAttacking = false;
+
+        if (_animator != null)
+        {
+            _animator.SetInteger(animParameter, 0); 
+        }
     }
 
     private void ResetCombos()

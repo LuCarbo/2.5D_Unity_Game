@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerCombat _combat;
     private SpriteRenderer _spriteRenderer;
 
+    
     [SerializeField] private Transform _visualModel;
 
     [Header("Impostazioni Movimento")]
