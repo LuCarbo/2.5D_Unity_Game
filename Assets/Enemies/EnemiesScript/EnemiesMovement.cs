@@ -93,10 +93,10 @@ public class EnemiesScript : MonoBehaviour
 
     void ChasePlayer()
     {
-        // Se il target è distrutto o nullo, resetta
-        if (Target == null)
+        // Se il target è nullo, distrutto, o se non ha più il tag "Player"
+        if (Target == null || !Target.CompareTag("Player"))
         {
-            seePlayer = false;
+            StopEnemy(); // Usa la tua funzione per fermarlo e resettare le variabili
             return;
         }
 
