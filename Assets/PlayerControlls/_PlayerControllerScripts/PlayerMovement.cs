@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputHandler _input;
     private PlayerCombat _combat;
     private Animator _animator;
-    private PlayerCombat _combat;
     private SpriteRenderer _spriteRenderer;
 
     
