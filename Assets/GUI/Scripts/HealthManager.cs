@@ -3,57 +3,50 @@ using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
-    [Header("Settings")]
-    public float currentHealth;   // Ora è un float per i quarti
-    public float maxHealth;       // Vita massima totale (es. 3 cuori * 4 = 12)
-    public int numOfHeartContainers; // Numero di cuori interi visibili (es. 3)
-
     [Header("References")]
-    public Image[] hearts;       // Array di oggetti Image per i cuori
-    public Sprite fullHeart;    
+    public Health playerHealth;  // Riferimento al "cervello" della vita
+    public Image[] hearts;
+    public Sprite fullHeart;
     public Sprite threeQuarterHeart;
     public Sprite halfHeart;
     public Sprite oneQuarterHeart;
     public Sprite emptyHeart;
 
-    private float healthPerHeart = 4f; // Ogni cuore intero ha 4 "punti salute" (per i quarti)
-
-    void Start()
-    {
-        // Inizializza la vita massima basandoti sul numero di cuori
-        maxHealth = numOfHeartContainers * healthPerHeart;
-        currentHealth = maxHealth; // Inizia con vita piena
-    }
+    private int healthPerHeart = 4; // 4 Punti Vita = 1 Cuore intero
 
     void Update()
     {
-        // Assicurati che la vita non vada oltre il massimo o sotto lo zero
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        // Se non abbiamo assegnato lo script Health, fermati per evitare errori
+        if (playerHealth == null) return;
+
+        // Quanti contenitori di cuori dobbiamo mostrare in totale? (es. 12 / 4 = 3 cuori)
+        int numOfHeartContainers = playerHealth.maxHealth / healthPerHeart;
 
         for (int i = 0; i < hearts.Length; i++)
         {
-            // Abilita/disabilita i contenitori dei cuori
+            // Abilita i contenitori necessari e nascondi quelli in eccesso
             if (i < numOfHeartContainers)
             {
                 hearts[i].enabled = true;
 
-                // Calcola la vita rimanente per questo specifico contenitore di cuore
-                float heartSegmentHealth = currentHealth - (i * healthPerHeart);
+                // Calcola quanti HP spettano a QUESTO specifico cuore
+                // Esempio: se currentHealth è 5 e siamo al secondo cuore (i=1): 5 - (1 * 4) = 1 HP rimanente per questo cuore
+                int heartSegmentHealth = playerHealth.currentHealth - (i * healthPerHeart);
 
-                // Determina quale sprite mostrare
-                if (heartSegmentHealth >= healthPerHeart)
+                // Determina quale sprite mostrare usando i numeri interi
+                if (heartSegmentHealth >= 4)
                 {
                     hearts[i].sprite = fullHeart;
                 }
-                else if (heartSegmentHealth >= healthPerHeart * 0.75f) // 3/4
+                else if (heartSegmentHealth == 3)
                 {
                     hearts[i].sprite = threeQuarterHeart;
                 }
-                else if (heartSegmentHealth >= healthPerHeart * 0.5f) // 1/2
+                else if (heartSegmentHealth == 2)
                 {
                     hearts[i].sprite = halfHeart;
                 }
-                else if (heartSegmentHealth >= healthPerHeart * 0.25f) // 1/4
+                else if (heartSegmentHealth == 1)
                 {
                     hearts[i].sprite = oneQuarterHeart;
                 }
@@ -64,28 +57,8 @@ public class HealthManager : MonoBehaviour
             }
             else
             {
-                hearts[i].enabled = false; // Nasconde i cuori in eccesso
+                hearts[i].enabled = false;
             }
         }
-    }
-
-    // Metodo per subire danni (ora accetta float per supportare i quarti)
-    public void TakeDamage(float damage)
-    {
-        currentHealth -= damage;
-    }
-
-    // Metodo per curarsi
-    public void Heal(float amount)
-    {
-        currentHealth += amount;
-    }
-
-    // Metodo per aumentare i contenitori di cuori (es. dopo un boss)
-    public void AddHeartContainer()
-    {
-        numOfHeartContainers++;
-        maxHealth = numOfHeartContainers * healthPerHeart; // Aggiorna la vita massima
-        currentHealth = maxHealth; // Di solito, quando si aggiunge un cuore, si ripristina la vita
     }
 }
