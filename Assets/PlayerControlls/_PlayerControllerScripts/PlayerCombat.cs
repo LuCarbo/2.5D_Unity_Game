@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
@@ -16,23 +18,22 @@ public class PlayerCombat : MonoBehaviour
 
     private int _lightComboStep = 0;
     private int _heavyComboStep = 0;
-    private float _lastAttackTime = 0f;
+
+    // Token to manage the asynchronous background timer
+    private CancellationTokenSource _comboCancelToken;
 
     public bool IsAttacking { get; private set; } = false;
 
     [Header("Statistiche: Attacco Leggero")]
     public int lightAttackDamage = 1;
     public float lightAttackRange = 1f;          
-    public float lightAttackRate = 3f; // Veloce
 
     [Header("Statistiche: Attacco Pesante")]
     public int heavyAttackDamage = 3;
     public float heavyAttackRange = 1.3f;          
-    public float heavyAttackRate = 1f; // Lento
 
     [Header("Targeting")]
     public LayerMask enemyLayers;           
-    private float nextAttackTime = 0f;
 
     private float attackDistance;
     private float defaultHeight;
@@ -56,7 +57,7 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        // GESTIONE DIREZIONE (uguale a prima)
+        // GESTIONE DIREZIONE
         float moveX = _inputHandler.MoveInput.x;
         float moveY = _inputHandler.MoveInput.y; 
 
@@ -77,14 +78,8 @@ public class PlayerCombat : MonoBehaviour
 
     private void HandleAttacks()
     {
-        // 1. Reset combo se passa troppo tempo
-        if (Time.time - _lastAttackTime > _comboResetTime && !IsAttacking)
-        {
-            ResetCombos();
-        }
-
-        // 2. Controllo input per Leggero o Pesante
-        if (Time.time >= nextAttackTime && _controller.isGrounded && !IsAttacking)
+        // Controllo input per Leggero o Pesante
+        if (!IsAttacking)
         {
             if (_inputHandler.LightAttackPressed)
             {
@@ -99,27 +94,73 @@ public class PlayerCombat : MonoBehaviour
 
     private void ExecuteLightAttack()
     {
-        _lastAttackTime = Time.time;
-        _heavyComboStep = 0; // Azzera la combo pesante
+        // 1. CONSUME THE INPUT
+        // Assuming you can write to this variable. If it's a property, 
+        // you may need to reset it inside your PlayerInputHandler script instead.
+        // _inputHandler.LightAttackPressed = false; 
+
+        RestartAsyncComboTimer();
+        
+        _heavyComboStep = 0; 
         _lightComboStep++;
 
         if (_lightComboStep > _maxLightComboSteps) _lightComboStep = 1;
 
-        nextAttackTime = Time.time + 1f / lightAttackRate;
-        StartCoroutine(PerformAttackSequence("LightComboStep", _lightComboStep, lightAttackDamage, lightAttackRange, 0.35f));
+        StartCoroutine(PerformAttackSequence("LightComboStep", _lightComboStep, lightAttackDamage, lightAttackRange, 0.21f));
     }
 
     private void ExecuteHeavyAttack()
     {
-        _lastAttackTime = Time.time;
+        RestartAsyncComboTimer();
+        
         _lightComboStep = 0; // Azzera la combo leggera
         _heavyComboStep++;
 
         if (_heavyComboStep > _maxHeavyComboSteps) _heavyComboStep = 1;
 
-        nextAttackTime = Time.time + 1f / heavyAttackRate;
-        StartCoroutine(PerformAttackSequence("HeavyComboStep", _heavyComboStep, heavyAttackDamage, heavyAttackRange, 0.65f));
+        StartCoroutine(PerformAttackSequence("HeavyComboStep", _heavyComboStep, heavyAttackDamage, heavyAttackRange, 0.25f));
     }
+
+    // --- NEW ASYNC TIMER LOGIC ---
+    private void RestartAsyncComboTimer()
+    {
+        // Cancel the existing timer if one is running
+        if (_comboCancelToken != null)
+        {
+            _comboCancelToken.Cancel();
+            _comboCancelToken.Dispose();
+        }
+
+        // Create a new token for this specific timer
+        _comboCancelToken = new CancellationTokenSource();
+
+        // Start the background timer without blocking the game thread
+        _ = ComboResetTimerAsync(_comboCancelToken.Token);
+    }
+
+    private async Task ComboResetTimerAsync(CancellationToken token)
+    {
+        try
+        {
+            // Convert seconds to milliseconds for Task.Delay
+            int delayMilliseconds = Mathf.RoundToInt(_comboResetTime * 1000);
+            
+            // Wait asynchronously 
+            await Task.Delay(delayMilliseconds, token);
+
+            // If we finish waiting without the token being cancelled, reset combos!
+            // We also check !IsAttacking just to be safe if a long animation is playing.
+            if (!IsAttacking) 
+            {
+                ResetCombos();
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            // The timer was cancelled because the player attacked again. Do nothing!
+        }
+    }
+    // -----------------------------
 
     private IEnumerator PerformAttackSequence(string animParameter, int step, int damage, float range, float waitTime)
     {
@@ -127,48 +168,51 @@ public class PlayerCombat : MonoBehaviour
         
         if (_animator != null) 
         {
-            // Reset grafico degli stati
-            _animator.SetInteger("LightComboStep", 0);
-            _animator.SetInteger("HeavyComboStep", 0);
-            // Attiva l'animazione corretta
             _animator.SetInteger(animParameter, step);
         }
 
-        // Infligge il danno calcolato in base al tipo di attacco
         Attack(damage, range);
 
-        // Finestra di animazione
         yield return new WaitForSeconds(waitTime); 
 
-        IsAttacking = false;
-
+        // 2. RESET THE ANIMATOR PARAMETER
+        // This stops the Animator from automatically looping the animation
+        // while we wait for the player to press the button again.
         if (_animator != null)
         {
-            _animator.SetInteger(animParameter, 0); 
+            _animator.SetInteger(animParameter, 0);
         }
+
+        IsAttacking = false;
     }
 
     private void ResetCombos()
     {
+        // Previene reset multipli inutili
+
         _lightComboStep = 0;
         _heavyComboStep = 0;
+        
         if (_animator != null) 
         {
             _animator.SetInteger("LightComboStep", 0);
             _animator.SetInteger("HeavyComboStep", 0);
         }
+        
+        Debug.Log("Combo Reset tramite Async Task!");
     }
-
-    public void OnAttackAnimationEnd() => IsAttacking = false;
 
     public void OnPlayerHit()
     {
         if (_animator != null) _animator.SetTrigger("HitTrigger");
         IsAttacking = false;
+        
+        // Cancel the timer if the player gets hit
+        if (_comboCancelToken != null) _comboCancelToken.Cancel();
+        
         ResetCombos();
     }
 
-    // Nota: Ora Attack richiede danni e raggio come parametri!
     void Attack(int damage, float range)
     {
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, range, enemyLayers);
@@ -188,11 +232,20 @@ public class PlayerCombat : MonoBehaviour
     {
         if (attackPoint == null) return;
         
-        // Disegna una sfera gialla per l'attacco leggero e una rossa per il pesante
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(attackPoint.position, lightAttackRange);
         
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, heavyAttackRange);
+    }
+
+    private void OnDestroy()
+    {
+        // Sempre ripulire i token quando l'oggetto viene distrutto!
+        if (_comboCancelToken != null)
+        {
+            _comboCancelToken.Cancel();
+            _comboCancelToken.Dispose();
+        }
     }
 }
