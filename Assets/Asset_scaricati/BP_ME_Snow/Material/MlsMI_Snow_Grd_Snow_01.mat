@@ -1,0 +1,7 @@
+Diffuse=T_DummyRoughness
+Normal=wave
+Other[0]=T_DummyWhite
+Other[1]=MmeTX_Snow_Grd_SimpleSnow_cl
+Other[2]=MmeTX_Snow_Grd_SimpleSnow_no
+Other[3]=maptx_test_proc_ground_cl_02
+Other[4]=maptx_test_proc_ground_no_01

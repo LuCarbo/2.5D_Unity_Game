@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
@@ -40,7 +41,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         // 2. Logica di innesco attacco
-        if (_input.AttackPressed && _controller.isGrounded && !IsAttacking)
+        if (_input.LightAttackPressed && _controller.isGrounded && !IsAttacking)
         {
             _lastAttackTime = Time.time;
             _comboStep++;
