@@ -4557,6 +4557,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1478002862}
     - target: {fileID: 2600755915539943757, guid: 4fc9fecaf72b143179fed5e1896e8e8a, type: 3}
+      propertyPath: playerHealth
+      value: 
+      objectReference: {fileID: 1734154664}
+    - target: {fileID: 2600755915539943757, guid: 4fc9fecaf72b143179fed5e1896e8e8a, type: 3}
       propertyPath: 'hearts.Array.data[0]'
       value: 
       objectReference: {fileID: 1172068999}

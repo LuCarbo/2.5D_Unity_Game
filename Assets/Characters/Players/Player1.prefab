@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 148966354187700831}
   - component: {fileID: 216878534607776756}
   - component: {fileID: 4993964093855871014}
+  - component: {fileID: 3227005130918565492}
   - component: {fileID: 7847800977588568126}
   - component: {fileID: 8560128700826292693}
   - component: {fileID: 5498674337056251611}
@@ -198,6 +199,19 @@ MonoBehaviour:
   walkDustPrefab: {fileID: 5611828750789650258, guid: 1c9392042e6d344b6a897b3ebf211326, type: 3}
   jumpDustPrefab: {fileID: 8288621946027683456, guid: 761c1d65ce4564f21ba2fe733b067374, type: 3}
   feetPosition: {fileID: 7909667660578746174}
+--- !u!114 &3227005130918565492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374201131180061626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737f5bcf50193da43bc26058f722ce9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  respawnPoint: {fileID: 0}
 --- !u!114 &7847800977588568126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,10 +248,8 @@ MonoBehaviour:
   _maxHeavyComboSteps: 2
   lightAttackDamage: 1
   lightAttackRange: 1
-  lightAttackRate: 3
   heavyAttackDamage: 3
   heavyAttackRange: 1.3
-  heavyAttackRate: 1
   enemyLayers:
     serializedVersion: 2
     m_Bits: 64
