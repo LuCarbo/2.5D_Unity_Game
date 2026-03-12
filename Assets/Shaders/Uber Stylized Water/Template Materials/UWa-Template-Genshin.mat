@@ -274,7 +274,7 @@ Material:
     - _InterSec_Foam_Scale: 4
     - _InterSec_Foam_Smooth: 0.01
     - _InterSec_GradientDissolve: 0
-    - _InterSec_Width: 0.5
+    - _InterSec_Width: -0
     - _IntersectionDistanceCutoff: 2.5
     - _IntersectionDistanceDepth: 0.5
     - _IntersectionFoamCutoff: 1
@@ -356,8 +356,8 @@ Material:
     - _Specular_Strength: 20
     - _SrcBlend: 5
     - _SurfFoam_AlphaBlend: 0
-    - _SurfFoam_Edge: 0.1
-    - _SurfFoam_EdgeSmooth: 0.2
+    - _SurfFoam_Edge: 0.51
+    - _SurfFoam_EdgeSmooth: 1
     - _SurfFoam_Scale: 3
     - _Surface: 1
     - _SurfaceDistortionScale: 1.48
@@ -380,7 +380,7 @@ Material:
     - _Underwater_Fade: 15
     - _WORLDSPACEDEPTH: 1
     - _WaterDepth: 0.4
-    - _Water_Depth: 0.3
+    - _Water_Depth: 1
     - _WaveHeight: 0.01
     - _WaveHeight2nd: 0.01
     - _WaveLength: 10
@@ -418,8 +418,8 @@ Material:
     m_Colors:
     - _1st_Wave_Direction: {r: 1, g: 0, b: 0, a: 0}
     - _2nd_Wave_Direction: {r: -1, g: 0, b: 1, a: 0}
-    - _Color_Deep: {r: 0, g: 0.52707064, b: 0.65199995, a: 0.78039217}
-    - _Color_Shallow: {r: 0, g: 0.695, b: 0.3670224, a: 0.09803922}
+    - _Color_Deep: {r: 0, g: 0.06588383, b: 0.081499994, a: 0.78039217}
+    - _Color_Shallow: {r: 0, g: 0.086875, b: 0.0458778, a: 0.09803922}
     - _Deep_Color: {r: 0.020447353, g: 0.2658158, b: 0.518, a: 1}
     - _DistanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _FarColor: {r: 0.15966535, g: 0.6787135, b: 0.8679245, a: 0}
