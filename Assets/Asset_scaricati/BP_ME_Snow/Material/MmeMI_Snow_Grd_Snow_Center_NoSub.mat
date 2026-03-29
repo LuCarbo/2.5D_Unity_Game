@@ -1,0 +1,6 @@
+Diffuse=T_DummyColor
+Normal=MmeTX_Snow_Grd_RoughSnow_no
+Other[0]=MmeTX_Snow_Grd_RoughSnow_cl
+Other[1]=MmeTX_Com_Grd_Mask_mk_02
+Other[2]=T_DummyMask
+Other[3]=T_DummyNormal

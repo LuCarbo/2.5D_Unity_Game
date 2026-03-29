@@ -1,0 +1,8 @@
+Diffuse=T_DummyColor
+Normal=MmeTX_Mount_Grd_YeliowGrass_no
+Other[0]=MmeTX_Mount_Grd_YeliowGrass_cl
+Other[1]=MmeTX_Mount_Grd_Soil_no
+Other[2]=MmeTX_Mount_Grd_Soil_cl
+Other[3]=MmeTX_Com_Grd_Mask_mk_02
+Other[4]=T_DummyMask
+Other[5]=T_DummyNormal

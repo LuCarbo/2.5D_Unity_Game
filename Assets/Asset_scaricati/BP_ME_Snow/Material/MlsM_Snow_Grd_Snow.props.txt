@@ -1,0 +1,93 @@
+TwoSided = false
+bDisableDepthTest = false
+bIsMasked = false
+ReferencedTextures[2] =
+{
+    ReferencedTextures[0] = Texture2D'/Game/Object/Resource/_Common/Texture/T_DummyColor.T_DummyColor'
+    ReferencedTextures[1] = Texture2D'/Game/Object/Resource/_Common/Texture/T_DummyNormal.T_DummyNormal'
+}
+Expressions[53] =
+{
+    Expressions[0] = MaterialExpressionTextureSampleParameter2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Snow/Material/MlsM_Snow_Grd_Snow.MaterialExpressionTextureSampleParameter2D_31'
+    Expressions[8] = MaterialExpressionTextureSampleParameter2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Snow/Material/MlsM_Snow_Grd_Snow.MaterialExpressionTextureSampleParameter2D_3'
+    Expressions[10] = MaterialExpressionTextureSampleParameter2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Snow/Material/MlsM_Snow_Grd_Snow.MaterialExpressionTextureSampleParameter2D_1'
+    Expressions[20] = MaterialExpressionScalarParameter'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Snow/Material/MlsM_Snow_Grd_Snow.MaterialExpressionScalarParameter_1'
+    Expressions[21] = MaterialExpressionScalarParameter'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Snow/Material/MlsM_Snow_Grd_Snow.MaterialExpressionScalarParameter_2'
+    Expressions[29] = MaterialExpressionTextureSampleParameter2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Snow/Material/MlsM_Snow_Grd_Snow.MaterialExpressionTextureSampleParameter2D_2'
+    Expressions[45] = MaterialExpressionScalarParameter'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Snow/Material/MlsM_Snow_Grd_Snow.MaterialExpressionScalarParameter_0'
+    Expressions[46] = MaterialExpressionScalarParameter'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Snow/Material/MlsM_Snow_Grd_Snow.MaterialExpressionScalarParameter_4'
+    Expressions[50] = MaterialExpressionVectorParameter'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Snow/Material/MlsM_Snow_Grd_Snow.MaterialExpressionVectorParameter_1'
+    Expressions[52] = MaterialExpressionScalarParameter'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Snow/Material/MlsM_Snow_Grd_Snow.MaterialExpressionScalarParameter_3'
+}
+CachedExpressionData =
+{
+    Parameters =
+    {
+        Entries[5] =
+        {
+            Entries[0] = { ParameterInfos[0]={} }
+            Entries[1] = { ParameterInfos[0]={} }
+            Entries[2] = { ParameterInfos[0]={} }
+            Entries[3] = { ParameterInfos[0]={} }
+            Entries[4] = { ParameterInfos[0]={} }
+        }
+        ScalarValues[0] = {}
+        VectorValues[0] = {}
+        TextureValues[0] = {}
+    }
+    ReferencedTextures[0] = {}
+}
+BlendMode = BLEND_Opaque (0)
+OpacityMaskClipValue = 0.333
+CollectedTextureParameters[4] =
+{
+    CollectedTextureParameters[0] =
+    {
+        Texture = Texture2D'/Game/Object/Resource/_Common/Texture/T_DummyColor.T_DummyColor'
+        Name = BaseTexture
+        Group = 01_BaseTS
+    }
+    CollectedTextureParameters[1] =
+    {
+        Texture = Texture2D'/Game/Object/Resource/_Common/Texture/T_DummyColor.T_DummyColor'
+        Name = BaseTexture
+        Group = 01_BaseTS
+    }
+    CollectedTextureParameters[2] =
+    {
+        Texture = Texture2D'/Game/Object/Resource/_Common/Texture/T_DummyNormal.T_DummyNormal'
+        Name = BaseNormal
+        Group = 01_BaseTS
+    }
+    CollectedTextureParameters[3] =
+    {
+        Texture = Texture2D'/Game/Object/Resource/_Common/Texture/T_DummyNormal.T_DummyNormal'
+        Name = SubNormal
+        Group = 01_BaseTS
+    }
+}
+CollectedScalarParameters[5] =
+{
+    CollectedScalarParameters[0] = { Value=200, Name=RoughnessUVScale, Group=None }
+    CollectedScalarParameters[1] = { Value=800, Name=NormalUVScale, Group=None }
+    CollectedScalarParameters[2] = { Value=0.85, Name=Kira Kira Level, Group=None }
+    CollectedScalarParameters[3] = { Value=1, Name=Noise Size, Group=None }
+    CollectedScalarParameters[4] = { Value=1, Name=EmissiveScale, Group=None }
+}
+CollectedVectorParameters[1] =
+{
+    CollectedVectorParameters[0] =
+    {
+        Value = { R=0.246201, G=0.467784, B=0.651406, A=1 }
+        Name = EmissiveColor
+        Group = None
+    }
+}
+FlattenedTexture = None
+MobileBaseTexture = None
+MobileNormalTexture = None
+bUseMobileSpecular = false
+MobileSpecularPower = 16
+MobileSpecularMask = MSM_Constant (0)
+MobileMaskTexture = None
+TextureStreamingData[0] = {}
