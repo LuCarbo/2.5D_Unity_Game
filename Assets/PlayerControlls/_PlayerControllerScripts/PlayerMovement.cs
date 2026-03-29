@@ -167,17 +167,52 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator DeathSequence()
     {
-        // 1. Aspetta che l'animazione finisca (es. 2 secondi)
-        // Regola questo tempo in base a quanto dura la tua animazione di morte
         yield return new WaitForSeconds(1.2f);
 
-        // 2. Nascondi il disegno del personaggio
         if (_spriteRenderer != null)
         {
             _spriteRenderer.enabled = false;
         }
 
-        // --- QUI IN FUTURO METTERAI IL CODICE DEL RESPAWN ---
-        Debug.Log("Il corpo è sparito. In attesa del respawn...");
+        Debug.Log("Il corpo è sparito. Cerco lo script di Respawn...");
+
+        PlayerRespawn respawnScript = GetComponent<PlayerRespawn>();
+
+        if (respawnScript != null)
+        {
+            respawnScript.Respawn();
+        }
+        else
+        {
+            Debug.LogError("ERRORE CRITICO: Lo script PlayerRespawn non è attaccato al Player!");
+        }
+    }
+
+    public void Revive()
+    {
+        Debug.Log("--- 1. Inizio rianimazione del Player ---");
+
+        // 1. Riattiva i componenti
+        this.enabled = true;
+        if (_combat != null) _combat.enabled = true;
+
+        // 2. Rimetti il tag
+        gameObject.tag = "Player";
+
+        // 3. Rendi visibile lo sprite
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.enabled = true;
+            Debug.Log("Sprite riattivato!");
+        }
+
+        // 4. Resetta l'animatore in modo infallibile
+        if (_animator != null)
+        {
+            _animator.Rebind(); // Riporta l'animatore al suo stato di default (Zero assoluto)
+            _animator.Update(0f); // Forza l'aggiornamento visivo immediato
+        }
+
+        Debug.Log("--- 2. Player pronto e comandi riattivati! ---");
     }
 }

@@ -49,4 +49,10 @@ public class Health : MonoBehaviour
         maxHealth += 4;
         currentHealth = maxHealth; // Cura completamente il giocatore
     }
+
+    public void ResetHealth()
+    {
+        currentHealth = maxHealth;
+        lastHitTime = -10f; // Resetta anche il timer di invincibilità per sicurezza
+    }
 }
