@@ -1,0 +1,108 @@
+Parent = MaterialInstanceConstant'/Game/Map/Resource/BP/_Common/Material/MI_MapWall_Add.MI_MapWall_Add'
+ScalarParameterValues[2] =
+{
+    ScalarParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0
+        ParameterName = AddZEmmisiveValue
+    }
+    ScalarParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0
+        ParameterName = RefractionDepthBias
+    }
+}
+TextureParameterValues[7] =
+{
+    TextureParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Object/Resource/_Common/Texture/T_DummyWhite.T_DummyWhite'
+        ParameterName = AddZMask
+    }
+    TextureParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Desert/Texture/MmeTX_Desert_Grd_HardSand_cl.MmeTX_Desert_Grd_HardSand_cl'
+        ParameterName = AddZVectorColor
+    }
+    TextureParameterValues[2] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Desert/Texture/MmeTX_Desert_Grd_HardSand_cl.MmeTX_Desert_Grd_HardSand_cl'
+        ParameterName = BaseColor
+    }
+    TextureParameterValues[3] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Desert/Texture/MmeTX_Desert_Grd_HardSand_no.MmeTX_Desert_Grd_HardSand_no'
+        ParameterName = BaseNormal
+    }
+    TextureParameterValues[4] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Mount/Texture/MmeTX_Mount_F_A_mk.MmeTX_Mount_F_A_mk'
+        ParameterName = MaskTexture
+    }
+    TextureParameterValues[5] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Mount/Texture/MmeTX_Mount_F_A_cl.MmeTX_Mount_F_A_cl'
+        ParameterName = ColorMap
+    }
+    TextureParameterValues[6] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Mount/Texture/MmeTX_Mount_F_A_no.MmeTX_Mount_F_A_no'
+        ParameterName = NormalMap
+    }
+}
+VectorParameterValues[0] = {}
+BasePropertyOverrides =
+{
+    bOverride_BlendMode = false
+    BlendMode = BLEND_Opaque (0)
+    bOverride_TwoSided = false
+    TwoSided = false
+    bOverride_OpacityMaskClipValue = false
+    OpacityMaskClipValue = 0
+}
+StaticParameters =
+{
+    StaticSwitchParameters[0] = {}
+    StaticComponentMaskParameters[0] = {}
+    TerrainLayerWeightParameters[0] = {}
+    MaterialLayersParameters[0] = {}
+}
+RuntimeVirtualTextureParameterValues[0] = {}
+FontParameterValues[0] = {}
+FlattenedTexture = None
+MobileBaseTexture = None
+MobileNormalTexture = None
+bUseMobileSpecular = false
+MobileSpecularPower = 16
+MobileSpecularMask = MSM_Constant (0)
+MobileMaskTexture = None
+TextureStreamingData[3] =
+{
+    TextureStreamingData[0] =
+    {
+        SamplingScale = 0.15625
+        UVChannelIndex = 0
+        TextureName = MmeTX_Desert_Grd_HardSand_cl
+    }
+    TextureStreamingData[1] =
+    {
+        SamplingScale = 0.15625
+        UVChannelIndex = 0
+        TextureName = MmeTX_Desert_Grd_HardSand_no
+    }
+    TextureStreamingData[2] =
+    {
+        SamplingScale = 1
+        UVChannelIndex = 0
+        TextureName = T_DummyWhite
+    }
+}

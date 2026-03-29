@@ -1,0 +1,11 @@
+Diffuse=T_DummyColor
+Normal=MmeTX_Mount_Grd_SmallRock_no
+Other[0]=MmeTX_Mount_Grd_SmallRock_cl
+Other[1]=MmeTX_Mount_Grd_BigRock_no
+Other[2]=MmeTX_Mount_Grd_BigRock_cl
+Other[3]=DefaultDiffuse
+Other[4]=MmeTX_Mount_F_A_Edge_A_cl
+Other[5]=MmeTX_Com_Grd_Mask_mk_02
+Other[6]=MmeTX_Com_Grd_Mask_mk_01
+Other[7]=T_DummyMask
+Other[8]=T_DummyNormal
