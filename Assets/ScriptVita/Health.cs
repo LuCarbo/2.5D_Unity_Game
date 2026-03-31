@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections; // Required for Coroutines
 
 public class Health : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class Health : MonoBehaviour
     public float invincibilityTime = 1f;
     private float lastHitTime = -10f;
 
+    [Header("Animazione")]
+    [Tooltip("Trascina qui l'Animator del tuo personaggio")]
+    [SerializeField] private Animator animator; // Riferimento all'Animator
+
     [Header("Eventi")]
     public UnityEvent OnDeath;
 
@@ -18,6 +23,12 @@ public class Health : MonoBehaviour
     {
         // Imposta la vita al massimo all'inizio del gioco
         currentHealth = maxHealth;
+
+        // Auto-assegnazione dell'animator se dimentichi di trascinarlo nell'Inspector
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
     }
 
     public void ChangeHealth(int amount)
@@ -27,6 +38,15 @@ public class Health : MonoBehaviour
         {
             if (Time.time < lastHitTime + invincibilityTime) return;
             lastHitTime = Time.time;
+
+            Debug.Log($"{gameObject.name} è stato colpito! Danno subito: {amount}");
+
+            // Attiva il bool dell'animazione e avvia il timer per spegnerlo
+            if (animator != null)
+            {
+                animator.SetBool("isHit", true);
+                StartCoroutine(ResetHitBool()); // Avvia il ritardo
+            }
         }
 
         // Modifica la vita e assicurati che non superi il massimo o scenda sotto lo zero
@@ -40,6 +60,16 @@ public class Health : MonoBehaviour
             {
                 OnDeath.Invoke();
             }
+        }
+    }
+
+    // Questa Coroutine aspetta 0.1 secondi prima di spegnere il bool
+    private IEnumerator ResetHitBool()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (animator != null)
+        {
+            animator.SetBool("isHit", false);
         }
     }
 
