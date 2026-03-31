@@ -1,32 +1,41 @@
 using UnityEngine;
-using UnityEngine.Events; // Aggiunto per usare gli Eventi
+using TMPro;
+using UnityEngine.Events;
 
 public class DialogueTrigger : MonoBehaviour
 {
     [Header("Impostazioni Dialogo")]
     public DialogueData dialogo;
 
+    [Header("Riferimenti Nuvoletta (World Space)")]
+    [Tooltip("Trascina qui il Panel posizionato sopra l'NPC")]
+    public GameObject pannelloNuvoletta;
+    [Tooltip("Trascina qui il TextMeshProUGUI dentro la nuvoletta")]
+    public TextMeshProUGUI testoNuvoletta;
+    [Tooltip("Trascina qui il componente DialoguePanelResizer sul Panel")]
+    public DialoguePanelResizer resizerNuvoletta;
+
     [Header("Chi può far partire il dialogo?")]
     public GameObject ilTuoPersonaggio;
 
     [Header("Raggio d'azione")]
-    [Tooltip("Distanza massima per poter parlare con l'NPC")]
     public float raggioDiAzione = 3f;
 
     [Header("Eventi Speciali")]
-    [Tooltip("Cosa succede quando il dialogo finisce normalmente?")]
-    public UnityEvent EventoFineDialogo; // Lo slot dove metteremo la pozione!
+    public UnityEvent EventoFineDialogo;
 
     private DialogueManager manager;
     private PlayerInputHandler inputPersonaggio;
-
     private bool playerVicino = false;
-    private bool dialogoInCorso = false; // Ci serve per capire se stavamo parlando
+    private bool dialogoInCorso = false;
 
     void Start()
     {
         manager = FindFirstObjectByType<DialogueManager>();
         inputPersonaggio = FindFirstObjectByType<PlayerInputHandler>();
+
+        if (pannelloNuvoletta != null)
+            pannelloNuvoletta.SetActive(false);
     }
 
     void Update()
@@ -37,27 +46,20 @@ public class DialogueTrigger : MonoBehaviour
         {
             playerVicino = true;
 
-            // 1. Avvio del Dialogo
             if (inputPersonaggio != null && inputPersonaggio.InteractPressed)
             {
                 if (manager != null && !manager.staParlando)
                 {
-                    manager.AvviaDialogo(dialogo);
-                    dialogoInCorso = true; // Segniamo che la conversazione è iniziata
+                    manager.AvviaDialogo(dialogo, pannelloNuvoletta, testoNuvoletta, resizerNuvoletta);
+                    dialogoInCorso = true;
                 }
             }
 
-            // 2. Controllo Fine Dialogo
-            // Se c'era un dialogo in corso, ma il manager dice che non stiamo più parlando...
             if (dialogoInCorso && manager != null && !manager.staParlando)
             {
-                dialogoInCorso = false; // Il dialogo è finito
-                
-                // Lancia l'evento di fine dialogo!
+                dialogoInCorso = false;
                 if (EventoFineDialogo != null)
-                {
                     EventoFineDialogo.Invoke();
-                }
             }
         }
         else
@@ -66,10 +68,10 @@ public class DialogueTrigger : MonoBehaviour
             {
                 playerVicino = false;
 
-                if (manager != null && manager.staParlando)
+                if (manager != null && manager.staParlando && dialogoInCorso)
                 {
                     manager.TerminaDialogo();
-                    dialogoInCorso = false; // Resetta se ci allontaniamo bruscamente
+                    dialogoInCorso = false;
                 }
             }
         }
