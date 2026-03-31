@@ -1877,6 +1877,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TerrenoFiume
       objectReference: {fileID: 0}
+    - target: {fileID: 2507505243684672304, guid: 8f049ca543fd44f6186c5a038547dbb6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8759792659915927802, guid: 8f049ca543fd44f6186c5a038547dbb6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
