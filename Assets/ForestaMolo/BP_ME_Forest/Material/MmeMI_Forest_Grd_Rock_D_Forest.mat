@@ -1,0 +1,9 @@
+Diffuse=T_DummyColor
+Normal=MmeTX_Forest_Grd_Grass_no
+Other[0]=MmeTX_Forest_Grd_Grass_cl
+Other[1]=MmeTX_Mount_Grd_BigRock_no
+Other[2]=MmeTX_Mount_Grd_BigRock_cl_ForestD
+Other[3]=MmeTX_Com_Grd_Mask_mk_02
+Other[4]=MmeTX_Com_Grd_Mask_mk_01
+Other[5]=T_DummyMask
+Other[6]=T_DummyNormal
