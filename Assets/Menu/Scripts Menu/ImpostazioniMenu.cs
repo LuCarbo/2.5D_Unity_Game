@@ -18,36 +18,44 @@ public class ImpostazioniMenu : MonoBehaviour
 
     private Resolution[] risoluzioni;
 
-    void Start()
+    void Awake()
     {
-        // --- TROVA AUTOMATICAMENTE GLI OGGETTI ANCHE SE DISATTIVATI ---
+        Debug.Log("Scena corrente di LogicaImpostazioniInGame: " + gameObject.scene.name);
+
         SelectorOpzioni[] tuttiSelector = Resources.FindObjectsOfTypeAll<SelectorOpzioni>();
         foreach (SelectorOpzioni s in tuttiSelector)
         {
-            if (s.gameObject.name == "SelectorRisoluzione") selectorRisoluzione = s;
-            if (s.gameObject.name == "SelectorSchermo") selectorSchermo = s;
-            if (s.gameObject.name == "SelectorQualita") selectorQualita = s;
+            Debug.Log("Selector: " + s.gameObject.name + " | Scena: " + s.gameObject.scene.name);
+            if (s.gameObject.scene.name == gameObject.scene.name)
+            {
+                if (s.gameObject.name == "SelectorRisoluzione") selectorRisoluzione = s;
+                if (s.gameObject.name == "SelectorSchermo") selectorSchermo = s;
+                if (s.gameObject.name == "SelectorQualita") selectorQualita = s;
+            }
         }
 
         Slider[] tuttiSlider = Resources.FindObjectsOfTypeAll<Slider>();
         foreach (Slider s in tuttiSlider)
         {
-            if (s.gameObject.name == "Slider_Master") sliderMaster = s;
-            if (s.gameObject.name == "Slider_Musica") sliderMusica = s;
-            if (s.gameObject.name == "Slider_Effetti") sliderEffetti = s;
+            if (s.gameObject.scene.name == gameObject.scene.name)
+            {
+                if (s.gameObject.name == "Slider_Master") sliderMaster = s;
+                if (s.gameObject.name == "Slider_Musica") sliderMusica = s;
+                if (s.gameObject.name == "Slider_Effetti") sliderEffetti = s;
+            }
         }
 
-        // Controllo che tutto sia stato trovato
         if (selectorRisoluzione == null) Debug.LogError("SelectorRisoluzione non trovato!");
+        else Debug.Log("SelectorRisoluzione trovato!");
         if (selectorSchermo == null) Debug.LogError("SelectorSchermo non trovato!");
+        else Debug.Log("SelectorSchermo trovato!");
         if (selectorQualita == null) Debug.LogError("SelectorQualita non trovato!");
-        if (sliderMaster == null) Debug.LogError("Slider_Master non trovato!");
-        if (sliderMusica == null) Debug.LogError("Slider_Musica non trovato!");
-        if (sliderEffetti == null) Debug.LogError("Slider_Effetti non trovato!");
-
-        // --- 1. GESTIONE E CARICAMENTO RISOLUZIONI ---
+        else Debug.Log("SelectorQualita trovato!");
+    }
+    void Start()
+    {
+        // --- 1. RISOLUZIONI ---
         risoluzioni = Screen.resolutions;
-
         List<string> opzioniRisoluzione = new List<string>();
         int risoluzioneAttualeIndex = 0;
 
@@ -55,42 +63,54 @@ public class ImpostazioniMenu : MonoBehaviour
         {
             string opzione = risoluzioni[i].width + " x " + risoluzioni[i].height;
             opzioniRisoluzione.Add(opzione);
-
             if (risoluzioni[i].width == Screen.currentResolution.width &&
                 risoluzioni[i].height == Screen.currentResolution.height)
-            {
                 risoluzioneAttualeIndex = i;
-            }
         }
 
-        int risoluzioneSalvata = PlayerPrefs.GetInt("RisoluzioneSalvata", risoluzioneAttualeIndex);
-        selectorRisoluzione.Inizializza(opzioniRisoluzione.ToArray(), risoluzioneSalvata);
-        selectorRisoluzione.onCambioOpzione.AddListener(ImpostaRisoluzione);
+        if (selectorRisoluzione != null)
+        {
+            int risoluzioneSalvata = PlayerPrefs.GetInt("RisoluzioneSalvata", risoluzioneAttualeIndex);
+            selectorRisoluzione.Inizializza(opzioniRisoluzione.ToArray(), risoluzioneSalvata);
+            selectorRisoluzione.onCambioOpzione.AddListener(ImpostaRisoluzione);
+        }
 
-        // --- 2. CARICAMENTO MODALITA' SCHERMO ---
-        int modalitaSalvata = PlayerPrefs.GetInt("SchermoSalvato", Screen.fullScreen ? 0 : 1);
-        selectorSchermo.Inizializza(new string[] { "Schermo Intero", "Finestra" }, modalitaSalvata);
-        selectorSchermo.onCambioOpzione.AddListener(ImpostaModalitaSchermo);
+        // --- 2. SCHERMO ---
+        if (selectorSchermo != null)
+        {
+            int modalitaSalvata = PlayerPrefs.GetInt("SchermoSalvato", Screen.fullScreen ? 0 : 1);
+            selectorSchermo.Inizializza(new string[] { "Schermo Intero", "Finestra" }, modalitaSalvata);
+            selectorSchermo.onCambioOpzione.AddListener(ImpostaModalitaSchermo);
+        }
 
-        // --- 3. CARICAMENTO QUALITA' GRAFICA ---
-        string[] livelliQualita = QualitySettings.names;
-        int qualitaSalvata = PlayerPrefs.GetInt("QualitaSalvata", QualitySettings.GetQualityLevel());
-        selectorQualita.Inizializza(livelliQualita, qualitaSalvata);
-        selectorQualita.onCambioOpzione.AddListener(ImpostaQualita);
+        // --- 3. QUALITA' ---
+        if (selectorQualita != null)
+        {
+            string[] livelliQualita = QualitySettings.names;
+            int qualitaSalvata = PlayerPrefs.GetInt("QualitaSalvata", QualitySettings.GetQualityLevel());
+            selectorQualita.Inizializza(livelliQualita, qualitaSalvata);
+            selectorQualita.onCambioOpzione.AddListener(ImpostaQualita);
+        }
 
-        // --- 4. CARICAMENTO AUDIO ---
-        sliderMaster.value = PlayerPrefs.GetFloat("VolMasterSalvato", 1f);
-        sliderMusica.value = PlayerPrefs.GetFloat("VolMusicaSalvato", 1f);
-        sliderEffetti.value = PlayerPrefs.GetFloat("VolEffettiSalvato", 1f);
-
-        ImpostaVolumeMaster(sliderMaster.value);
-        ImpostaVolumeMusica(sliderMusica.value);
-        ImpostaVolumeEffetti(sliderEffetti.value);
-
-        // Collega gli slider agli eventi
-        sliderMaster.onValueChanged.AddListener(ImpostaVolumeMaster);
-        sliderMusica.onValueChanged.AddListener(ImpostaVolumeMusica);
-        sliderEffetti.onValueChanged.AddListener(ImpostaVolumeEffetti);
+        // --- 4. AUDIO ---
+        if (sliderMaster != null)
+        {
+            sliderMaster.value = PlayerPrefs.GetFloat("VolMasterSalvato", 1f);
+            sliderMaster.onValueChanged.AddListener(ImpostaVolumeMaster);
+            ImpostaVolumeMaster(sliderMaster.value);
+        }
+        if (sliderMusica != null)
+        {
+            sliderMusica.value = PlayerPrefs.GetFloat("VolMusicaSalvato", 1f);
+            sliderMusica.onValueChanged.AddListener(ImpostaVolumeMusica);
+            ImpostaVolumeMusica(sliderMusica.value);
+        }
+        if (sliderEffetti != null)
+        {
+            sliderEffetti.value = PlayerPrefs.GetFloat("VolEffettiSalvato", 1f);
+            sliderEffetti.onValueChanged.AddListener(ImpostaVolumeEffetti);
+            ImpostaVolumeEffetti(sliderEffetti.value);
+        }
     }
 
     // ==========================================
