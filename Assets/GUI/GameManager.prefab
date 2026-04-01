@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8301621970390665475}
   - component: {fileID: 2600755915539943757}
-  - component: {fileID: 1036764649560291918}
+  - component: {fileID: 7271101379602633414}
+  - component: {fileID: 3720473413151993866}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,9 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27d7ce1224334a5dbf138351e8f025f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthManager
-  currentHealth: 12
-  maxHealth: 12
-  numOfHeartContainers: 3
+  playerHealth: {fileID: 0}
   hearts:
   - {fileID: 0}
   - {fileID: 0}
@@ -57,7 +56,7 @@ MonoBehaviour:
   halfHeart: {fileID: 666197723, guid: 3caf2a1da967845c0aa424b94dae0f4f, type: 3}
   oneQuarterHeart: {fileID: 1463190894, guid: 3caf2a1da967845c0aa424b94dae0f4f, type: 3}
   emptyHeart: {fileID: -11910398, guid: 3caf2a1da967845c0aa424b94dae0f4f, type: 3}
---- !u!114 &1036764649560291918
+--- !u!114 &7271101379602633414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -69,8 +68,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8253812fc76959a489128f37b71c14a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
-  pannelloDialogo: {fileID: 0}
-  nomeText: {fileID: 0}
-  fraseText: {fileID: 0}
   staParlando: 0
   velocitaScrittura: 0.03
+--- !u!114 &3720473413151993866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5722644072431361889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdfb529fa9699b7459ed10f83868a002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GestionePausa
+  pannelloPausa: {fileID: 0}
+  pannelloImpostazioni: {fileID: 0}
