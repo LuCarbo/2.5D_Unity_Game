@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpriteSheet_0
+      name: Dialogue UI 2
       rect:
         serializedVersion: 2
         x: 32
@@ -603,7 +603,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_23
+      name: Dialogue UI 3
       rect:
         serializedVersion: 2
         x: 240
@@ -1241,7 +1241,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_52
+      name: BackButtonPressed
       rect:
         serializedVersion: 2
         x: 115
@@ -1263,7 +1263,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_53
+      name: GoBackButton
       rect:
         serializedVersion: 2
         x: 164
@@ -1505,7 +1505,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_64
+      name: SliderButton
       rect:
         serializedVersion: 2
         x: 194
@@ -1527,7 +1527,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_65
+      name: Dialogue UI 5
       rect:
         serializedVersion: 2
         x: 37
@@ -1681,7 +1681,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_72
+      name: Dialogue UI 4
       rect:
         serializedVersion: 2
         x: 491
@@ -1791,7 +1791,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_77
+      name: ForwardButton
       rect:
         serializedVersion: 2
         x: 56
@@ -1813,7 +1813,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_78
+      name: ForwardButtonPressed
       rect:
         serializedVersion: 2
         x: 104
@@ -1923,7 +1923,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_83
+      name: DropDownArrow
       rect:
         serializedVersion: 2
         x: 548
@@ -1945,7 +1945,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_84
+      name: ButtonPressed
       rect:
         serializedVersion: 2
         x: 52
@@ -1967,7 +1967,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_85
+      name: ButtonReleased
       rect:
         serializedVersion: 2
         x: 131
@@ -2033,7 +2033,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_88
+      name: MenuPanel
       rect:
         serializedVersion: 2
         x: 37
@@ -2055,7 +2055,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_89
+      name: Dettaglini
       rect:
         serializedVersion: 2
         x: 338
@@ -2212,8 +2212,8 @@ TextureImporter:
       name: SpriteSheet_96
       rect:
         serializedVersion: 2
-        x: 224
-        y: 138
+        x: 301
+        y: 298
         width: 12
         height: 18
       alignment: 0
@@ -2561,7 +2561,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_112
+      name: CheckButton
       rect:
         serializedVersion: 2
         x: 177
@@ -2627,7 +2627,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_115
+      name: UncheckButton
       rect:
         serializedVersion: 2
         x: 177
@@ -2780,6 +2780,94 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: DisplayText
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 138
+        width: 90
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf24d8445e2d6464bbf6574ee33fc34d
+      internalID: -1954855320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AudioText
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 138
+        width: 65
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 891c771f24f36c74f8f1e367ca867a87
+      internalID: -1302904011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VideoText
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 138
+        width: 65
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eac845734b9fdb347b0b7f2229b972ee
+      internalID: 610548219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ControlsText
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 138
+        width: 105
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d901e11515dcc784da5727f0bcb8100c
+      internalID: 1398703914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -2796,8 +2884,25 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
+      AudioText: -1302904011
+      BackButtonPressed: -1101356019
+      ButtonPressed: 1211590084
+      ButtonReleased: 1263765841
+      CheckButton: -1671443900
+      ControlsText: 1398703914
+      Dettaglini: 1098891050
       Dialogue UI: -787704541
-      SpriteSheet_0: 1095503808
+      Dialogue UI 2: 1095503808
+      Dialogue UI 3: -1947929820
+      Dialogue UI 4: 1793778781
+      Dialogue UI 5: -1945855324
+      DisplayText: -1954855320
+      DropDownArrow: -1011559646
+      ForwardButton: -1044697234
+      ForwardButtonPressed: -1228894813
+      GoBackButton: 1412597184
+      MenuPanel: -522118281
+      SliderButton: -34944131
       SpriteSheet_1: -660258797
       SpriteSheet_10: 1695223892
       SpriteSheet_100: 867329776
@@ -2813,10 +2918,8 @@ TextureImporter:
       SpriteSheet_11: -238103732
       SpriteSheet_110: 474044658
       SpriteSheet_111: -1432425517
-      SpriteSheet_112: -1671443900
       SpriteSheet_113: -772251870
       SpriteSheet_114: 1594495324
-      SpriteSheet_115: -1822097957
       SpriteSheet_116: -1655478032
       SpriteSheet_117: 568813441
       SpriteSheet_118: -1718308167
@@ -2835,7 +2938,6 @@ TextureImporter:
       SpriteSheet_20: -582222668
       SpriteSheet_21: -2029108591
       SpriteSheet_22: -755776962
-      SpriteSheet_23: -1947929820
       SpriteSheet_24: -1353203323
       SpriteSheet_25: -1532914615
       SpriteSheet_26: 532007025
@@ -2867,8 +2969,6 @@ TextureImporter:
       SpriteSheet_5: 468611297
       SpriteSheet_50: -1538043798
       SpriteSheet_51: -181150827
-      SpriteSheet_52: -1101356019
-      SpriteSheet_53: 1412597184
       SpriteSheet_54: 21630204
       SpriteSheet_55: -672676948
       SpriteSheet_56: 1800474426
@@ -2879,8 +2979,6 @@ TextureImporter:
       SpriteSheet_61: 1346927373
       SpriteSheet_62: -590057700
       SpriteSheet_63: -1154198648
-      SpriteSheet_64: -34944131
-      SpriteSheet_65: -1945855324
       SpriteSheet_66: -407401931
       SpriteSheet_67: 1053762571
       SpriteSheet_68: 1151175501
@@ -2888,25 +2986,17 @@ TextureImporter:
       SpriteSheet_7: 1511579001
       SpriteSheet_70: 584339847
       SpriteSheet_71: 581624363
-      SpriteSheet_72: 1793778781
       SpriteSheet_73: -1659095781
       SpriteSheet_74: -1806811980
       SpriteSheet_75: 896055743
       SpriteSheet_76: -179289296
-      SpriteSheet_77: -1044697234
-      SpriteSheet_78: -1228894813
       SpriteSheet_79: 472248541
       SpriteSheet_8: -1138222100
       SpriteSheet_80: 1222296407
       SpriteSheet_81: -185119501
       SpriteSheet_82: 582299501
-      SpriteSheet_83: -1011559646
-      SpriteSheet_84: 1211590084
-      SpriteSheet_85: 1263765841
       SpriteSheet_86: -156379932
       SpriteSheet_87: 1608354193
-      SpriteSheet_88: -522118281
-      SpriteSheet_89: 1098891050
       SpriteSheet_9: -1626382136
       SpriteSheet_90: -588215657
       SpriteSheet_91: -1264623573
@@ -2918,6 +3008,8 @@ TextureImporter:
       SpriteSheet_97: -830638000
       SpriteSheet_98: 2062614575
       SpriteSheet_99: -936135044
+      UncheckButton: -1822097957
+      VideoText: 610548219
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
