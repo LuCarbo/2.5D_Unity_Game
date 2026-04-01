@@ -1,0 +1,8 @@
+Diffuse=DefaultDiffuse
+Normal=MmeTX_Forest_Grd_Tile_A_no
+Other[0]=MmeTX_Forest_Grd_Tile_A_cl
+Other[1]=MmeTX_Forest_Edge_A_no
+Other[2]=MmeTX_Forest_Edge_A_cl
+Other[3]=Tex_Black
+Other[4]=T_DummyColor
+Other[5]=T_DummyNormal

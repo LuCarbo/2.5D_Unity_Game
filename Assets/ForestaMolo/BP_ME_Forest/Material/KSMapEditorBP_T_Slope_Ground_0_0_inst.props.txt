@@ -1,0 +1,110 @@
+Parent = MaterialInstanceConstant'/Game/Map/Resource/BP/_Common/Material/MI_MapChip_Combined_Common.MI_MapChip_Combined_Common'
+ScalarParameterValues[1] =
+{
+    ScalarParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0
+        ParameterName = RefractionDepthBias
+    }
+}
+TextureParameterValues[7] =
+{
+    TextureParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Forest/Texture/MmeTX_Forest_Grd_Tile_A_no.MmeTX_Forest_Grd_Tile_A_no'
+        ParameterName = BaseNormal
+    }
+    TextureParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Forest/Texture/MmeTX_Forest_Grd_Tile_A_cl.MmeTX_Forest_Grd_Tile_A_cl'
+        ParameterName = BaseTexture
+    }
+    TextureParameterValues[2] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Forest/Texture/MmeTX_Forest_Grd_Tile_A_no.MmeTX_Forest_Grd_Tile_A_no'
+        ParameterName = SubNormal
+    }
+    TextureParameterValues[3] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Forest/Texture/MmeTX_Forest_Grd_Tile_A_cl.MmeTX_Forest_Grd_Tile_A_cl'
+        ParameterName = SubTexture
+    }
+    TextureParameterValues[4] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Forest/Texture/MmeTX_Forest_Edge_A_no.MmeTX_Forest_Edge_A_no'
+        ParameterName = SlantNormal
+    }
+    TextureParameterValues[5] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Forest/Texture/MmeTX_Forest_Edge_A_cl.MmeTX_Forest_Edge_A_cl'
+        ParameterName = SlantTexture
+    }
+    TextureParameterValues[6] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Engine/EngineMaterials/DefaultDiffuse.DefaultDiffuse'
+        ParameterName = CombinedColor
+    }
+}
+VectorParameterValues[1] =
+{
+    VectorParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = { R=0.145, G=0.088728, B=0.031277, A=1 }
+        ParameterName = OutLineColor
+    }
+}
+BasePropertyOverrides =
+{
+    bOverride_BlendMode = false
+    BlendMode = BLEND_Opaque (0)
+    bOverride_TwoSided = false
+    TwoSided = false
+    bOverride_OpacityMaskClipValue = false
+    OpacityMaskClipValue = 0
+}
+StaticParameters =
+{
+    StaticSwitchParameters[0] = {}
+    StaticComponentMaskParameters[0] = {}
+    TerrainLayerWeightParameters[0] = {}
+    MaterialLayersParameters[0] = {}
+}
+RuntimeVirtualTextureParameterValues[0] = {}
+FontParameterValues[0] = {}
+FlattenedTexture = None
+MobileBaseTexture = None
+MobileNormalTexture = None
+bUseMobileSpecular = false
+MobileSpecularPower = 16
+MobileSpecularMask = MSM_Constant (0)
+MobileMaskTexture = None
+TextureStreamingData[3] =
+{
+    TextureStreamingData[0] =
+    {
+        SamplingScale = 1
+        UVChannelIndex = 0
+        TextureName = DefaultDiffuse
+    }
+    TextureStreamingData[1] =
+    {
+        SamplingScale = 0.15625
+        UVChannelIndex = 0
+        TextureName = MmeTX_Forest_Grd_Tile_A_cl
+    }
+    TextureStreamingData[2] =
+    {
+        SamplingScale = 0.15625
+        UVChannelIndex = 0
+        TextureName = MmeTX_Forest_Grd_Tile_A_no
+    }
+}

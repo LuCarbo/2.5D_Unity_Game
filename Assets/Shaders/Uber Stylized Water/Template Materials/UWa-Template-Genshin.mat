@@ -419,7 +419,7 @@ Material:
     m_Colors:
     - _1st_Wave_Direction: {r: 1, g: 0, b: 1, a: 0}
     - _2nd_Wave_Direction: {r: 0, g: 0, b: 1, a: 0}
-    - _Color_Deep: {r: 0, g: 0.13176766, b: 0.16299999, a: 0.3764706}
+    - _Color_Deep: {r: 0, g: 0.26353532, b: 0.32599998, a: 0.3764706}
     - _Color_Shallow: {r: 0, g: 0.3475, b: 0.1835112, a: 0.14901961}
     - _Deep_Color: {r: 0.020447353, g: 0.2658158, b: 0.518, a: 1}
     - _DistanceColor: {r: 1, g: 1, b: 1, a: 1}
