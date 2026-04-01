@@ -1,18 +1,24 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GestionePausa : MonoBehaviour
 {
-    [Header("Trascina qui il Pannello Impostazioni")]
+    [Header("Pannelli del Menu di Pausa")]
+    public GameObject pannelloPausa;
     public GameObject pannelloImpostazioni;
 
     private bool giocoInPausa = false;
+    private bool impostazioniAperte = false;
 
     void Update()
     {
-        // Se premiamo il tasto ESC (Escape) sulla tastiera
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (giocoInPausa)
+            if (impostazioniAperte)
+            {
+                ChiudiImpostazioni();
+            }
+            else if (giocoInPausa)
             {
                 RiprendiGioco();
             }
@@ -25,23 +31,42 @@ public class GestionePausa : MonoBehaviour
 
     public void MettiInPausa()
     {
-        pannelloImpostazioni.SetActive(true); // Accende il menu
-        Time.timeScale = 0f; // FERMA IL TEMPO NEL GIOCO
+        pannelloPausa.SetActive(true);
+        pannelloImpostazioni.SetActive(false);
+        Time.timeScale = 0f;
         giocoInPausa = true;
-
-        // Mostra e sblocca il cursore del mouse per poter cliccare
+        impostazioniAperte = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     public void RiprendiGioco()
     {
-        pannelloImpostazioni.SetActive(false); // Spegne il menu
-        Time.timeScale = 1f; // FA RIPARTIRE IL TEMPO
+        pannelloPausa.SetActive(false);
+        pannelloImpostazioni.SetActive(false);
+        Time.timeScale = 1f;
         giocoInPausa = false;
+        impostazioniAperte = false;
+    }
 
-        // Se il tuo gioco nasconde il mouse mentre cammini, togli i commenti (//) dalle due righe sotto:
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
+    public void ApriImpostazioni()
+    {
+        pannelloPausa.SetActive(false);
+        pannelloImpostazioni.SetActive(true);
+        impostazioniAperte = true;
+    }
+
+    public void ChiudiImpostazioni()
+    {
+        pannelloImpostazioni.SetActive(false);
+        pannelloPausa.SetActive(true);
+        impostazioniAperte = false;
+        Debug.Log("ChiudiImpostazioni chiamato - PannelloPausa attivo: " + pannelloPausa.activeSelf);
+    }
+
+    public void TornaAlMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
 }

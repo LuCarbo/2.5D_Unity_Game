@@ -3625,7 +3625,7 @@ PrefabInstance:
     - target: {fileID: -2492392756274988981, guid: 306c78235e9c7884f897f2c24321bf84, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: cd5b7734edd44774f88698afcad9b4a3, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6197380006697685986, guid: 306c78235e9c7884f897f2c24321bf84, type: 3}
       propertyPath: m_Name
       value: ObjMD_Tree_Plain_Low_C (2)
@@ -4480,7 +4480,7 @@ PrefabInstance:
     - target: {fileID: -2492392756274988981, guid: 306c78235e9c7884f897f2c24321bf84, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: cd5b7734edd44774f88698afcad9b4a3, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6197380006697685986, guid: 306c78235e9c7884f897f2c24321bf84, type: 3}
       propertyPath: m_Name
       value: ObjMD_Tree_Plain_Low_C (1)
@@ -5189,7 +5189,7 @@ PrefabInstance:
     - target: {fileID: -2492392756274988981, guid: 306c78235e9c7884f897f2c24321bf84, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: cd5b7734edd44774f88698afcad9b4a3, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6197380006697685986, guid: 306c78235e9c7884f897f2c24321bf84, type: 3}
       propertyPath: m_Name
       value: ObjMD_Tree_Plain_Low_C (3)
@@ -6274,7 +6274,7 @@ PrefabInstance:
     - target: {fileID: -2492392756274988981, guid: 306c78235e9c7884f897f2c24321bf84, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: cd5b7734edd44774f88698afcad9b4a3, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6197380006697685986, guid: 306c78235e9c7884f897f2c24321bf84, type: 3}
       propertyPath: m_Name
       value: ObjMD_Tree_Plain_Low_C
@@ -6637,7 +6637,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 77a87af25489bc34c837b4be2077a766, type: 2}
-  - {fileID: 2100000, guid: c456a6c12b4d1a0408bec6f2e746f97e, type: 2}
+  - {fileID: 2100000, guid: 37e381fc625b4314292d28707a8ba8b4, type: 2}
   - {fileID: 2100000, guid: b10ecf3bbdd4d2e4db8a3253b9c1eb9d, type: 2}
   - {fileID: 2100000, guid: cd5b7734edd44774f88698afcad9b4a3, type: 2}
   - {fileID: 2100000, guid: 417d44d8978809a4d8b03b4cd3f64d63, type: 2}
