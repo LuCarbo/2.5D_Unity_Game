@@ -1,0 +1,98 @@
+Parent = MaterialInstanceConstant'/Game/Map/Resource/BP/_Common/Material/MI_MapChip_Sub.MI_MapChip_Sub'
+ScalarParameterValues[1] =
+{
+    ScalarParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0
+        ParameterName = RefractionDepthBias
+    }
+}
+TextureParameterValues[5] =
+{
+    TextureParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Forest/Texture/MmeTX_Forest_Grd_Grass_no.MmeTX_Forest_Grd_Grass_no'
+        ParameterName = BaseNormal
+    }
+    TextureParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Forest/Texture/MmeTX_Forest_Grd_Grass_D_Forestcl.MmeTX_Forest_Grd_Grass_D_Forestcl'
+        ParameterName = BaseTexture
+    }
+    TextureParameterValues[2] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Forest/Texture/MmeTX_Forest_Grd_Soil_no.MmeTX_Forest_Grd_Soil_no'
+        ParameterName = SubNormal
+    }
+    TextureParameterValues[3] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Forest/Texture/MmeTX_Forest_Grd_Soil_cl.MmeTX_Forest_Grd_Soil_cl'
+        ParameterName = SubTexture
+    }
+    TextureParameterValues[4] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/_Common/Texture/MmeTX_Com_Grd_Mask_mk_02.MmeTX_Com_Grd_Mask_mk_02'
+        ParameterName = MapChipMask
+    }
+}
+VectorParameterValues[1] =
+{
+    VectorParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = { R=0.042311, G=0.057805, B=0.031896, A=1 }
+        ParameterName = OutLineColor
+    }
+}
+BasePropertyOverrides =
+{
+    bOverride_BlendMode = false
+    BlendMode = BLEND_Opaque (0)
+    bOverride_TwoSided = false
+    TwoSided = false
+    bOverride_OpacityMaskClipValue = false
+    OpacityMaskClipValue = 0
+}
+StaticParameters =
+{
+    StaticSwitchParameters[0] = {}
+    StaticComponentMaskParameters[0] = {}
+    TerrainLayerWeightParameters[0] = {}
+    MaterialLayersParameters[0] = {}
+}
+RuntimeVirtualTextureParameterValues[0] = {}
+FontParameterValues[0] = {}
+FlattenedTexture = None
+MobileBaseTexture = None
+MobileNormalTexture = None
+bUseMobileSpecular = false
+MobileSpecularPower = 16
+MobileSpecularMask = MSM_Constant (0)
+MobileMaskTexture = None
+TextureStreamingData[3] =
+{
+    TextureStreamingData[0] =
+    {
+        SamplingScale = 0.25
+        UVChannelIndex = 0
+        TextureName = MmeTX_Com_Grd_Mask_mk_02
+    }
+    TextureStreamingData[1] =
+    {
+        SamplingScale = 0.15625
+        UVChannelIndex = 0
+        TextureName = MmeTX_Forest_Grd_Grass_no
+    }
+    TextureStreamingData[2] =
+    {
+        SamplingScale = 0.15625
+        UVChannelIndex = 0
+        TextureName = MmeTX_Forest_Grd_Soil_cl
+    }
+}
