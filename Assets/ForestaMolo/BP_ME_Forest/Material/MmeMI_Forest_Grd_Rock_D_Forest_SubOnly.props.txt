@@ -1,0 +1,92 @@
+Parent = MaterialInstanceConstant'/Game/Map/Resource/BP/_Common/Material/MI_MapChip_Emissive.MI_MapChip_Emissive'
+ScalarParameterValues[1] =
+{
+    ScalarParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = 0
+        ParameterName = RefractionDepthBias
+    }
+}
+TextureParameterValues[3] =
+{
+    TextureParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Mount/Texture/MmeTX_Mount_Grd_BigRock_no.MmeTX_Mount_Grd_BigRock_no'
+        ParameterName = BaseNormal
+    }
+    TextureParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/BP_MapEditor/BP_ME_Mount/Texture/MmeTX_Mount_Grd_BigRock_cl_ForestD.MmeTX_Mount_Grd_BigRock_cl_ForestD'
+        ParameterName = BaseTexture
+    }
+    TextureParameterValues[2] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = Texture2D'/Game/Map/Resource/BP/_Common/Texture/MmeTX_Com_Grd_Mask_mk_02.MmeTX_Com_Grd_Mask_mk_02'
+        ParameterName = MapChipMask
+    }
+}
+VectorParameterValues[2] =
+{
+    VectorParameterValues[0] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = { R=0.191202, G=0.144128, B=0.234551, A=1 }
+        ParameterName = OutLineColor
+    }
+    VectorParameterValues[1] =
+    {
+        ParameterInfo = { Name=None }
+        ParameterValue = { R=3, G=1, B=0, A=1 }
+        ParameterName = RoadEmissive_Base
+    }
+}
+BasePropertyOverrides =
+{
+    bOverride_BlendMode = false
+    BlendMode = BLEND_Opaque (0)
+    bOverride_TwoSided = false
+    TwoSided = false
+    bOverride_OpacityMaskClipValue = false
+    OpacityMaskClipValue = 0
+}
+StaticParameters =
+{
+    StaticSwitchParameters[0] = {}
+    StaticComponentMaskParameters[0] = {}
+    TerrainLayerWeightParameters[0] = {}
+    MaterialLayersParameters[0] = {}
+}
+RuntimeVirtualTextureParameterValues[0] = {}
+FontParameterValues[0] = {}
+FlattenedTexture = None
+MobileBaseTexture = None
+MobileNormalTexture = None
+bUseMobileSpecular = false
+MobileSpecularPower = 16
+MobileSpecularMask = MSM_Constant (0)
+MobileMaskTexture = None
+TextureStreamingData[3] =
+{
+    TextureStreamingData[0] =
+    {
+        SamplingScale = 0.25
+        UVChannelIndex = 0
+        TextureName = MmeTX_Com_Grd_Mask_mk_02
+    }
+    TextureStreamingData[1] =
+    {
+        SamplingScale = 0.15625
+        UVChannelIndex = 0
+        TextureName = MmeTX_Mount_Grd_BigRock_no
+    }
+    TextureStreamingData[2] =
+    {
+        SamplingScale = 0.15625
+        UVChannelIndex = 0
+        TextureName = T_DummyColor
+    }
+}

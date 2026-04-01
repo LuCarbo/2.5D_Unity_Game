@@ -1,0 +1,9 @@
+Diffuse=DefaultDiffuse
+Normal=MmeTX_Forest_Grd_CenterTile_A_no
+Other[0]=MmeTX_Forest_Grd_CenterTile_A_cl
+Other[1]=MmeTX_Forest_Edge_A_no
+Other[2]=maptx_test_proc_ground_no_01
+Other[3]=maptx_test_proc_ground_cl_02
+Other[4]=Tex_Black
+Other[5]=T_DummyColor
+Other[6]=T_DummyNormal

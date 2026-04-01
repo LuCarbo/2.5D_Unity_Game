@@ -758,7 +758,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Ultra
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 051c79e3171678f40804bd97b7a75938, type: 2}
   m_sharedMaterial: {fileID: -4826645529620113441, guid: 051c79e3171678f40804bd97b7a75938, type: 2}
@@ -1735,7 +1735,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SelectorOpzioni
   testoOpzione: {fileID: 5169503636272018976}
-  opzioni: []
+  opzioni:
+  - 640 x 480
+  - 720 x 480
+  - 720 x 576
+  - 800 x 600
+  - 1024 x 768
+  - 1152 x 864
+  - 1176 x 664
+  - 1280 x 720
+  - 1280 x 768
+  - 1280 x 800
+  - 1280 x 960
+  - 1280 x 1024
+  - 1360 x 768
+  - 1366 x 768
+  - 1440 x 900
+  - 1440 x 1080
+  - 1600 x 900
+  - 1600 x 1024
+  - 1680 x 1050
+  - 1768 x 992
+  - 1920 x 1080
   onCambioOpzione:
     m_PersistentCalls:
       m_Calls: []
@@ -1831,7 +1852,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SelectorOpzioni
   testoOpzione: {fileID: 2030150680583136808}
-  opzioni: []
+  opzioni:
+  - Media
+  - Alta
+  - Ultra
   onCambioOpzione:
     m_PersistentCalls:
       m_Calls: []
@@ -1979,7 +2003,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Finestra
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 051c79e3171678f40804bd97b7a75938, type: 2}
   m_sharedMaterial: {fileID: -4826645529620113441, guid: 051c79e3171678f40804bd97b7a75938, type: 2}
@@ -2116,7 +2140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 1920 x 1080
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 051c79e3171678f40804bd97b7a75938, type: 2}
   m_sharedMaterial: {fileID: -4826645529620113441, guid: 051c79e3171678f40804bd97b7a75938, type: 2}
