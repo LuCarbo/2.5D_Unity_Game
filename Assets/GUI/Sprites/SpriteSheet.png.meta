@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpriteSheet_0
+      name: Dialogue UI 2
       rect:
         serializedVersion: 2
         x: 32
@@ -603,7 +603,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_23
+      name: Dialogue UI 3
       rect:
         serializedVersion: 2
         x: 240
@@ -1527,7 +1527,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_65
+      name: Dialogue UI 5
       rect:
         serializedVersion: 2
         x: 37
@@ -1681,7 +1681,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_72
+      name: Dialogue UI 4
       rect:
         serializedVersion: 2
         x: 491
@@ -2797,7 +2797,10 @@ TextureImporter:
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Dialogue UI: -787704541
-      SpriteSheet_0: 1095503808
+      Dialogue UI 2: 1095503808
+      Dialogue UI 3: -1947929820
+      Dialogue UI 4: 1793778781
+      Dialogue UI 5: -1945855324
       SpriteSheet_1: -660258797
       SpriteSheet_10: 1695223892
       SpriteSheet_100: 867329776
@@ -2835,7 +2838,6 @@ TextureImporter:
       SpriteSheet_20: -582222668
       SpriteSheet_21: -2029108591
       SpriteSheet_22: -755776962
-      SpriteSheet_23: -1947929820
       SpriteSheet_24: -1353203323
       SpriteSheet_25: -1532914615
       SpriteSheet_26: 532007025
@@ -2880,7 +2882,6 @@ TextureImporter:
       SpriteSheet_62: -590057700
       SpriteSheet_63: -1154198648
       SpriteSheet_64: -34944131
-      SpriteSheet_65: -1945855324
       SpriteSheet_66: -407401931
       SpriteSheet_67: 1053762571
       SpriteSheet_68: 1151175501
@@ -2888,7 +2889,6 @@ TextureImporter:
       SpriteSheet_7: 1511579001
       SpriteSheet_70: 584339847
       SpriteSheet_71: 581624363
-      SpriteSheet_72: 1793778781
       SpriteSheet_73: -1659095781
       SpriteSheet_74: -1806811980
       SpriteSheet_75: 896055743
