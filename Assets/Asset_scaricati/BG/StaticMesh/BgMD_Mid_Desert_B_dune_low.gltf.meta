@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 67c3873b9c0aa424ba994d148602f475
+guid: 669264055f00c3140be074b10ed5ebe0
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -26,6 +26,6 @@ ScriptedImporter:
     sceneObjectCreation: 2
   assetDependencies:
   - type: 0
-    originalUri: Assets\Scaricati\BPI_Fence\StaticMesh\ObpMD_Snow_Fence_A_root_end.bin
-    assetPath: Assets\Scaricati\BPI_Fence\StaticMesh\ObpMD_Snow_Fence_A_root_end.bin
+    originalUri: Assets\Asset_scaricati\BG\StaticMesh\BgMD_Mid_Desert_B_dune_low.bin
+    assetPath: Assets\Asset_scaricati\BG\StaticMesh\BgMD_Mid_Desert_B_dune_low.bin
   reportItems: []

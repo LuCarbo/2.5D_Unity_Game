@@ -11,13 +11,13 @@
   ],
   "nodes" : [
     {
-      "name" : "ObpMD_Snow_Fence_A_root_end",
+      "name" : "BgMD_Mid_Mount_D_tall",
       "mesh" : 0
     }
   ],
   "materials" : [
     {
-      "name" : "ObpMI_Snow_Fence_A",
+      "name" : "BgMI_Mid_Mount_D_tall",
       "pbrMetallicRoughness" : {
         "baseColorFactor" : [ 0.3, 0.3, 0.3, 1.0 ],
         "metallicFactor" : 0.1,
@@ -33,91 +33,79 @@
             "POSITION" : 1,
             "NORMAL" : 2,
             "TANGENT" : 3,
-            "TEXCOORD_0" : 4,
-            "TEXCOORD_1" : 5
+            "TEXCOORD_0" : 4
           },
           "indices" : 0,
           "material" : 0
         }
       ],
-      "name" : "ObpMD_Snow_Fence_A_root_end"
+      "name" : "BgMD_Mid_Mount_D_tall"
     }
   ],
   "buffers" : [
     {
-      "uri" : "ObpMD_Snow_Fence_A_root_end.bin",
-      "byteLength" : 6136
+      "uri" : "BgMD_Mid_Mount_D_tall.bin",
+      "byteLength" : 2244
     }
   ],
   "bufferViews" : [
     {
       "buffer" : 0,
       "byteOffset" : 0,
+      "byteLength" : 372
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 372,
+      "byteLength" : 468
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 840,
+      "byteLength" : 468
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 1308,
+      "byteLength" : 624
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 1932,
       "byteLength" : 312
-    },
-    {
-      "buffer" : 0,
-      "byteOffset" : 312,
-      "byteLength" : 1248
-    },
-    {
-      "buffer" : 0,
-      "byteOffset" : 1560,
-      "byteLength" : 1248
-    },
-    {
-      "buffer" : 0,
-      "byteOffset" : 2808,
-      "byteLength" : 1664
-    },
-    {
-      "buffer" : 0,
-      "byteOffset" : 4472,
-      "byteLength" : 832
-    },
-    {
-      "buffer" : 0,
-      "byteOffset" : 5304,
-      "byteLength" : 832
     }
   ],
   "accessors" : [
     {
       "bufferView" : 0,
       "componentType" : 5123,
-      "count" : 156,
+      "count" : 186,
       "type" : "SCALAR"
     },
     {
       "bufferView" : 1,
-      "min" : [ -0.1875, -3.82702e-18, -0.0625 ],
-      "max" : [ 0.25, 1, 0.375 ],
+      "min" : [ -16.3105, -1.49012e-09, -21.3608 ],
+      "max" : [ 16.3105, 22.7538, 21.3608 ],
       "componentType" : 5126,
-      "count" : 104,
+      "count" : 39,
       "type" : "VEC3"
     },
     {
       "bufferView" : 2,
       "componentType" : 5126,
-      "count" : 104,
+      "count" : 39,
       "type" : "VEC3"
     },
     {
       "bufferView" : 3,
       "componentType" : 5126,
-      "count" : 104,
+      "count" : 39,
       "type" : "VEC4"
     },
     {
       "bufferView" : 4,
       "componentType" : 5126,
-      "count" : 104,
-      "type" : "VEC2"
-    },
-    {
-      "bufferView" : 5,
-      "componentType" : 5126,
-      "count" : 104,
+      "count" : 39,
       "type" : "VEC2"
     }
   ]
