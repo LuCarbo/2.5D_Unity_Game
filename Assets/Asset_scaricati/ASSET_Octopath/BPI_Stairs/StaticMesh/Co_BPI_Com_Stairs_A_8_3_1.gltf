@@ -1,0 +1,112 @@
+{
+  "asset" : {
+    "generator" : "UE Viewer (umodel) build 1590",
+    "version" : "2.0"
+  },
+  "scene" : 0,
+  "scenes" : [
+    {
+      "nodes" : [ 0 ]
+    }
+  ],
+  "nodes" : [
+    {
+      "name" : "Co_BPI_Com_Stairs_A_8_3_1",
+      "mesh" : 0
+    }
+  ],
+  "materials" : [
+    {
+      "name" : "MmeMI_Mount_F_Terrain_Rock_01",
+      "pbrMetallicRoughness" : {
+        "baseColorFactor" : [ 0.3, 0.3, 0.3, 1.0 ],
+        "metallicFactor" : 0.1,
+        "roughnessFactor" : 0.5
+      }
+    }
+  ],
+  "meshes" : [
+    {
+      "primitives" : [
+        {
+          "attributes" : {
+            "POSITION" : 1,
+            "NORMAL" : 2,
+            "TANGENT" : 3,
+            "TEXCOORD_0" : 4
+          },
+          "indices" : 0,
+          "material" : 0
+        }
+      ],
+      "name" : "Co_BPI_Com_Stairs_A_8_3_1"
+    }
+  ],
+  "buffers" : [
+    {
+      "uri" : "Co_BPI_Com_Stairs_A_8_3_1.bin",
+      "byteLength" : 13856
+    }
+  ],
+  "bufferViews" : [
+    {
+      "buffer" : 0,
+      "byteOffset" : 0,
+      "byteLength" : 944
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 944,
+      "byteLength" : 3228
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 4172,
+      "byteLength" : 3228
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 7400,
+      "byteLength" : 4304
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 11704,
+      "byteLength" : 2152
+    }
+  ],
+  "accessors" : [
+    {
+      "bufferView" : 0,
+      "componentType" : 5123,
+      "count" : 471,
+      "type" : "SCALAR"
+    },
+    {
+      "bufferView" : 1,
+      "min" : [ -2, -0.5, -1.5 ],
+      "max" : [ 2, 0.5, 1.5 ],
+      "componentType" : 5126,
+      "count" : 269,
+      "type" : "VEC3"
+    },
+    {
+      "bufferView" : 2,
+      "componentType" : 5126,
+      "count" : 269,
+      "type" : "VEC3"
+    },
+    {
+      "bufferView" : 3,
+      "componentType" : 5126,
+      "count" : 269,
+      "type" : "VEC4"
+    },
+    {
+      "bufferView" : 4,
+      "componentType" : 5126,
+      "count" : 269,
+      "type" : "VEC2"
+    }
+  ]
+}

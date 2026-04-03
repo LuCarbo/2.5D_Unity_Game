@@ -122,13 +122,13 @@ Material:
     - baseColorTexture_texCoord: 0
     - emissiveExposureWeight: 0
     - emissiveTexture_texCoord: 0
-    - metallicFactor: 1
+    - metallicFactor: 0
     - metallicRoughnessTexture_texCoord: 0
     - normalTexture_scale: 1
     - normalTexture_texCoord: 0
     - occlusionTexture_strength: 1
     - occlusionTexture_texCoord: 0
-    - roughnessFactor: 1
+    - roughnessFactor: 0
     - transmissionFactor: 0
     m_Colors:
     - baseColorFactor: {r: 1, g: 1, b: 1, a: 1}
