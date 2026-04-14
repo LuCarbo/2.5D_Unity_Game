@@ -217,13 +217,35 @@ public class PlayerCombat : MonoBehaviour
     {
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, range, enemyLayers);
 
+        // Debug per essere sicuri che la spada "veda" il collider 3D
+        if (hitEnemies.Length > 0)
+        {
+            Debug.Log($"La spada ha toccato {hitEnemies.Length} oggetti sul Layer Enemy.");
+        }
+
         foreach (Collider enemy in hitEnemies)
         {
-            Health enemyHealth = enemy.GetComponent<Health>();
-            if (enemyHealth != null)
+            bool hasDealtDamage = false;
+
+            // 1. PRIMO TENTATIVO: Cerchiamo BossHealth (per i Demoni/Boss)
+            BossHealth bossHealth = enemy.GetComponent<BossHealth>();
+            if (bossHealth != null)
             {
-                enemyHealth.ChangeHealth(-damage);
-                Debug.Log($"Colpito: {enemy.name} per {damage} danni!");
+                bossHealth.TakeDamage(damage); // TakeDamage usa già numeri positivi
+                Debug.Log($"Colpito BOSS: {enemy.name} per {damage} danni!");
+                hasDealtDamage = true;
+            }
+
+            // 2. SECONDO TENTATIVO: Cerchiamo Health (per Nemici normali/Player)
+            // Lo facciamo solo se non abbiamo già colpito un Boss
+            if (!hasDealtDamage)
+            {
+                Health normalHealth = enemy.GetComponent<Health>();
+                if (normalHealth != null)
+                {
+                    normalHealth.ChangeHealth(-damage); // ChangeHealth richiede numeri negativi
+                    Debug.Log($"Colpito NEMICO NORMALE: {enemy.name} per {damage} danni!");
+                }
             }
         }
     }
