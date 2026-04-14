@@ -48,7 +48,7 @@ public class BossHealth : MonoBehaviour
     private void Die()
     {
         isDead = true;
-        Debug.Log("Il demone � stato sconfitto!");
+        Debug.Log("Il demone e' stato sconfitto!");
 
         // 1. Facciamo partire l'animazione di morte
         if (anim != null) anim.SetBool("isDead", true);
@@ -56,6 +56,7 @@ public class BossHealth : MonoBehaviour
         // 2. SPEGNIAMO IL CERVELLO: disabilitando il BossController smetter�
         //    immediatamente di muoversi e di attaccare.
         if (bossController != null) bossController.enabled = false;
+
 
         // 3. Disabilitiamo il collider (cos� il player non ci sbatte contro mentre � a terra)
         if (bossCollider != null) bossCollider.enabled = false;
@@ -68,8 +69,6 @@ public class BossHealth : MonoBehaviour
             rb.isKinematic = true;      // Disabilitiamo la simulazione fisica
         }
 
-        // OPZIONALE: Distrugge l'oggetto dopo 3 secondi (tempo per finire l'animazione)
-        // Se vuoi che il cadavere rimanga a terra per sempre, lascia questa riga commentata!
-        // Destroy(gameObject, 3f);
+        Destroy(gameObject, 2.2f);
     }
 }
