@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 [System.Serializable]
 public class SuonoTerreno
@@ -12,39 +12,66 @@ public class GestionePassiAvanzata : MonoBehaviour
     [Header("Impostazioni Passi")]
     public Transform puntoPiedi;
     public float lunghezzaRaggio = 0.5f;
+    public LayerMask layerDaIgnorare;
 
-    [Header("Sicurezza Anti-Accavallamento")]
-    [Tooltip("Tempo minimo in secondi tra un passo e l'altro")]
-    public float ritardoMinimo = 0.25f; // Il trucco per bloccare i doppi suoni
-    private float tempoUltimoPasso = 0f;
+    [Header("Il Metronomo (Ritmo dei passi)")]
+    public float intervalloCamminata = 0.35f;
+    public float intervalloCorsa = 0.22f;
+
+    private float timerPasso;
 
     [Header("Suoni")]
     public SuonoTerreno[] suoniTerreni;
     public AudioClip[] passiDefault;
 
     private AudioSource audioSource;
+    private CharacterController characterController;
+    private PlayerInputHandler _input;
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        characterController = GetComponent<CharacterController>();
+        _input = GetComponent<PlayerInputHandler>();
+        timerPasso = intervalloCamminata;
     }
 
-    public void RiproduciPasso()
+    void Update()
     {
-        // SISTEMA ANTI-ACCAVALLAMENTO: 
-        // Se è passato troppo poco tempo dall'ultimo passo, esci subito e non fare nulla.
-        if (Time.time - tempoUltimoPasso < ritardoMinimo)
-        {
-            return;
-        }
+        float velocitaAttuale = _input.MoveInput.magnitude;
+        bool staCorreendo = _input.IsRunning;
 
         Vector3 origineBase = puntoPiedi != null ? puntoPiedi.position : transform.position;
         Vector3 origineRaggio = origineBase + Vector3.up * 0.5f;
-
-        // Ho aumentato il margine da 0.5 a 1.0f per evitare "vuoti" sulle discese ripide
         float raggioTotale = lunghezzaRaggio + 1.0f;
 
-        if (Physics.Raycast(origineRaggio, Vector3.down, out RaycastHit hit, raggioTotale))
+        bool aTerra = Physics.Raycast(origineRaggio, Vector3.down, raggioTotale, ~layerDaIgnorare);
+        Debug.DrawRay(origineRaggio, Vector3.down * raggioTotale, aTerra ? Color.green : Color.red);
+
+        if (velocitaAttuale > 0.1f && aTerra)
+        {
+            timerPasso -= Time.deltaTime;
+
+            if (timerPasso <= 0f)
+            {
+                EseguiControlloTerreno(origineRaggio, raggioTotale);
+                timerPasso = staCorreendo ? intervalloCorsa : intervalloCamminata;
+            }
+        }
+        else if (!aTerra)
+        {
+            // In aria: timer in pausa
+        }
+        else
+        {
+            // Fermo a terra: azzera cosi il primo passo parte subito
+            timerPasso = 0f;
+        }
+    }
+
+    private void EseguiControlloTerreno(Vector3 origineRaggio, float raggioTotale)
+    {
+        if (Physics.Raycast(origineRaggio, Vector3.down, out RaycastHit hit, raggioTotale, ~layerDaIgnorare))
         {
             Terrain terrain = hit.collider.GetComponent<Terrain>();
 
@@ -66,7 +93,6 @@ public class GestionePassiAvanzata : MonoBehaviour
             }
         }
 
-        // Default se il raggio non legge il terreno
         RiproduciSuono(passiDefault);
     }
 
@@ -74,14 +100,8 @@ public class GestionePassiAvanzata : MonoBehaviour
     {
         if (arraySuoni != null && arraySuoni.Length > 0)
         {
-            // Aggiorna il timer nel momento esatto in cui decide di suonare
-            tempoUltimoPasso = Time.time;
-
             int indice = Random.Range(0, arraySuoni.Length);
-
-            // Variamo leggermente il "Pitch" (l'intonazione) per rendere i passi meno robotici
             audioSource.pitch = Random.Range(0.9f, 1.1f);
-
             audioSource.PlayOneShot(arraySuoni[indice]);
         }
     }
