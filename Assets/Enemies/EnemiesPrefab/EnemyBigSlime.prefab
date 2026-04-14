@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2059975399385107762}
   - component: {fileID: 7319449015754417748}
   - component: {fileID: 9005646738800473732}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyBigSlimeSprites
   m_TagString: Enemie
   m_Icon: {fileID: 0}
@@ -82,15 +82,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1611872436, guid: c7ba22f6970565c45b1cb4172a7d4ba8, type: 3}
+  m_Sprite: {fileID: 282905492, guid: e8daaff7971939143b14467987cf1ba4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4, y: 4}
+  m_Size: {x: 0.48, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!95 &9005646738800473732
 Animator:
@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8001853375257659088}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PernoBigSlime
   m_TagString: Enemie
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 3336670494115412051}
   - component: {fileID: 7800732280660379606}
   - component: {fileID: 264226976054639468}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyBigSlime
   m_TagString: Enemie
   m_Icon: {fileID: 0}
@@ -262,6 +262,9 @@ MonoBehaviour:
   MaxSpeed: 3
   SightRange: 4
   DetectionRange: 4
+  PlayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   ObstacleMask:
     serializedVersion: 2
     m_Bits: 0
@@ -280,6 +283,4 @@ MonoBehaviour:
   currentHealth: 3
   maxHealth: 3
   invincibilityTime: 0
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  animator: {fileID: 0}

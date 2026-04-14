@@ -143,43 +143,31 @@ public class Health : MonoBehaviour
     // NUOVO: Metodo che gestisce la vera morte
 
     private void Die()
-
     {
-
         isDeadFlag = true;
+        Debug.Log($"{gameObject.name} ha la vita a zero!");
 
-        Debug.Log($"{gameObject.name} è morto per davvero!");
+        // IL PONTE: Cerchiamo di capire se chi è appena morto è un nemico
+        EnemiesScript enemyLogic = GetComponent<EnemiesScript>();
 
-
-
-        if (animator != null)
-
+        if (enemyLogic != null)
         {
-
-            animator.SetBool("IsDead", true);
-
+            // === È UN NEMICO ===
+            // Diciamo allo script del nemico di far partire la SUA morte!
+            enemyLogic.Die();
         }
+        else
+        {
+            // === È IL PLAYER (o un oggetto senza intelligenza) ===
+            // Facciamo morire il player in modo semplice
+            if (animator != null)
+            {
+                animator.SetBool("IsDead", true);
+            }
 
-
-
-        // OPZIONE 1: Distruggi il GameObject dopo X secondi.
-
-        // Il ritardo serve a far finire l'animazione della morte prima che il modello sparisca!
-
-        // Cambia "2f" con la durata della tua animazione di morte.
-
-        Destroy(gameObject, 2f);
-
-
-
-        // OPZIONE 2 (Alternativa): Se non vuoi distruggerlo ma solo lasciarlo a terra, 
-
-        // commenta la riga "Destroy" qui sopra e scommenta la riga sotto per disabilitare questo script.
-
-        // (Nota: dovrai disabilitare a mano anche eventuali script di movimento o i Collider)
-
-        // this.enabled = false; 
-
+            // Spegniamo i comandi del player per non farlo muovere da morto
+            // GetComponent<PlayerCombat>().enabled = false;
+        }
     }
 
 

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3166241154932305564}
   - component: {fileID: 7091842513302697926}
   - component: {fileID: 6760951963822871686}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AnimalBeeSprites
   m_TagString: Enemie
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4670358261343834389}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PernoBee
   m_TagString: Enemie
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 4863670519694116327}
   - component: {fileID: 6293440062526192212}
   - component: {fileID: 4700780805839030692}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AnimalBee
   m_TagString: Enemie
   m_Icon: {fileID: 0}
@@ -267,6 +267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AnimalsMovement
   wanderRadius: 5
   wanderTimer: 4
+  tempoDiDistruzione: 1
   graficaAnimale: {fileID: 3166241154932305564}
 --- !u!114 &4700780805839030692
 MonoBehaviour:
@@ -283,6 +284,4 @@ MonoBehaviour:
   currentHealth: 1
   maxHealth: 1
   invincibilityTime: 0
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  animator: {fileID: 0}

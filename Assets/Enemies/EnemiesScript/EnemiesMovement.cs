@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemiesScript : MonoBehaviour
@@ -230,27 +231,51 @@ public class EnemiesScript : MonoBehaviour
 
     public void Die()
     {
-        // 1. Ferma il nemico istantaneamente
+        // 1. Spegne l'IA e lo ferma
         StopEnemy();
-
-        // Disabilita questo script così smette di cercare o inseguire il player
         this.enabled = false;
 
-        // 2. Fai partire l'animazione di morte
+        // 2. Fa partire l'animazione di morte
         if (_animator != null)
         {
-            _animator.SetTrigger("Die"); // Usa lo stesso identico nome messo nell'Animator!
+            _animator.SetTrigger("IsDead");
         }
 
-        // 3. Disabilita il Collider per non far sbattere il Player contro il cadavere
+        // 3. Ferma i movimenti laterali ma LASCIA LA GRAVITÀ (così cade a terra)
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+        }
+
+        // 4. Invece di spegnere tutto subito, facciamo partire un timer!
+        StartCoroutine(DeathSequence());
+    }
+
+    // --- NUOVA COROUTINE DEL TIMER ---
+    private IEnumerator DeathSequence()
+    {
+        // Aspettiamo 0.5 o 1 secondo (il tempo che ci mette fisicamente a cadere a terra)
+        yield return new WaitForSeconds(0.8f);
+
+        // Ora che è sicuro sul pavimento, lo trasformiamo in un FANTASMA
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true; // Spegne la gravità, così non sprofonda più
+        }
+
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
-            col.enabled = false;
+            col.enabled = false; // Spegne gli urti, così ci puoi camminare sopra
         }
 
-        // 4. Distruggi l'oggetto definitivamente dopo x tempo
-        Destroy(gameObject, 0.7f);
+        // Aspettiamo un altro po' per goderci l'animazione di morte finita
+        yield return new WaitForSeconds(1.2f);
+
+        // Distruggiamo il cadavere (Totale tempo passato: 0.8s + 1.2s = 2 secondi)
+        Destroy(gameObject);
     }
 
     void OnDrawGizmosSelected()
