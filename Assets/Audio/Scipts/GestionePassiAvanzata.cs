@@ -45,7 +45,8 @@ public class GestionePassiAvanzata : MonoBehaviour
         Vector3 origineRaggio = origineBase + Vector3.up * 0.5f;
         float raggioTotale = lunghezzaRaggio + 1.0f;
 
-        bool aTerra = Physics.Raycast(origineRaggio, Vector3.down, raggioTotale, ~layerDaIgnorare);
+        bool aTerra = Physics.Raycast(origineRaggio, Vector3.down, raggioTotale, ~layerDaIgnorare)
+              && characterController.isGrounded;
         Debug.DrawRay(origineRaggio, Vector3.down * raggioTotale, aTerra ? Color.green : Color.red);
 
         if (velocitaAttuale > 0.1f && aTerra)
