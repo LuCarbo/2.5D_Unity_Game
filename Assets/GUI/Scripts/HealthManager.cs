@@ -22,15 +22,21 @@ public class HealthManager : MonoBehaviour
         // Quanti contenitori di cuori dobbiamo mostrare in totale? (es. 12 / 4 = 3 cuori)
         int numOfHeartContainers = playerHealth.maxHealth / healthPerHeart;
 
+        // Controllo di sicurezza estrema: se l'array dei cuori non esiste, fermati
+        if (hearts == null) return;
+
         for (int i = 0; i < hearts.Length; i++)
         {
+            // --- LO SCUDO ANTI-CRASH ---
+            // Se nell'Inspector ti sei dimenticato di assegnare un'immagine in questo slot, saltalo!
+            if (hearts[i] == null) continue;
+
             // Abilita i contenitori necessari e nascondi quelli in eccesso
             if (i < numOfHeartContainers)
             {
                 hearts[i].enabled = true;
 
                 // Calcola quanti HP spettano a QUESTO specifico cuore
-                // Esempio: se currentHealth è 5 e siamo al secondo cuore (i=1): 5 - (1 * 4) = 1 HP rimanente per questo cuore
                 int heartSegmentHealth = playerHealth.currentHealth - (i * healthPerHeart);
 
                 // Determina quale sprite mostrare usando i numeri interi
