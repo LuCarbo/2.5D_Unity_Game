@@ -7,33 +7,36 @@ public class PlayerCombat : MonoBehaviour
 {
     [Header("Riferimenti")]
     private CharacterController _controller;
-    private PlayerInputHandler _inputHandler; 
+    private PlayerInputHandler _inputHandler;
     private Animator _animator;
-    public Transform attackPoint;             
+    public Transform attackPoint;
+
+    // --- AGGIUNTO: Riferimento per i suoni della spada ---
+    [Header("Audio Combattimento")]
+    public GestioneSuoniCombattimento suoniCombattimento;
 
     [Header("Sistema Combo")]
     [SerializeField] private float _comboResetTime = 0.8f;
-    [SerializeField] private int _maxLightComboSteps = 3; 
-    [SerializeField] private int _maxHeavyComboSteps = 2; 
+    [SerializeField] private int _maxLightComboSteps = 3;
+    [SerializeField] private int _maxHeavyComboSteps = 2;
 
     private int _lightComboStep = 0;
     private int _heavyComboStep = 0;
 
-    // Token to manage the asynchronous background timer
     private CancellationTokenSource _comboCancelToken;
 
     public bool IsAttacking { get; private set; } = false;
 
     [Header("Statistiche: Attacco Leggero")]
     public int lightAttackDamage = 1;
-    public float lightAttackRange = 1f;          
+    public float lightAttackRange = 1f;
 
     [Header("Statistiche: Attacco Pesante")]
     public int heavyAttackDamage = 3;
-    public float heavyAttackRange = 1.3f;          
+    public float heavyAttackRange = 1.3f;
 
     [Header("Targeting")]
-    public LayerMask enemyLayers;           
+    public LayerMask enemyLayers;
 
     private float attackDistance;
     private float defaultHeight;
@@ -59,7 +62,7 @@ public class PlayerCombat : MonoBehaviour
     {
         // GESTIONE DIREZIONE
         float moveX = _inputHandler.MoveInput.x;
-        float moveY = _inputHandler.MoveInput.y; 
+        float moveY = _inputHandler.MoveInput.y;
 
         if (Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveY) > 0.1f)
         {
@@ -78,7 +81,6 @@ public class PlayerCombat : MonoBehaviour
 
     private void HandleAttacks()
     {
-        // Controllo input per Leggero o Pesante
         if (!IsAttacking)
         {
             if (_inputHandler.LightAttackPressed)
@@ -94,14 +96,9 @@ public class PlayerCombat : MonoBehaviour
 
     private void ExecuteLightAttack()
     {
-        // 1. CONSUME THE INPUT
-        // Assuming you can write to this variable. If it's a property, 
-        // you may need to reset it inside your PlayerInputHandler script instead.
-        // _inputHandler.LightAttackPressed = false; 
-
         RestartAsyncComboTimer();
-        
-        _heavyComboStep = 0; 
+
+        _heavyComboStep = 0;
         _lightComboStep++;
 
         if (_lightComboStep > _maxLightComboSteps) _lightComboStep = 1;
@@ -112,8 +109,8 @@ public class PlayerCombat : MonoBehaviour
     private void ExecuteHeavyAttack()
     {
         RestartAsyncComboTimer();
-        
-        _lightComboStep = 0; // Azzera la combo leggera
+
+        _lightComboStep = 0;
         _heavyComboStep++;
 
         if (_heavyComboStep > _maxHeavyComboSteps) _heavyComboStep = 1;
@@ -121,20 +118,15 @@ public class PlayerCombat : MonoBehaviour
         StartCoroutine(PerformAttackSequence("HeavyComboStep", _heavyComboStep, heavyAttackDamage, heavyAttackRange, 0.25f));
     }
 
-    // --- NEW ASYNC TIMER LOGIC ---
     private void RestartAsyncComboTimer()
     {
-        // Cancel the existing timer if one is running
         if (_comboCancelToken != null)
         {
             _comboCancelToken.Cancel();
             _comboCancelToken.Dispose();
         }
 
-        // Create a new token for this specific timer
         _comboCancelToken = new CancellationTokenSource();
-
-        // Start the background timer without blocking the game thread
         _ = ComboResetTimerAsync(_comboCancelToken.Token);
     }
 
@@ -142,42 +134,34 @@ public class PlayerCombat : MonoBehaviour
     {
         try
         {
-            // Convert seconds to milliseconds for Task.Delay
             int delayMilliseconds = Mathf.RoundToInt(_comboResetTime * 1000);
-            
-            // Wait asynchronously 
             await Task.Delay(delayMilliseconds, token);
 
-            // If we finish waiting without the token being cancelled, reset combos!
-            // We also check !IsAttacking just to be safe if a long animation is playing.
-            if (!IsAttacking) 
+            if (!IsAttacking)
             {
                 ResetCombos();
             }
         }
         catch (TaskCanceledException)
         {
-            // The timer was cancelled because the player attacked again. Do nothing!
         }
     }
-    // -----------------------------
 
     private IEnumerator PerformAttackSequence(string animParameter, int step, int damage, float range, float waitTime)
     {
         IsAttacking = true;
-        
-        if (_animator != null) 
+
+        if (_animator != null)
         {
             _animator.SetInteger(animParameter, step);
         }
 
+        // HO TOLTO IL SUONO DEL FENDENTE DA QUI!
+
         Attack(damage, range);
 
-        yield return new WaitForSeconds(waitTime); 
+        yield return new WaitForSeconds(waitTime);
 
-        // 2. RESET THE ANIMATOR PARAMETER
-        // This stops the Animator from automatically looping the animation
-        // while we wait for the player to press the button again.
         if (_animator != null)
         {
             _animator.SetInteger(animParameter, 0);
@@ -188,17 +172,15 @@ public class PlayerCombat : MonoBehaviour
 
     private void ResetCombos()
     {
-        // Previene reset multipli inutili
-
         _lightComboStep = 0;
         _heavyComboStep = 0;
-        
-        if (_animator != null) 
+
+        if (_animator != null)
         {
             _animator.SetInteger("LightComboStep", 0);
             _animator.SetInteger("HeavyComboStep", 0);
         }
-        
+
         Debug.Log("Combo Reset tramite Async Task!");
     }
 
@@ -206,68 +188,60 @@ public class PlayerCombat : MonoBehaviour
     {
         if (_animator != null) _animator.SetTrigger("HitTrigger");
         IsAttacking = false;
-        
-        // Cancel the timer if the player gets hit
+
         if (_comboCancelToken != null) _comboCancelToken.Cancel();
-        
+
         ResetCombos();
     }
 
     void Attack(int damage, float range)
     {
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, range, enemyLayers);
+        // Togliamo la maschera! La sfera colpisce QUALSIASI collider davanti a te
+        Collider[] oggettiColpiti = Physics.OverlapSphere(attackPoint.position, range);
 
-        // Debug per essere sicuri che la spada "veda" il collider 3D
-        if (hitEnemies.Length > 0)
+        bool colpitoNemico = false;
+        bool colpitoMuro = false;
+
+        foreach (Collider oggetto in oggettiColpiti)
         {
-            Debug.Log($"La spada ha toccato {hitEnemies.Length} oggetti sul Layer Enemy.");
-        }
+            // IGNORA TE STESSO: Il player non deve prendere a spadate la sua stessa faccia
+            if (oggetto.gameObject == this.gameObject) continue;
+            if (oggetto.CompareTag("Pavimento")) continue; // Ignora il pavimento e non fare rumori!
 
-        foreach (Collider enemy in hitEnemies)
-        {
-            bool hasDealtDamage = false;
+            // IGNORA I TRIGGER: Es. non vogliamo fare "sbong" se la spada attraversa un checkpoint invisibile
+            if (oggetto.isTrigger) continue;
 
-            // 1. PRIMO TENTATIVO: Cerchiamo BossHealth (per i Demoni/Boss)
-            BossHealth bossHealth = enemy.GetComponent<BossHealth>();
-            if (bossHealth != null)
+            // Se è un nemico...
+            if (oggetto.CompareTag("Enemie"))
             {
-                bossHealth.TakeDamage(damage); // TakeDamage usa già numeri positivi
-                Debug.Log($"Colpito BOSS: {enemy.name} per {damage} danni!");
-                hasDealtDamage = true;
+                colpitoNemico = true;
+                // Qui metti il codice per scalare la vita al nemico
             }
-
-            // 2. SECONDO TENTATIVO: Cerchiamo Health (per Nemici normali/Player)
-            // Lo facciamo solo se non abbiamo già colpito un Boss
-            if (!hasDealtDamage)
+            // Se NON è un nemico, non sei tu, e non è un trigger... allora è il mondo!
+            else
             {
-                Health normalHealth = enemy.GetComponent<Health>();
-                if (normalHealth != null)
-                {
-                    normalHealth.ChangeHealth(-damage); // ChangeHealth richiede numeri negativi
-                    Debug.Log($"Colpito NEMICO NORMALE: {enemy.name} per {damage} danni!");
-                }
+                colpitoMuro = true;
             }
         }
-    }
 
-    void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null) return;
-        
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(attackPoint.position, lightAttackRange);
-        
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, heavyAttackRange);
-    }
-
-    private void OnDestroy()
-    {
-        // Sempre ripulire i token quando l'oggetto viene distrutto!
-        if (_comboCancelToken != null)
+        // --- RIPRODUZIONE SUONI ---
+        if (suoniCombattimento != null)
         {
-            _comboCancelToken.Cancel();
-            _comboCancelToken.Dispose();
+            // 1. Diamo priorità al nemico
+            if (colpitoNemico)
+            {
+                suoniCombattimento.RiproduciImpatto("Nemico");
+            }
+            // 2. Se non c'è il nemico, sentiamo se c'è un muro
+            else if (colpitoMuro)
+            {
+                suoniCombattimento.RiproduciImpatto("Muro");
+            }
+            // 3. AGGIUNTO: Se non abbiamo colpito assolutamente nulla, taglia l'aria!
+            else
+            {
+                suoniCombattimento.RiproduciFendente();
+            }
         }
     }
 }
