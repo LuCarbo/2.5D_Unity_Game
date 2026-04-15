@@ -2,35 +2,46 @@ using UnityEngine;
 
 public class EnemiesCombat : MonoBehaviour
 {
-
+    [Header("Statistiche Combattimento")]
     public int damage = 1;
-    public float attackCooldown = 1.5f; // Tempo di attesa tra un attacco e l'altro
-    public float nextAttackTime = 0f; // Tempo in cui il nemico può attaccare di nuovo
+    public float attackCooldown = 1.5f;
 
-    private void OnCollisionStay(Collision collision) {
+    private float nextAttackTime = 0f;
+    private EnemiesScript movementScript;
 
-        // 1. Controlliamo prima di tutto se l'oggetto toccato è il Player
-        if (collision.gameObject.CompareTag("Player")) {
+    private void Start()
+    {
+        movementScript = GetComponent<EnemiesScript>();
+    }
 
-            // 2. Controlliamo se è passato abbastanza tempo dall'ultimo attacco
-            if (Time.time >= nextAttackTime)
+    public void TryAttack(GameObject target)
+    {
+        // Se il cooldown è finito, possiamo attaccare!
+        if (Time.time >= nextAttackTime)
+        {
+            Debug.Log($"[{gameObject.name}] Il Player è a tiro! Lancio l'attacco...");
+
+            // 1. IL FIX: Cerchiamo la vita anche nell'oggetto "Padre" del Player
+            Health targetHealth = target.GetComponentInParent<Health>();
+
+            if (targetHealth != null)
             {
-                // Infligge danno
-                Health player = collision.gameObject.GetComponent<Health>();
-                if (player != null)
-                {
-                    player.ChangeHealth(-damage);
-                }
+                targetHealth.ChangeHealth(-damage);
+                Debug.Log("SUCCESSO: Danno inflitto al Player!");
+            }
+            else
+            {
+                Debug.LogError("ERRORE: Il lupo ti ha preso, ma non trova lo script Health sul Player!");
+            }
 
-                // Imposta il tempo del prossimo attacco
-                nextAttackTime = Time.time + attackCooldown;
+            // 2. Imposta il timer per il prossimo attacco
+            nextAttackTime = Time.time + attackCooldown;
 
-                // 3. Crea lo script di movimento sul nemico per metterlo in pausa
-                EnemiesScript movementScript = GetComponent<EnemiesScript>();
-                if (movementScript != null)
-                {
-                    movementScript.PauseMovement(attackCooldown);
-                }
+            // 3. Mette in pausa e avvia l'animazione
+            if (movementScript != null)
+            {
+                movementScript.PauseMovement(attackCooldown);
+                movementScript.PlayAttackAnimation();
             }
         }
     }

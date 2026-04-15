@@ -26,17 +26,24 @@ public class PlayerRespawn : MonoBehaviour
         // Forza Unity a registrare la nuova posizione istantaneamente
         Physics.SyncTransforms();
 
-        // Riabilita il controller
+        // --- RIABILITA IL CONTROLLER E TUTTI I COMANDI CHE 'HEALTH' AVEVA SPENTO ---
         if (cc != null) cc.enabled = true;
 
-        // Ripristina la vita
+        PlayerCombat combatScript = GetComponent<PlayerCombat>();
+        if (combatScript != null) combatScript.enabled = true;
+
+        PlayerInputHandler inputScript = GetComponent<PlayerInputHandler>();
+        if (inputScript != null) inputScript.enabled = true;
+        // -----------------------------------------------------------------------------
+
+        // Ripristina la vita (Questo rimetterà IsDead a false nell'Animator!)
         Health playerHealth = GetComponent<Health>();
         if (playerHealth != null)
         {
             playerHealth.ResetHealth();
         }
 
-        // Richiama la riattivazione
+        // Richiama la riattivazione del movimento
         PlayerMovement playerMovement = GetComponent<PlayerMovement>();
         if (playerMovement != null)
         {
@@ -48,7 +55,7 @@ public class PlayerRespawn : MonoBehaviour
         }
     }
 
-    // Metodo per aggiornare i ceckpoint
+    // Metodo per aggiornare i checkpoint
     public void SetRespawnPoint(Transform newPoint)
     {
         respawnPoint = newPoint;
