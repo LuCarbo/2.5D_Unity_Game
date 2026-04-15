@@ -147,26 +147,45 @@ public class Health : MonoBehaviour
         isDeadFlag = true;
         Debug.Log($"{gameObject.name} ha la vita a zero!");
 
-        // IL PONTE: Cerchiamo di capire se chi è appena morto è un nemico
         EnemiesScript enemyLogic = GetComponent<EnemiesScript>();
 
         if (enemyLogic != null)
         {
             // === È UN NEMICO ===
-            // Diciamo allo script del nemico di far partire la SUA morte!
             enemyLogic.Die();
         }
         else
         {
-            // === È IL PLAYER (o un oggetto senza intelligenza) ===
-            // Facciamo morire il player in modo semplice
+            // === È IL PLAYER ===
             if (animator != null)
             {
                 animator.SetBool("IsDead", true);
             }
 
-            // Spegniamo i comandi del player per non farlo muovere da morto
-            // GetComponent<PlayerCombat>().enabled = false;
+            // Spegniamo i comandi
+            PlayerCombat combatScript = GetComponent<PlayerCombat>();
+            if (combatScript != null) combatScript.enabled = false;
+
+            PlayerInputHandler inputScript = GetComponent<PlayerInputHandler>();
+            if (inputScript != null) inputScript.enabled = false;
+
+            CharacterController cc = GetComponent<CharacterController>();
+            if (cc != null) cc.enabled = false;
+
+            // INIZIA IL COUNTDOWN PER IL RESPAWN (Es. aspetta 3 secondi prima di rinascere)
+            StartCoroutine(WaitAndRespawn());
+        }
+    }
+
+    // NUOVO: La Coroutine che aspetta e poi chiama il tuo script di Respawn
+    private IEnumerator WaitAndRespawn()
+    {
+        yield return new WaitForSeconds(3f); // Cambia questo numero per aspettare di più o di meno
+
+        PlayerRespawn respawnScript = GetComponent<PlayerRespawn>();
+        if (respawnScript != null)
+        {
+            respawnScript.Respawn();
         }
     }
 

@@ -215,7 +215,20 @@ public class PlayerCombat : MonoBehaviour
             if (oggetto.CompareTag("Enemie"))
             {
                 colpitoNemico = true;
-                // Qui metti il codice per scalare la vita al nemico
+
+                // 1. Proviamo a vedere se è un nemico normale (usa script Health)
+                Health enemyHealth = oggetto.GetComponent<Health>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.ChangeHealth(-damage); // Richiede il segno "meno"
+                }
+
+                // 2. Proviamo a vedere se è IL BOSS (usa script BossHealth)
+                BossHealth bossHealth = oggetto.GetComponent<BossHealth>();
+                if (bossHealth != null)
+                {
+                    bossHealth.TakeDamage(damage); // TakeDamage scala già la vita in automatico, passiamo il numero normale!
+                }
             }
             // Se NON è un nemico, non sei tu, e non è un trigger... allora è il mondo!
             else
