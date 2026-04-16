@@ -11,7 +11,6 @@ public class PlayerCombat : MonoBehaviour
     private Animator _animator;
     public Transform attackPoint;
 
-    // --- AGGIUNTO: Riferimento per i suoni della spada ---
     [Header("Audio Combattimento")]
     public GestioneSuoniCombattimento suoniCombattimento;
 
@@ -26,6 +25,10 @@ public class PlayerCombat : MonoBehaviour
     private CancellationTokenSource _comboCancelToken;
 
     public bool IsAttacking { get; private set; } = false;
+
+    // Dati dell'attacco in attesa — verranno usati dall'Animation Event
+    private int _pendingDamage = 0;
+    private float _pendingRange = 0f;
 
     [Header("Statistiche: Attacco Leggero")]
     public int lightAttackDamage = 1;
@@ -151,14 +154,17 @@ public class PlayerCombat : MonoBehaviour
     {
         IsAttacking = true;
 
+        // Salviamo i dati del colpo: verranno usati da OnAttackHitFrame()
+        // che è chiamato tramite Animation Event nel momento esatto del fendente
+        _pendingDamage = damage;
+        _pendingRange = range;
+
         if (_animator != null)
         {
             _animator.SetInteger(animParameter, step);
         }
 
-        // HO TOLTO IL SUONO DEL FENDENTE DA QUI!
-
-        Attack(damage, range);
+        // NON chiamiamo più Attack() qui — ci pensa l'Animation Event!
 
         yield return new WaitForSeconds(waitTime);
 
@@ -168,6 +174,15 @@ public class PlayerCombat : MonoBehaviour
         }
 
         IsAttacking = false;
+    }
+
+    /// <summary>
+    /// Chiamato da un Animation Event nel frame esatto in cui la spada colpisce.
+    /// Aggiungilo a ogni clip di attacco nell'Animator di Unity.
+    /// </summary>
+    public void OnAttackHitFrame()
+    {
+        Attack(_pendingDamage, _pendingRange);
     }
 
     private void ResetCombos()
@@ -196,7 +211,6 @@ public class PlayerCombat : MonoBehaviour
 
     void Attack(int damage, float range)
     {
-        // Togliamo la maschera! La sfera colpisce QUALSIASI collider davanti a te
         Collider[] oggettiColpiti = Physics.OverlapSphere(attackPoint.position, range);
 
         bool colpitoNemico = false;
@@ -204,33 +218,26 @@ public class PlayerCombat : MonoBehaviour
 
         foreach (Collider oggetto in oggettiColpiti)
         {
-            // IGNORA TE STESSO: Il player non deve prendere a spadate la sua stessa faccia
             if (oggetto.gameObject == this.gameObject) continue;
-            if (oggetto.CompareTag("Pavimento")) continue; // Ignora il pavimento e non fare rumori!
-
-            // IGNORA I TRIGGER: Es. non vogliamo fare "sbong" se la spada attraversa un checkpoint invisibile
+            if (oggetto.CompareTag("Pavimento")) continue;
             if (oggetto.isTrigger) continue;
 
-            // Se è un nemico...
             if (oggetto.CompareTag("Enemie"))
             {
                 colpitoNemico = true;
 
-                // 1. Proviamo a vedere se è un nemico normale (usa script Health)
                 Health enemyHealth = oggetto.GetComponent<Health>();
                 if (enemyHealth != null)
                 {
-                    enemyHealth.ChangeHealth(-damage); // Richiede il segno "meno"
+                    enemyHealth.ChangeHealth(-damage);
                 }
 
-                // 2. Proviamo a vedere se è IL BOSS (usa script BossHealth)
                 BossHealth bossHealth = oggetto.GetComponent<BossHealth>();
                 if (bossHealth != null)
                 {
-                    bossHealth.TakeDamage(damage); // TakeDamage scala già la vita in automatico, passiamo il numero normale!
+                    bossHealth.TakeDamage(damage);
                 }
             }
-            // Se NON è un nemico, non sei tu, e non è un trigger... allora è il mondo!
             else
             {
                 colpitoMuro = true;
@@ -240,17 +247,14 @@ public class PlayerCombat : MonoBehaviour
         // --- RIPRODUZIONE SUONI ---
         if (suoniCombattimento != null)
         {
-            // 1. Diamo priorità al nemico
             if (colpitoNemico)
             {
                 suoniCombattimento.RiproduciImpatto("Nemico");
             }
-            // 2. Se non c'è il nemico, sentiamo se c'è un muro
             else if (colpitoMuro)
             {
                 suoniCombattimento.RiproduciImpatto("Muro");
             }
-            // 3. AGGIUNTO: Se non abbiamo colpito assolutamente nulla, taglia l'aria!
             else
             {
                 suoniCombattimento.RiproduciFendente();

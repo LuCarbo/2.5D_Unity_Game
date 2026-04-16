@@ -1,0 +1,124 @@
+{
+  "asset" : {
+    "generator" : "UE Viewer (umodel) build 1590",
+    "version" : "2.0"
+  },
+  "scene" : 0,
+  "scenes" : [
+    {
+      "nodes" : [ 0 ]
+    }
+  ],
+  "nodes" : [
+    {
+      "name" : "ObjMD_Daiseido_Remain_Pillar_C",
+      "mesh" : 0
+    }
+  ],
+  "materials" : [
+    {
+      "name" : "ObjMI_Daiseido_Remain_A",
+      "pbrMetallicRoughness" : {
+        "baseColorFactor" : [ 0.3, 0.3, 0.3, 1.0 ],
+        "metallicFactor" : 0.1,
+        "roughnessFactor" : 0.5
+      }
+    }
+  ],
+  "meshes" : [
+    {
+      "primitives" : [
+        {
+          "attributes" : {
+            "POSITION" : 1,
+            "NORMAL" : 2,
+            "TANGENT" : 3,
+            "TEXCOORD_0" : 4,
+            "TEXCOORD_1" : 5
+          },
+          "indices" : 0,
+          "material" : 0
+        }
+      ],
+      "name" : "ObjMD_Daiseido_Remain_Pillar_C"
+    }
+  ],
+  "buffers" : [
+    {
+      "uri" : "ObjMD_Daiseido_Remain_Pillar_C.bin",
+      "byteLength" : 46136
+    }
+  ],
+  "bufferViews" : [
+    {
+      "buffer" : 0,
+      "byteOffset" : 0,
+      "byteLength" : 2736
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 2736,
+      "byteLength" : 9300
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 12036,
+      "byteLength" : 9300
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 21336,
+      "byteLength" : 12400
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 33736,
+      "byteLength" : 6200
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 39936,
+      "byteLength" : 6200
+    }
+  ],
+  "accessors" : [
+    {
+      "bufferView" : 0,
+      "componentType" : 5123,
+      "count" : 1368,
+      "type" : "SCALAR"
+    },
+    {
+      "bufferView" : 1,
+      "min" : [ -1.14905, -7.03589e-17, -1.14905 ],
+      "max" : [ 1.14905, 7.57076, 1.14905 ],
+      "componentType" : 5126,
+      "count" : 775,
+      "type" : "VEC3"
+    },
+    {
+      "bufferView" : 2,
+      "componentType" : 5126,
+      "count" : 775,
+      "type" : "VEC3"
+    },
+    {
+      "bufferView" : 3,
+      "componentType" : 5126,
+      "count" : 775,
+      "type" : "VEC4"
+    },
+    {
+      "bufferView" : 4,
+      "componentType" : 5126,
+      "count" : 775,
+      "type" : "VEC2"
+    },
+    {
+      "bufferView" : 5,
+      "componentType" : 5126,
+      "count" : 775,
+      "type" : "VEC2"
+    }
+  ]
+}
