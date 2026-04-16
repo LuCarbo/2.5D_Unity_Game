@@ -1,0 +1,4 @@
+Diffuse=ObjTX_Daiseido_window_cl
+Normal=ObjTX_Daiseido_window_no
+Emissive=ObjTX_Daiseido_window_mk
+Other[0]=T_DummyRoughness
