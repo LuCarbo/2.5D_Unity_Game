@@ -6,7 +6,6 @@ using System.Collections;
 public class DialogueManager : MonoBehaviour
 {
     public bool staParlando = false;
-
     private PlayerInputHandler inputPersonaggio;
     private Queue<string> frasiInCoda;
     private float tempoUltimoInput;
@@ -16,12 +15,12 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Impostazioni Testo")]
     public float velocitaScrittura = 0.03f;
-
     private GameObject pannelloAttivo;
     private TextMeshProUGUI testoAttivo;
-
-    // --- NUOVO: riferimento al resizer ---
     private DialoguePanelResizer resizerAttivo;
+
+    // --- NUOVO: Evita il doppio trigger accidentale ---
+    private bool aspettaRilascioTasto = false;
 
     void Start()
     {
@@ -31,35 +30,47 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (staParlando && inputPersonaggio != null && inputPersonaggio.InteractPressed)
+        if (staParlando && inputPersonaggio != null)
         {
-            if (Time.time - tempoUltimoInput > 0.2f)
+            // 1. Se il giocatore rilascia il tasto, sblocchiamo l'input
+            if (!inputPersonaggio.InteractPressed)
             {
-                tempoUltimoInput = Time.time;
-                if (staScrivendo)
-                    CompletaFrase();
-                else
-                    MostraProssimaFrase();
+                aspettaRilascioTasto = false;
+            }
+
+            // 2. Avanza solo se il tasto è premuto E precedentemente rilasciato
+            if (inputPersonaggio.InteractPressed && !aspettaRilascioTasto)
+            {
+                if (Time.time - tempoUltimoInput > 0.2f)
+                {
+                    tempoUltimoInput = Time.time;
+                    aspettaRilascioTasto = true; // Blocca fino al prossimo rilascio
+
+                    if (staScrivendo)
+                        CompletaFrase();
+                    else
+                        MostraProssimaFrase();
+                }
             }
         }
     }
 
-    // Aggiunto parametro DialoguePanelResizer
-    public void AvviaDialogo(DialogueData dialogo, GameObject pannelloNPC,
-                             TextMeshProUGUI testoNPC, DialoguePanelResizer resizer = null)
+    public void AvviaDialogo(DialogueData dialogo, GameObject pannelloNPC, TextMeshProUGUI testoNPC, DialoguePanelResizer resizer = null)
     {
         staParlando = true;
         pannelloAttivo = pannelloNPC;
         testoAttivo = testoNPC;
-        resizerAttivo = resizer; // può essere null se non usato
+        resizerAttivo = resizer;
 
         pannelloAttivo.SetActive(true);
-
         frasiInCoda.Clear();
+
         foreach (string frase in dialogo.frasi)
             frasiInCoda.Enqueue(frase);
 
         tempoUltimoInput = Time.time;
+        aspettaRilascioTasto = true; // Blocca subito l'input per evitare skip istantanei
+
         MostraProssimaFrase();
     }
 
@@ -73,53 +84,48 @@ public class DialogueManager : MonoBehaviour
         fraseCorrente = frasiInCoda.Dequeue();
         if (animazioneTesto != null)
             StopCoroutine(animazioneTesto);
-
         animazioneTesto = StartCoroutine(EffettoMacchinaDaScrivere(fraseCorrente));
     }
-
     private IEnumerator EffettoMacchinaDaScrivere(string testo)
     {
         staScrivendo = true;
         testoAttivo.text = testo;
         testoAttivo.maxVisibleCharacters = 0;
-
         // Aspetta che TMP processi il testo nel suo ciclo interno
         yield return null;
-
         // *** QUI è il momento giusto: TMP ha i bounds pronti ***
         if (resizerAttivo != null)
             resizerAttivo.AggiornaDimensioni();
-
         int totaleLettere = testoAttivo.textInfo.characterCount;
         int lettereVisibili = 0;
-
         while (lettereVisibili <= totaleLettere)
         {
             testoAttivo.maxVisibleCharacters = lettereVisibili;
             lettereVisibili++;
             yield return new WaitForSeconds(velocitaScrittura);
         }
-
         staScrivendo = false;
     }
-
     private void CompletaFrase()
     {
         if (animazioneTesto != null)
             StopCoroutine(animazioneTesto);
-
         testoAttivo.maxVisibleCharacters = testoAttivo.textInfo.characterCount;
         staScrivendo = false;
     }
-
     public void TerminaDialogo()
     {
+        if (animazioneTesto != null)
+        {
+            StopCoroutine(animazioneTesto);
+            animazioneTesto = null;
+        }
+
         if (pannelloAttivo != null)
             pannelloAttivo.SetActive(false);
 
         Invoke("ResettaDialogo", 0.2f);
     }
-
     void ResettaDialogo()
     {
         staParlando = false;
