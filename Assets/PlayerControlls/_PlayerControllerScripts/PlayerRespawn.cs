@@ -36,7 +36,14 @@ public class PlayerRespawn : MonoBehaviour
         if (inputScript != null) inputScript.enabled = true;
         // -----------------------------------------------------------------------------
 
-        // Ripristina la vita (Questo rimetterà IsDead a false nell'Animator!)
+        // --- NASCONDI LA SCHERMATA DI MORTE ---
+        DeathScreenManager deathScreen = Object.FindAnyObjectByType<DeathScreenManager>();
+        if (deathScreen != null)
+        {
+            deathScreen.HideDeathScreenInstantly();
+        }
+
+        // Ripristina la vita
         Health playerHealth = GetComponent<Health>();
         if (playerHealth != null)
         {
