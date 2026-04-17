@@ -104,6 +104,14 @@ public class Health : MonoBehaviour
             CharacterController cc = GetComponent<CharacterController>();
             if (cc != null) cc.enabled = false;
 
+            // FAI APPARIRE LA SCHERMATA
+            DeathScreenManager deathScreen = Object.FindAnyObjectByType<DeathScreenManager>();
+            if (deathScreen != null)
+            {
+                deathScreen.ShowDeathScreen();
+            }
+
+            // INIZIA IL COUNTDOWN PER IL RESPAWN
             StartCoroutine(WaitAndRespawn());
         }
     }
