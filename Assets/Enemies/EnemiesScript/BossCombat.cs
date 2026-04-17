@@ -10,49 +10,62 @@ public class BossCombat : MonoBehaviour
     public int attackDamage = 4;        // Quanti danni fa
     public float attackCooldown = 2f;   // Pausa tra una spadata e l'altra
 
-    [Tooltip("Tempo prima che il colpo faccia danno (per sincronizzarlo con l'animazione)")]
-    public float attackDelay = 0.5f;
+    // RIMOSSO: attackDelay non serve più!
 
     [Header("Maschere di Collisione")]
     public LayerMask playerLayer;       // Il layer assegnato al tuo Player
+    public LayerMask groundLayer;       // Layer del terreno
+
+    [Tooltip("Tempo massimo di attesa per toccare terra prima di forzare lo sblocco del boss")]
+    public float groundCheckTimeout = 2f;
 
     // Variabili di stato
     public bool isAttacking = false;
     private bool isOnCooldown = false;
 
-    public Animator anim;              // Oggetto per l'animazione
+    public Animator anim;
+    private BossMovement bossMovement;
 
-    // Metodo chiamato dal BossController
+    private void Awake()
+    {
+        bossMovement = GetComponent<BossMovement>();
+    }
+
+    // 1. Questo viene chiamato quando il boss DECIDE di attaccare
     public void PerformAttack()
     {
-        // Se non sta già attaccando e non è in cooldown, attacca
         if (!isAttacking && !isOnCooldown)
         {
-            StartCoroutine(SwordAttackRoutine());
+            isAttacking = true;
+
+            // FERMA IL BOSS
+            if (bossMovement != null)
+            {
+                bossMovement.StopMoving();
+                bossMovement.LockMovement();
+            }
+
+            // Fai partire l'animazione. Sarà l'animazione a far scattare il resto!
+            if (anim != null) anim.SetTrigger("Attack");
         }
     }
 
-    private IEnumerator SwordAttackRoutine()
+    // 2. NUOVO: Questo metodo DEVE essere "public". Lo chiameremo tramite l'Animation Event su Unity!
+    public void AnimationEvent_Strike()
     {
-        isAttacking = true;
+        // Quando l'animazione arriva al frame giusto, facciamo partire il danno e il controllo del terreno
+        StartCoroutine(StrikeAndRecoverRoutine());
+    }
 
-        // 1. Facciamo partire l'animazione!
-        if (anim != null) anim.SetTrigger("Attack");
-
-        // 2. Aspettiamo l'attackDelay
-        yield return new WaitForSeconds(attackDelay);
-
-        // 3. IL COLPO 3D: Creiamo una Sfera invisibile usando il motore fisico 3D!
-        // Restituisce un array (una lista) di tutti i Collider 3D che si trovano dentro la sfera
+    // 3. La logica del colpo e del recupero
+    private IEnumerator StrikeAndRecoverRoutine()
+    {
+        // IL COLPO 3D
         Collider[] hitPlayers = Physics.OverlapSphere(attackPoint.position, attackRadius, playerLayer);
 
-        // 4. Se la lista contiene almeno un elemento (Length > 0), significa che abbiamo colpito il Player
         if (hitPlayers.Length > 0)
         {
-            // Prendiamo il primo oggetto della lista (il nostro Player)
             Collider hitPlayer = hitPlayers[0];
-
-            // Cerchiamo lo script Health su questo Collider 3D
             Health playerHealth = hitPlayer.GetComponent<Health>();
 
             if (playerHealth != null)
@@ -66,15 +79,33 @@ public class BossCombat : MonoBehaviour
             Debug.Log("Spadata mancata!");
         }
 
-        // 5. Fine attacco e cooldown
-        isAttacking = false;
+        // ATTESA CHE LA SPADA TOCCHI TERRA
+        float timer = 0f;
 
+        while (!Physics.CheckSphere(attackPoint.position, attackRadius, groundLayer) && timer < groundCheckTimeout)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        if (timer >= groundCheckTimeout)
+        {
+            Debug.LogWarning("La spada non ha toccato terra in tempo! Sblocco forzato attivato.");
+        }
+
+        // SBLOCCA IL BOSS
+        if (bossMovement != null)
+        {
+            bossMovement.UnlockMovement();
+        }
+
+        // Fine attacco e cooldown
+        isAttacking = false;
         isOnCooldown = true;
         yield return new WaitForSeconds(attackCooldown);
         isOnCooldown = false;
     }
 
-    // Disegna un cerchio rosso su Unity per aiutarti a piazzare l'Attack Point
     private void OnDrawGizmosSelected()
     {
         if (attackPoint == null) return;
