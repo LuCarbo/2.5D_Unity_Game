@@ -8,6 +8,12 @@ public class BossAudioManager : MonoBehaviour
     public AudioClip attackSound;
     public AudioClip hurtSound;
     public AudioClip deathSound;
+
+    [Header("Extra Death Sound Settings")]
+    public AudioClip extraDeathSound;
+    // <-- ADDED: A slider in the inspector to control just this sound's volume
+    [Range(0f, 2f)] public float extraDeathSoundVolume = 1f;
+
     public AudioClip[] roarSounds;
 
     [Header("Impostazioni Urla (Roar)")]
@@ -16,7 +22,7 @@ public class BossAudioManager : MonoBehaviour
     private float nextRoarTime;
 
     private AudioSource audioSource;
-    private bool canRoar = true; // Per fermare i ruggiti da morto
+    private bool canRoar = true;
 
     void Start()
     {
@@ -44,11 +50,19 @@ public class BossAudioManager : MonoBehaviour
 
     public void PlayDeathSound()
     {
-        canRoar = false; // Smette di ruggire
+        canRoar = false;
+
         if (deathSound != null)
         {
             Debug.Log("Riproduzione suono di morte!");
             audioSource.PlayOneShot(deathSound);
+        }
+
+        if (extraDeathSound != null)
+        {
+            Debug.Log("Riproduzione suono extra di morte!");
+            // <-- ADDED: Pass the volume variable as the second parameter
+            audioSource.PlayOneShot(extraDeathSound, extraDeathSoundVolume);
         }
     }
 
@@ -67,7 +81,6 @@ public class BossAudioManager : MonoBehaviour
             audioSource.PlayOneShot(clip);
     }
 
-    // Un piccolo trucco: se passi l'array è vuoto, PlaySound non farà nulla senza crashare
     private void PlaySound(AudioClip[] clips)
     {
         if (clips != null && clips.Length > 0)

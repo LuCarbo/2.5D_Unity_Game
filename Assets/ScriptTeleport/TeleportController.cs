@@ -50,29 +50,32 @@ public class TeleportController : MonoBehaviour
 
         if (animator != null)
         {
-            // Force the animator to instantly play the Out state
-            // Make sure "Teleport_Out" matches the exact name of the STATE in the Animator (the box itself)
-            animator.Play("Teleport_Out");
+            // 1. Trigger the normal (forward) animation to disappear
+            animator.SetTrigger(teleportOutTrigger);
         }
 
+        // Wait for the animation to cover the character
         yield return new WaitForSeconds(coverDelay);
 
+        // --- PHYSICS BYPASS ---
         if (characterController != null)
             characterController.enabled = false;
 
+        // Move the character instantly while they are hidden
         transform.position = target.position;
         transform.rotation = target.rotation;
 
         if (characterController != null)
             characterController.enabled = true;
+        // ----------------------
 
         if (animator != null)
         {
-            // Force the animator to instantly play the In state
-            // Make sure "Teleport_In" matches the exact name of the STATE in the Animator
-            animator.Play("Teleport_In");
+            // 2. We have arrived! Trigger the reverse (-1 speed) animation to reappear
+            animator.SetTrigger(teleportInTrigger);
         }
 
+        // Wait for the reverse animation to finish before allowing another teleport
         yield return new WaitForSeconds(revealDelay);
 
         isTeleporting = false;
