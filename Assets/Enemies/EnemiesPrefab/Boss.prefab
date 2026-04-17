@@ -42,6 +42,8 @@ GameObject:
   - component: {fileID: 5281599789930432304}
   - component: {fileID: 4634897565554557931}
   - component: {fileID: 6651441133771115398}
+  - component: {fileID: 6463023195188135098}
+  - component: {fileID: 4783332158334485681}
   m_Layer: 6
   m_Name: BossSprites
   m_TagString: Untagged
@@ -145,6 +147,125 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!82 &6463023195188135098
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880481943382819167}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 4728083000762483594, guid: fc66c7ed7806c1d47a7ebf8805444e96, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &4783332158334485681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880481943382819167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b81b8c1ba3e906149b82c4ebecd7db3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAudioManager
+  footstepSounds:
+  - {fileID: 8300000, guid: 02a35ea942450fd42bf51692786f6fa3, type: 3}
+  attackSound: {fileID: 8300000, guid: 19c5b428704d7e24c928de51ef4d49a6, type: 3}
+  hurtSound: {fileID: 8300000, guid: 25def47d3719ad547867ff2c1374960d, type: 3}
+  deathSound: {fileID: 8300000, guid: 07ef42919c096e04491626a4df534300, type: 3}
+  roarSounds:
+  - {fileID: 8300000, guid: f9252707060abba4b9ea4837f5bc6230, type: 3}
+  - {fileID: 8300000, guid: 5248777dc5964804e8195652c0168f3a, type: 3}
+  minTimeBetweenRoars: 5
+  maxTimeBetweenRoars: 15
 --- !u!1 &3850276229972843529
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossController
   currentState: 0
   playerTransform: {fileID: 0}
-  activationDistance: 8
+  activationDistance: 20.5
   attackDistance: 2
   anim: {fileID: 6651441133771115398}
 --- !u!114 &3372668951946914718
@@ -327,7 +448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossCombat
   attackPoint: {fileID: 1382185241524925010}
   attackRadius: 1.5
-  attackDamage: 4
+  attackDamage: 0
   attackCooldown: 1.5
   attackDelay: 0.5
   playerLayer:
@@ -364,6 +485,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f050c31545eca40419c86e0870ee7258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossHealth
-  maxHealth: 1
-  currentHealth: 1
+  maxHealth: 9
+  currentHealth: 9
   anim: {fileID: 6651441133771115398}
