@@ -6,9 +6,7 @@ using System.Collections;
 public class DialogueManager : MonoBehaviour
 {
     public bool staParlando = false;
-    private PlayerInputHandler inputPersonaggio;
     private Queue<string> frasiInCoda;
-    private float tempoUltimoInput;
     private Coroutine animazioneTesto;
     private bool staScrivendo = false;
     private string fraseCorrente;
@@ -25,12 +23,11 @@ public class DialogueManager : MonoBehaviour
     private float tempoUltimoSuono = 0f;
     public float intervalloSuono = 0.08f;
 
-    private bool aspettaRilascioTasto = false;
+    [HideInInspector] public DialogueTrigger triggerCorrente;
 
     void Start()
     {
         frasiInCoda = new Queue<string>();
-        inputPersonaggio = FindFirstObjectByType<PlayerInputHandler>();
 
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
@@ -40,32 +37,21 @@ public class DialogueManager : MonoBehaviour
             Debug.LogWarning($"ATTENZIONE: trovate {tuttiIManager.Length} istanze di DialogueManager! Rimuovi il componente da tutti i GameObject tranne '{gameObject.name}'.");
     }
 
-    void Update()
+    public void AvanzaDialogo()
     {
-        if (staParlando && inputPersonaggio != null)
-        {
-            if (!inputPersonaggio.InteractPressed)
-                aspettaRilascioTasto = false;
+        
+        if (!staParlando) return;
 
-            if (inputPersonaggio.InteractPressed && !aspettaRilascioTasto)
-            {
-                if (Time.time - tempoUltimoInput > 0.2f)
-                {
-                    tempoUltimoInput = Time.time;
-                    aspettaRilascioTasto = true;
-
-                    if (staScrivendo)
-                        CompletaFrase();
-                    else
-                        MostraProssimaFrase();
-                }
-            }
-        }
+        if (staScrivendo)
+            CompletaFrase();
+        else
+            MostraProssimaFrase();
     }
 
-    public void AvviaDialogo(DialogueData dialogo, GameObject pannelloNPC, TextMeshProUGUI testoNPC, DialoguePanelResizer resizer = null, AudioClip voceNPC = null)
+    public void AvviaDialogo(DialogueTrigger chi, DialogueData dialogo, GameObject pannelloNPC, TextMeshProUGUI testoNPC, DialoguePanelResizer resizer = null, AudioClip voceNPC = null)
     {
         staParlando = true;
+        triggerCorrente = chi;
         pannelloAttivo = pannelloNPC;
         testoAttivo = testoNPC;
         resizerAttivo = resizer;
@@ -76,9 +62,6 @@ public class DialogueManager : MonoBehaviour
 
         foreach (string frase in dialogo.frasi)
             frasiInCoda.Enqueue(frase);
-
-        tempoUltimoInput = Time.time;
-        aspettaRilascioTasto = true;
 
         MostraProssimaFrase();
     }
@@ -147,6 +130,7 @@ public class DialogueManager : MonoBehaviour
 
     public void TerminaDialogo()
     {
+        
         if (animazioneTesto != null)
         {
             StopCoroutine(animazioneTesto);
@@ -158,12 +142,16 @@ public class DialogueManager : MonoBehaviour
         if (pannelloAttivo != null)
             pannelloAttivo.SetActive(false);
 
-        // staParlando va a false SUBITO, non dopo 0.2s
-        // cosi il DialogueTrigger sa esattamente quando e finito
         staParlando = false;
         pannelloAttivo = null;
         testoAttivo = null;
         resizerAttivo = null;
         voceCorrente = null;
+
+        if (triggerCorrente != null)
+        {
+            triggerCorrente.OnDialogoFinito();
+            triggerCorrente = null;
+        }
     }
 }
