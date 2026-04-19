@@ -7,6 +7,9 @@ public class DialogueTrigger : MonoBehaviour
     [Header("Impostazioni Dialogo")]
     public DialogueData dialogo;
 
+    [Header("Audio NPC")]
+    public AudioClip voceNPC;
+
     [Header("Riferimenti Nuvoletta (World Space)")]
     public GameObject pannelloNuvoletta;
     public TextMeshProUGUI testoNuvoletta;
@@ -17,7 +20,6 @@ public class DialogueTrigger : MonoBehaviour
 
     [Header("Raggio d'azione")]
     public float raggioDiAzione = 3f;
-    // --- NUOVO: Raggio più grande per non chiudere il dialogo per sbaglio ---
     public float raggioDiChiusura = 4.5f;
 
     [Header("Eventi Speciali")]
@@ -27,6 +29,8 @@ public class DialogueTrigger : MonoBehaviour
     private PlayerInputHandler inputPersonaggio;
     private bool playerVicino = false;
     private bool dialogoInCorso = false;
+    // Flag per sapere se il dialogo e' davvero terminato e non solo tra una frase e l'altra
+    private bool dialogoTerminato = false;
 
     void Start()
     {
@@ -39,29 +43,39 @@ public class DialogueTrigger : MonoBehaviour
 
     void Update()
     {
-        float distanza = Vector3.Distance(transform.position, ilTuoPersonaggio.transform.position);
+        if (ilTuoPersonaggio == null || manager == null) return;
 
-        // Se stanno parlando, usa il raggio più grande per evitare chiusure accidentali
+        float distanza = Vector3.Distance(transform.position, ilTuoPersonaggio.transform.position);
         float raggioAttuale = dialogoInCorso ? raggioDiChiusura : raggioDiAzione;
 
         if (distanza <= raggioAttuale)
         {
             playerVicino = true;
 
+            // Avvia il dialogo solo se non sta gia' parlando con qualcuno
             if (inputPersonaggio != null && inputPersonaggio.InteractPressed)
             {
-                if (manager != null && !manager.staParlando)
+                if (!manager.staParlando && !dialogoInCorso)
                 {
-                    manager.AvviaDialogo(dialogo, pannelloNuvoletta, testoNuvoletta, resizerNuvoletta);
+                    manager.AvviaDialogo(dialogo, pannelloNuvoletta, testoNuvoletta, resizerNuvoletta, voceNPC);
                     dialogoInCorso = true;
+                    dialogoTerminato = false;
                 }
             }
 
-            if (dialogoInCorso && manager != null && !manager.staParlando)
+            // Controlla se il dialogo e' finito SOLO se stava parlando
+            // e ora manager.staParlando e' false
+            if (dialogoInCorso && !manager.staParlando && !dialogoTerminato)
             {
+                dialogoTerminato = true;
                 dialogoInCorso = false;
-                if (EventoFineDialogo != null)
-                    EventoFineDialogo.Invoke();
+                EventoFineDialogo?.Invoke();
+            }
+
+            // Reset del flag cosi' si puo' riparlare
+            if (!dialogoInCorso && dialogoTerminato && !inputPersonaggio.InteractPressed)
+            {
+                dialogoTerminato = false;
             }
         }
         else
@@ -70,11 +84,13 @@ public class DialogueTrigger : MonoBehaviour
             {
                 playerVicino = false;
 
-                if (manager != null && manager.staParlando && dialogoInCorso)
+                if (dialogoInCorso && manager.staParlando)
                 {
                     manager.TerminaDialogo();
-                    dialogoInCorso = false;
                 }
+
+                dialogoInCorso = false;
+                dialogoTerminato = false;
             }
         }
     }
@@ -83,8 +99,6 @@ public class DialogueTrigger : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, raggioDiAzione);
-
-        // Mostra il raggio di chiusura nel raggio d'azione visivo per il debug
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, raggioDiChiusura);
     }

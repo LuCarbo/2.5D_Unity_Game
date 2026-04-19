@@ -19,32 +19,40 @@ public class DialogueManager : MonoBehaviour
     private TextMeshProUGUI testoAttivo;
     private DialoguePanelResizer resizerAttivo;
 
-    // --- NUOVO: Evita il doppio trigger accidentale ---
+    [Header("Audio")]
+    public AudioSource audioSource;
+    private AudioClip voceCorrente;
+    private float tempoUltimoSuono = 0f;
+    public float intervalloSuono = 0.08f;
+
     private bool aspettaRilascioTasto = false;
 
     void Start()
     {
         frasiInCoda = new Queue<string>();
         inputPersonaggio = FindFirstObjectByType<PlayerInputHandler>();
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        DialogueManager[] tuttiIManager = FindObjectsByType<DialogueManager>(FindObjectsSortMode.None);
+        if (tuttiIManager.Length > 1)
+            Debug.LogWarning($"ATTENZIONE: trovate {tuttiIManager.Length} istanze di DialogueManager! Rimuovi il componente da tutti i GameObject tranne '{gameObject.name}'.");
     }
 
     void Update()
     {
         if (staParlando && inputPersonaggio != null)
         {
-            // 1. Se il giocatore rilascia il tasto, sblocchiamo l'input
             if (!inputPersonaggio.InteractPressed)
-            {
                 aspettaRilascioTasto = false;
-            }
 
-            // 2. Avanza solo se il tasto è premuto E precedentemente rilasciato
             if (inputPersonaggio.InteractPressed && !aspettaRilascioTasto)
             {
                 if (Time.time - tempoUltimoInput > 0.2f)
                 {
                     tempoUltimoInput = Time.time;
-                    aspettaRilascioTasto = true; // Blocca fino al prossimo rilascio
+                    aspettaRilascioTasto = true;
 
                     if (staScrivendo)
                         CompletaFrase();
@@ -55,12 +63,13 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void AvviaDialogo(DialogueData dialogo, GameObject pannelloNPC, TextMeshProUGUI testoNPC, DialoguePanelResizer resizer = null)
+    public void AvviaDialogo(DialogueData dialogo, GameObject pannelloNPC, TextMeshProUGUI testoNPC, DialoguePanelResizer resizer = null, AudioClip voceNPC = null)
     {
         staParlando = true;
         pannelloAttivo = pannelloNPC;
         testoAttivo = testoNPC;
         resizerAttivo = resizer;
+        voceCorrente = voceNPC;
 
         pannelloAttivo.SetActive(true);
         frasiInCoda.Clear();
@@ -69,7 +78,7 @@ public class DialogueManager : MonoBehaviour
             frasiInCoda.Enqueue(frase);
 
         tempoUltimoInput = Time.time;
-        aspettaRilascioTasto = true; // Blocca subito l'input per evitare skip istantanei
+        aspettaRilascioTasto = true;
 
         MostraProssimaFrase();
     }
@@ -81,38 +90,61 @@ public class DialogueManager : MonoBehaviour
             TerminaDialogo();
             return;
         }
+
         fraseCorrente = frasiInCoda.Dequeue();
+
         if (animazioneTesto != null)
             StopCoroutine(animazioneTesto);
+
         animazioneTesto = StartCoroutine(EffettoMacchinaDaScrivere(fraseCorrente));
     }
+
     private IEnumerator EffettoMacchinaDaScrivere(string testo)
     {
         staScrivendo = true;
         testoAttivo.text = testo;
         testoAttivo.maxVisibleCharacters = 0;
-        // Aspetta che TMP processi il testo nel suo ciclo interno
+
         yield return null;
-        // *** QUI è il momento giusto: TMP ha i bounds pronti ***
+
         if (resizerAttivo != null)
             resizerAttivo.AggiornaDimensioni();
+
         int totaleLettere = testoAttivo.textInfo.characterCount;
         int lettereVisibili = 0;
+
         while (lettereVisibili <= totaleLettere)
         {
             testoAttivo.maxVisibleCharacters = lettereVisibili;
+
+            if (audioSource != null && voceCorrente != null && lettereVisibili > 0 && lettereVisibili <= totaleLettere)
+            {
+                char carattereCorrente = testoAttivo.textInfo.characterInfo[lettereVisibili - 1].character;
+
+                if (!char.IsWhiteSpace(carattereCorrente) && Time.time - tempoUltimoSuono >= intervalloSuono)
+                {
+                    audioSource.pitch = Random.Range(0.95f, 1.05f);
+                    audioSource.PlayOneShot(voceCorrente);
+                    tempoUltimoSuono = Time.time;
+                }
+            }
+
             lettereVisibili++;
             yield return new WaitForSeconds(velocitaScrittura);
         }
+
         staScrivendo = false;
     }
+
     private void CompletaFrase()
     {
         if (animazioneTesto != null)
             StopCoroutine(animazioneTesto);
+
         testoAttivo.maxVisibleCharacters = testoAttivo.textInfo.characterCount;
         staScrivendo = false;
     }
+
     public void TerminaDialogo()
     {
         if (animazioneTesto != null)
@@ -121,16 +153,17 @@ public class DialogueManager : MonoBehaviour
             animazioneTesto = null;
         }
 
+        staScrivendo = false;
+
         if (pannelloAttivo != null)
             pannelloAttivo.SetActive(false);
 
-        Invoke("ResettaDialogo", 0.2f);
-    }
-    void ResettaDialogo()
-    {
+        // staParlando va a false SUBITO, non dopo 0.2s
+        // cosi il DialogueTrigger sa esattamente quando e finito
         staParlando = false;
         pannelloAttivo = null;
         testoAttivo = null;
         resizerAttivo = null;
+        voceCorrente = null;
     }
 }
