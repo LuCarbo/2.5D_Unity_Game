@@ -29,8 +29,7 @@ public class DialogueTrigger : MonoBehaviour
     private PlayerInputHandler inputPersonaggio;
     private bool playerVicino = false;
     private bool dialogoInCorso = false;
-    // Flag per sapere se il dialogo e' davvero terminato e non solo tra una frase e l'altra
-    private bool dialogoTerminato = false;
+    private bool aspettaRilascioDopoFine = false;
 
     void Start()
     {
@@ -45,37 +44,34 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (ilTuoPersonaggio == null || manager == null) return;
 
-        float distanza = Vector3.Distance(transform.position, ilTuoPersonaggio.transform.position);
+        bool interactOra = inputPersonaggio != null && inputPersonaggio.InteractPressed;
+
+        if (!interactOra)
+            aspettaRilascioDopoFine = false;
+
+        // Calcola la distanza ignorando la Y, cosi' differenze di altezza
+        // (gravita', terreno irregolare, ecc.) non chiudono il dialogo
+        Vector3 diff = transform.position - ilTuoPersonaggio.transform.position;
+        diff.y = 0;
+        float distanza = diff.magnitude;
+
         float raggioAttuale = dialogoInCorso ? raggioDiChiusura : raggioDiAzione;
 
         if (distanza <= raggioAttuale)
         {
             playerVicino = true;
 
-            // Avvia il dialogo solo se non sta gia' parlando con qualcuno
-            if (inputPersonaggio != null && inputPersonaggio.InteractPressed)
+            if (interactOra)
             {
-                if (!manager.staParlando && !dialogoInCorso)
+                if (dialogoInCorso)
                 {
-                    manager.AvviaDialogo(dialogo, pannelloNuvoletta, testoNuvoletta, resizerNuvoletta, voceNPC);
-                    dialogoInCorso = true;
-                    dialogoTerminato = false;
+                    manager.AvanzaDialogo();
                 }
-            }
-
-            // Controlla se il dialogo e' finito SOLO se stava parlando
-            // e ora manager.staParlando e' false
-            if (dialogoInCorso && !manager.staParlando && !dialogoTerminato)
-            {
-                dialogoTerminato = true;
-                dialogoInCorso = false;
-                EventoFineDialogo?.Invoke();
-            }
-
-            // Reset del flag cosi' si puo' riparlare
-            if (!dialogoInCorso && dialogoTerminato && !inputPersonaggio.InteractPressed)
-            {
-                dialogoTerminato = false;
+                else if (!aspettaRilascioDopoFine && !manager.staParlando)
+                {
+                    manager.AvviaDialogo(this, dialogo, pannelloNuvoletta, testoNuvoletta, resizerNuvoletta, voceNPC);
+                    dialogoInCorso = true;
+                }
             }
         }
         else
@@ -86,13 +82,21 @@ public class DialogueTrigger : MonoBehaviour
 
                 if (dialogoInCorso && manager.staParlando)
                 {
-                    manager.TerminaDialogo();
+                    if (manager.triggerCorrente == this)
+                        manager.TerminaDialogo();
                 }
 
                 dialogoInCorso = false;
-                dialogoTerminato = false;
+                aspettaRilascioDopoFine = false;
             }
         }
+    }
+
+    public void OnDialogoFinito()
+    {
+        dialogoInCorso = false;
+        aspettaRilascioDopoFine = true;
+        EventoFineDialogo?.Invoke();
     }
 
     private void OnDrawGizmosSelected()
