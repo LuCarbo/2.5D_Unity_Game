@@ -8,11 +8,8 @@ public class DialogueTrigger : MonoBehaviour
     public DialogueData dialogo;
 
     [Header("Riferimenti Nuvoletta (World Space)")]
-    [Tooltip("Trascina qui il Panel posizionato sopra l'NPC")]
     public GameObject pannelloNuvoletta;
-    [Tooltip("Trascina qui il TextMeshProUGUI dentro la nuvoletta")]
     public TextMeshProUGUI testoNuvoletta;
-    [Tooltip("Trascina qui il componente DialoguePanelResizer sul Panel")]
     public DialoguePanelResizer resizerNuvoletta;
 
     [Header("Chi può far partire il dialogo?")]
@@ -20,6 +17,8 @@ public class DialogueTrigger : MonoBehaviour
 
     [Header("Raggio d'azione")]
     public float raggioDiAzione = 3f;
+    // --- NUOVO: Raggio più grande per non chiudere il dialogo per sbaglio ---
+    public float raggioDiChiusura = 4.5f;
 
     [Header("Eventi Speciali")]
     public UnityEvent EventoFineDialogo;
@@ -42,7 +41,10 @@ public class DialogueTrigger : MonoBehaviour
     {
         float distanza = Vector3.Distance(transform.position, ilTuoPersonaggio.transform.position);
 
-        if (distanza <= raggioDiAzione)
+        // Se stanno parlando, usa il raggio più grande per evitare chiusure accidentali
+        float raggioAttuale = dialogoInCorso ? raggioDiChiusura : raggioDiAzione;
+
+        if (distanza <= raggioAttuale)
         {
             playerVicino = true;
 
@@ -81,5 +83,9 @@ public class DialogueTrigger : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, raggioDiAzione);
+
+        // Mostra il raggio di chiusura nel raggio d'azione visivo per il debug
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, raggioDiChiusura);
     }
 }
