@@ -45,48 +45,41 @@ public class BossController : MonoBehaviour
                 break;
 
             case BossState.Chasing:
-                // 1. Se sei lontano, ti rincorre normalmente
-                if (distanceToPlayer > attackDistance)
+                if (anim != null) anim.SetBool("isChasing", true);
+
+                if (movementScript != null) movementScript.MoveTowardsPlayer(playerTransform);
+
+                if (distanceToPlayer <= attackDistance)
                 {
-                    if (anim != null) anim.SetBool("isChasing", true);
-                    if (movementScript != null) movementScript.MoveTowardsPlayer(playerTransform);
-                }
-                // 2. Se sei a tiro...
-                else
-                {
-                    // Controlla se la spada è pronta (non in cooldown)
-                    if (combatScript != null && !combatScript.isOnCooldown)
-                    {
-                        currentState = BossState.Attacking;
-                    }
-                    else
-                    {
-                        // Se è in cooldown, si ferma davanti a te minaccioso in Idle e aspetta!
-                        if (anim != null) anim.SetBool("isChasing", false);
-                        if (movementScript != null) movementScript.StopMoving();
-                    }
+                    currentState = BossState.Attacking;
                 }
                 break;
 
             case BossState.Attacking:
-                // Mentre attacca, assicuriamoci che non cammini
                 if (anim != null) anim.SetBool("isChasing", false);
 
+                // Mettiamo il lucchetto fisico alle gambe del boss!
                 if (movementScript != null) movementScript.LockMovement();
+
+                // Ordiniamo di attaccare
                 if (combatScript != null) combatScript.PerformAttack();
 
-                // Finché l'animazione sta andando, non fa nient'altro
+                // Se sta ancora attaccando, ci fermiamo qui
                 if (combatScript != null && combatScript.isAttacking)
                 {
                     break;
                 }
 
-                // --- L'ATTACCO È FINITO ---
+                // --- SE ARRIVA QUI SOTTO, L'ATTACCO È FINITO ---
+
+                // Togliamo il lucchetto fisico!
                 if (movementScript != null) movementScript.UnlockMovement();
 
-                // IL FIX DEFINITIVO: Torniamo SEMPRE a Chasing. 
-                // Sarà lui a decidere al prossimo frame se riattaccarti o camminare!
-                currentState = BossState.Chasing;
+                // Ricontrolliamo la distanza
+                if (distanceToPlayer > attackDistance)
+                {
+                    currentState = BossState.Chasing;
+                }
                 break;
         }
     }

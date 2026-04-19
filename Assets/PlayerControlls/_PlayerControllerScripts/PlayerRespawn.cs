@@ -60,15 +60,6 @@ public class PlayerRespawn : MonoBehaviour
         {
             Debug.LogError("ERRORE: PlayerMovement non trovato sul Player!");
         }
-
-        // Trova tutti gli spawner presenti in giro per la mappa
-        EnemySpawner[] tuttiGliSpawner = Object.FindObjectsByType<EnemySpawner>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-
-        // Passa in rassegna ogni singolo spawner e gli dice di resettarsi
-        foreach (EnemySpawner spawner in tuttiGliSpawner)
-        {
-            spawner.ResetSpawner();
-        }
     }
 
     // Metodo per aggiornare i checkpoint

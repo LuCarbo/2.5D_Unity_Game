@@ -21,7 +21,7 @@ public class BossCombat : MonoBehaviour
 
     // Variabili di stato
     public bool isAttacking = false;
-    public bool isOnCooldown = false;
+    private bool isOnCooldown = false;
 
     public Animator anim;
     private BossMovement bossMovement;
@@ -111,21 +111,5 @@ public class BossCombat : MonoBehaviour
         if (attackPoint == null) return;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
-    }
-
-    public void CancelAttack()
-    {
-        StopAllCoroutines(); // Ferma la logica del colpo
-
-        isAttacking = false;
-        isOnCooldown = false;
-
-        // Sblocca immediatamente le gambe
-        if (bossMovement != null)
-        {
-            bossMovement.UnlockMovement();
-        }
-
-        Debug.Log("Attacco interrotto! Il boss si è sbloccato e ha azzerato il timer.");
     }
 }

@@ -129,6 +129,7 @@ public class DialogueManager : MonoBehaviour
 
     public void TerminaDialogo()
     {
+        
         if (animazioneTesto != null)
         {
             StopCoroutine(animazioneTesto);
