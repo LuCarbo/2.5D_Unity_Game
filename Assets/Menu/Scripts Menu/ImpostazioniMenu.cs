@@ -6,55 +6,29 @@ using UnityEngine.UI;
 
 public class ImpostazioniMenu : MonoBehaviour
 {
-    [Header("Riferimenti Audio (assegna nel prefab)")]
+    [Header("Riferimenti Audio")]
     public AudioMixer audioMixer;
 
-    private SelectorOpzioni selectorRisoluzione;
-    private SelectorOpzioni selectorSchermo;
-    private SelectorOpzioni selectorQualita;
-    private Slider sliderMaster;
-    private Slider sliderMusica;
-    private Slider sliderEffetti;
+    [Header("Selector")]
+    public SelectorOpzioni selectorRisoluzione;
+    public SelectorOpzioni selectorSchermo;
+    public SelectorOpzioni selectorQualita;
+
+    [Header("Slider Audio")]
+    public Slider sliderMaster;
+    public Slider sliderMusica;
+    public Slider sliderEffetti;
 
     private Resolution[] risoluzioni;
 
     void Awake()
     {
-        Debug.Log("Scena corrente di LogicaImpostazioniInGame: " + gameObject.scene.name);
-
-        SelectorOpzioni[] tuttiSelector = Resources.FindObjectsOfTypeAll<SelectorOpzioni>();
-        foreach (SelectorOpzioni s in tuttiSelector)
-        {
-            Debug.Log("Selector: " + s.gameObject.name + " | Scena: " + s.gameObject.scene.name);
-            if (s.gameObject.scene.name == gameObject.scene.name)
-            {
-                if (s.gameObject.name == "SelectorRisoluzione") selectorRisoluzione = s;
-                if (s.gameObject.name == "SelectorSchermo") selectorSchermo = s;
-                if (s.gameObject.name == "SelectorQualita") selectorQualita = s;
-            }
-        }
-
-        Slider[] tuttiSlider = Resources.FindObjectsOfTypeAll<Slider>();
-        foreach (Slider s in tuttiSlider)
-        {
-            if (s.gameObject.scene.name == gameObject.scene.name)
-            {
-                if (s.gameObject.name == "Slider_Master") sliderMaster = s;
-                if (s.gameObject.name == "Slider_Musica") sliderMusica = s;
-                if (s.gameObject.name == "Slider_Effetti") sliderEffetti = s;
-            }
-        }
-
-        if (selectorRisoluzione == null) Debug.LogError("SelectorRisoluzione non trovato!");
-        else Debug.Log("SelectorRisoluzione trovato!");
-        if (selectorSchermo == null) Debug.LogError("SelectorSchermo non trovato!");
-        else Debug.Log("SelectorSchermo trovato!");
-        if (selectorQualita == null) Debug.LogError("SelectorQualita non trovato!");
-        else Debug.Log("SelectorQualita trovato!");
+        
     }
     void Start()
     {
-        // --- 1. RISOLUZIONI ---
+
+        // --- RISOLUZIONI ---
         risoluzioni = Screen.resolutions;
         List<string> opzioniRisoluzione = new List<string>();
         int risoluzioneAttualeIndex = 0;
@@ -75,7 +49,6 @@ public class ImpostazioniMenu : MonoBehaviour
             selectorRisoluzione.onCambioOpzione.AddListener(ImpostaRisoluzione);
         }
 
-        // --- 2. SCHERMO ---
         if (selectorSchermo != null)
         {
             int modalitaSalvata = PlayerPrefs.GetInt("SchermoSalvato", Screen.fullScreen ? 0 : 1);
@@ -83,7 +56,6 @@ public class ImpostazioniMenu : MonoBehaviour
             selectorSchermo.onCambioOpzione.AddListener(ImpostaModalitaSchermo);
         }
 
-        // --- 3. QUALITA' ---
         if (selectorQualita != null)
         {
             string[] livelliQualita = QualitySettings.names;
@@ -92,24 +64,27 @@ public class ImpostazioniMenu : MonoBehaviour
             selectorQualita.onCambioOpzione.AddListener(ImpostaQualita);
         }
 
-        // --- 4. AUDIO ---
+        // --- AUDIO: imposta i valori di default a 1 (massimo) ---
         if (sliderMaster != null)
         {
+            sliderMaster.minValue = 0.0001f;
+            sliderMaster.maxValue = 1f;
             sliderMaster.value = PlayerPrefs.GetFloat("VolMasterSalvato", 1f);
             sliderMaster.onValueChanged.AddListener(ImpostaVolumeMaster);
-            ImpostaVolumeMaster(sliderMaster.value);
         }
         if (sliderMusica != null)
         {
+            sliderMusica.minValue = 0.0001f;
+            sliderMusica.maxValue = 1f;
             sliderMusica.value = PlayerPrefs.GetFloat("VolMusicaSalvato", 1f);
             sliderMusica.onValueChanged.AddListener(ImpostaVolumeMusica);
-            ImpostaVolumeMusica(sliderMusica.value);
         }
         if (sliderEffetti != null)
         {
+            sliderEffetti.minValue = 0.0001f;
+            sliderEffetti.maxValue = 1f;
             sliderEffetti.value = PlayerPrefs.GetFloat("VolEffettiSalvato", 1f);
             sliderEffetti.onValueChanged.AddListener(ImpostaVolumeEffetti);
-            ImpostaVolumeEffetti(sliderEffetti.value);
         }
     }
 
@@ -146,7 +121,15 @@ public class ImpostazioniMenu : MonoBehaviour
 
     public void ImpostaVolumeMaster(float volume)
     {
-        audioMixer.SetFloat("MasterVol", Mathf.Log10(volume) * 20);
+        float valoreDb = Mathf.Log10(volume) * 20;
+        if (!audioMixer.SetFloat("MasterVol", valoreDb))
+        {
+            Debug.LogError("Parametro 'MasterVol' non trovato nell'AudioMixer!");
+        }
+        else
+        {
+            Debug.Log("MasterVol impostato a: " + valoreDb);
+        }
         PlayerPrefs.SetFloat("VolMasterSalvato", volume);
         PlayerPrefs.Save();
     }
