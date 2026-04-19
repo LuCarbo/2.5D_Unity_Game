@@ -11,10 +11,8 @@ public class BossHealth : MonoBehaviour
     public Animator anim;
 
     private BossController bossController;
-    private Collider2D bossCollider;
+    private Collider bossCollider; // CORRETTO: Tolto il 2D!
     private BossAudioManager audioManager;
-
-    // NUOVO: Riferimento al nostro script di combattimento
     private BossCombat bossCombat;
 
     private bool isDead = false;
@@ -24,10 +22,8 @@ public class BossHealth : MonoBehaviour
         currentHealth = maxHealth;
 
         bossController = GetComponent<BossController>();
-        bossCollider = GetComponent<Collider2D>();
+        bossCollider = GetComponent<Collider>(); // CORRETTO: Tolto il 2D!
         audioManager = GetComponentInChildren<BossAudioManager>();
-
-        // NUOVO: Troviamo lo script BossCombat che si trova su questo stesso oggetto
         bossCombat = GetComponent<BossCombat>();
     }
 
@@ -40,11 +36,13 @@ public class BossHealth : MonoBehaviour
 
         if (audioManager != null) audioManager.PlayHurtSound();
 
-        // NUOVO: Controlliamo se NON sta attaccando prima di fare l'animazione di danno
+        // 1. Fai partire l'animazione di danno
+        if (anim != null) anim.SetTrigger("TakeDamage");
+
+        // 2. IL SALVAVITA: Annulliamo eventuali attacchi in corso per non farlo bloccare!
         if (bossCombat != null)
         {
-            // Fai partire l'animazione (Assicurati che il nome "TakeDamage" sia esatto nell'Animator)
-            if (anim != null) anim.SetTrigger("TakeDamage");
+            bossCombat.CancelAttack();
         }
 
         if (currentHealth <= 0)
@@ -68,10 +66,11 @@ public class BossHealth : MonoBehaviour
         if (bossController != null) bossController.enabled = false;
         if (bossCollider != null) bossCollider.enabled = false;
 
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        // CORRETTO: Fisica 3D per fermare il cadavere
+        Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.linearVelocity = Vector2.zero;
+            rb.linearVelocity = Vector3.zero; // Usiamo Vector3 per il 3D
             rb.isKinematic = true;
         }
 
