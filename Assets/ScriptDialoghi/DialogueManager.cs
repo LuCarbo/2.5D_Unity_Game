@@ -153,14 +153,13 @@ public class DialogueManager : MonoBehaviour
             animazioneTesto = null;
         }
 
+        staScrivendo = false;
+
         if (pannelloAttivo != null)
             pannelloAttivo.SetActive(false);
 
-        Invoke("ResettaDialogo", 0.2f);
-    }
-
-    void ResettaDialogo()
-    {
+        // staParlando va a false SUBITO, non dopo 0.2s
+        // cosi il DialogueTrigger sa esattamente quando e finito
         staParlando = false;
         pannelloAttivo = null;
         testoAttivo = null;

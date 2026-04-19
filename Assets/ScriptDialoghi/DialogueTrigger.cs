@@ -29,6 +29,8 @@ public class DialogueTrigger : MonoBehaviour
     private PlayerInputHandler inputPersonaggio;
     private bool playerVicino = false;
     private bool dialogoInCorso = false;
+    // Flag per sapere se il dialogo e' davvero terminato e non solo tra una frase e l'altra
+    private bool dialogoTerminato = false;
 
     void Start()
     {
@@ -50,19 +52,30 @@ public class DialogueTrigger : MonoBehaviour
         {
             playerVicino = true;
 
+            // Avvia il dialogo solo se non sta gia' parlando con qualcuno
             if (inputPersonaggio != null && inputPersonaggio.InteractPressed)
             {
-                if (!manager.staParlando)
+                if (!manager.staParlando && !dialogoInCorso)
                 {
                     manager.AvviaDialogo(dialogo, pannelloNuvoletta, testoNuvoletta, resizerNuvoletta, voceNPC);
                     dialogoInCorso = true;
+                    dialogoTerminato = false;
                 }
             }
 
-            if (dialogoInCorso && !manager.staParlando)
+            // Controlla se il dialogo e' finito SOLO se stava parlando
+            // e ora manager.staParlando e' false
+            if (dialogoInCorso && !manager.staParlando && !dialogoTerminato)
             {
+                dialogoTerminato = true;
                 dialogoInCorso = false;
                 EventoFineDialogo?.Invoke();
+            }
+
+            // Reset del flag cosi' si puo' riparlare
+            if (!dialogoInCorso && dialogoTerminato && !inputPersonaggio.InteractPressed)
+            {
+                dialogoTerminato = false;
             }
         }
         else
@@ -71,11 +84,13 @@ public class DialogueTrigger : MonoBehaviour
             {
                 playerVicino = false;
 
-                if (manager.staParlando && dialogoInCorso)
+                if (dialogoInCorso && manager.staParlando)
                 {
                     manager.TerminaDialogo();
-                    dialogoInCorso = false;
                 }
+
+                dialogoInCorso = false;
+                dialogoTerminato = false;
             }
         }
     }
