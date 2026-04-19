@@ -12,7 +12,10 @@ public class BossHealth : MonoBehaviour
 
     private BossController bossController;
     private Collider2D bossCollider;
-    private BossAudioManager audioManager; // NUOVO: Riferimento all'audio
+    private BossAudioManager audioManager;
+
+    // NUOVO: Riferimento al nostro script di combattimento
+    private BossCombat bossCombat;
 
     private bool isDead = false;
 
@@ -22,9 +25,10 @@ public class BossHealth : MonoBehaviour
 
         bossController = GetComponent<BossController>();
         bossCollider = GetComponent<Collider2D>();
-
-        // IL FIX È QUI SOTTO: Aggiungi "InChildren"
         audioManager = GetComponentInChildren<BossAudioManager>();
+
+        // NUOVO: Troviamo lo script BossCombat che si trova su questo stesso oggetto
+        bossCombat = GetComponent<BossCombat>();
     }
 
     public void TakeDamage(int damageAmount)
@@ -34,8 +38,14 @@ public class BossHealth : MonoBehaviour
         currentHealth -= damageAmount;
         Debug.Log($"Il Boss subisce {damageAmount} danni! Salute: {currentHealth}/{maxHealth}");
 
-        // NUOVO: Suono del colpo subito
         if (audioManager != null) audioManager.PlayHurtSound();
+
+        // NUOVO: Controlliamo se NON sta attaccando prima di fare l'animazione di danno
+        if (bossCombat != null)
+        {
+            // Fai partire l'animazione (Assicurati che il nome "TakeDamage" sia esatto nell'Animator)
+            if (anim != null) anim.SetTrigger("TakeDamage");
+        }
 
         if (currentHealth <= 0)
         {
@@ -48,7 +58,6 @@ public class BossHealth : MonoBehaviour
         isDead = true;
         Debug.Log("Il demone e' stato sconfitto!");
 
-        // NUOVO: Suono della morte. Spegniamo anche l'audio manager così smette di urlare
         if (audioManager != null)
         {
             audioManager.PlayDeathSound();
