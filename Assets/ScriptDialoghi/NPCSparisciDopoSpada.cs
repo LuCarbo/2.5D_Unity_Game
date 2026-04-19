@@ -5,6 +5,9 @@ public class NPCSparisciDopoSpada : MonoBehaviour
     public GameObject npc;
     public DialogueTrigger triggerNPC;
     public DialogueData dialogoDopoSpada;
+    public Animator animatorNPC;
+    public NPCVaiVia npcVaiVia;
+    public float tempoDisattivazione = 3f;
 
     private bool spadaPresa = false;
 
@@ -22,7 +25,23 @@ public class NPCSparisciDopoSpada : MonoBehaviour
     {
         if (spadaPresa && npc != null)
         {
-            npc.SetActive(false);
+            // Disattiva il dialogo
+            if (triggerNPC != null)
+                triggerNPC.enabled = false;
+
+            // Disattiva il collider
+            BoxCollider col = npc.GetComponent<BoxCollider>();
+            if (col != null) col.enabled = false;
+
+            // Avvia animazione
+            if (animatorNPC != null)
+                animatorNPC.SetTrigger("VaiVia");
+
+            // Avvia camminata
+            if (npcVaiVia != null)
+                npcVaiVia.Cammina();
+
+            Destroy(npc, tempoDisattivazione);
         }
     }
 }
