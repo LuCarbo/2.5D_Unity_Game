@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
 
-    
     [SerializeField] private Transform _visualModel;
 
     [Header("Impostazioni Movimento")]
@@ -24,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
 
     [Header("Fisica e Salto")]
-    [SerializeField] private float _gravity = -20.0f; 
+    [SerializeField] private float _gravity = -20.0f;
     [SerializeField] private float _jumpHeight = 1.5f;
 
     private float _verticalVelocityY;
@@ -33,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         _input = GetComponent<PlayerInputHandler>();
-        _combat = GetComponent<PlayerCombat>(); // Cerchiamo lo script del combat sullo stesso GameObject
+        _combat = GetComponent<PlayerCombat>();
         _animator = GetComponentInChildren<Animator>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
@@ -49,7 +48,6 @@ public class PlayerMovement : MonoBehaviour
 
         HandleGravityAndJump();
         HandleHorizontalMovement();
-        HandleInteraction();
         HandleSpriteFlip();
         UpdateAnimatorParameters();
     }
@@ -63,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
             _verticalVelocityY = -2f;
         }
 
-        // Controlliamo se stiamo attaccando tramite lo script PlayerCombat
         bool isAttacking = _combat != null && _combat.IsAttacking;
 
         if (_input.JumpPressed && isGrounded)
@@ -76,7 +73,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleHorizontalMovement()
     {
-        // Nessun rallentamento: ti muovi a piena velocità anche attaccando
         float currentSpeed = _input.IsRunning ? runSpeed : moveSpeed;
 
         Vector3 moveDir = new Vector3(_input.MoveInput.x, 0, _input.MoveInput.y);
@@ -84,31 +80,18 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveDir.magnitude > 0.1f)
         {
-            // Prendiamo il raggio attuale del tuo Character Controller
             float playerRadius = _controller.radius;
-
-            // Alziamo il punto di partenza della sfera per non farla strusciare sul pavimento
             Vector3 startPoint = transform.position + new Vector3(0, 0.2f, 0);
 
-            // usa 'enemyLayer' per intercettare i nemici prima ancora di toccarli fisicamente
             if (Physics.SphereCast(startPoint, playerRadius, moveDir, out RaycastHit hit, 0.2f, enemyLayer))
             {
-                moveDir = Vector3.zero; // Ti blocca istantaneamente
+                moveDir = Vector3.zero;
             }
         }
 
         Vector3 velocity = moveDir * currentSpeed;
         velocity.y = _verticalVelocityY;
         _controller.Move(velocity * Time.deltaTime);
-    }
-
-    private void HandleInteraction()
-    {
-        bool isAttacking = _combat != null && _combat.IsAttacking;
-        if (_input.InteractPressed && !isAttacking)
-        {
-            Debug.Log("Interazione...");
-        }
     }
 
     private void HandleSpriteFlip()
@@ -135,30 +118,19 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
-        // 1. Fai partire l'animazione di morte
         if (_animator != null)
         {
             _animator.SetTrigger("DieTrigger");
         }
 
-        // 2. Disabilita il movimento
         this.enabled = false;
 
-        // 3. Disabilita il combattimento
         if (_combat != null)
         {
             _combat.enabled = false;
         }
 
-        // 4. Cambiamo il Tag così i nemici che cercano il "Player" smettono di vederlo
         gameObject.tag = "Untagged";
-
-        // Se il tuo Player ha un Rigidbody, congeliamo la posizione Y: (toppa per evitare che sprofondi dopo la morte)
-        //Rigidbody rb = GetComponent<Rigidbody>();
-        //if (rb != null)
-        //{
-        //    rb.constraints = RigidbodyConstraints.FreezeAll;
-        //}
 
         Debug.Log("Il Player è morto!");
 
@@ -192,25 +164,21 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("--- 1. Inizio rianimazione del Player ---");
 
-        // 1. Riattiva i componenti
         this.enabled = true;
         if (_combat != null) _combat.enabled = true;
 
-        // 2. Rimetti il tag
         gameObject.tag = "Player";
 
-        // 3. Rendi visibile lo sprite
         if (_spriteRenderer != null)
         {
             _spriteRenderer.enabled = true;
             Debug.Log("Sprite riattivato!");
         }
 
-        // 4. Resetta l'animatore in modo infallibile
         if (_animator != null)
         {
-            _animator.Rebind(); // Riporta l'animatore al suo stato di default (Zero assoluto)
-            _animator.Update(0f); // Forza l'aggiornamento visivo immediato
+            _animator.Rebind();
+            _animator.Update(0f);
         }
 
         Debug.Log("--- 2. Player pronto e comandi riattivati! ---");
