@@ -183,7 +183,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _1st_Wave_Height: 0.01
-    - _1st_Wave_Length: 3
+    - _1st_Wave_Length: 1
     - _1st_Wave_Sharpness: 0.3
     - _1st_Wave_Speed: 1
     - _2nd_Wave_Height: 0.015

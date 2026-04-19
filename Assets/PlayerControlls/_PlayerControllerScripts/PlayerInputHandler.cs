@@ -73,8 +73,7 @@ public class PlayerInputHandler : MonoBehaviour
     private void OnMoveCanceled(InputAction.CallbackContext context) { MoveInput = Vector2.zero; }
     private void OnRunPerformed(InputAction.CallbackContext context) { IsRunning = true; }
     private void OnRunCanceled(InputAction.CallbackContext context) { IsRunning = false; }
-    private void OnInteractPerformed(InputAction.CallbackContext context) {_interactPressed = true; }
-
+    private void OnInteractPerformed(InputAction.CallbackContext context) { _interactPressed = true; }
     private void OnCancelPerformed(InputAction.CallbackContext context) { CancelPressed = true; }
     private void OnJumpPerformed(InputAction.CallbackContext context) { JumpPressed = true; }
 

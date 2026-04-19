@@ -49,9 +49,12 @@ public class DialogueTrigger : MonoBehaviour
         if (!interactOra)
             aspettaRilascioDopoFine = false;
 
+        // Calcola la distanza ignorando la Y, cosi' differenze di altezza
+        // (gravita', terreno irregolare, ecc.) non chiudono il dialogo
         Vector3 diff = transform.position - ilTuoPersonaggio.transform.position;
         diff.y = 0;
         float distanza = diff.magnitude;
+
         float raggioAttuale = dialogoInCorso ? raggioDiChiusura : raggioDiAzione;
 
         if (distanza <= raggioAttuale)
@@ -80,10 +83,7 @@ public class DialogueTrigger : MonoBehaviour
                 if (dialogoInCorso && manager.staParlando)
                 {
                     if (manager.triggerCorrente == this)
-                    {
-                        
                         manager.TerminaDialogo();
-                    }
                 }
 
                 dialogoInCorso = false;

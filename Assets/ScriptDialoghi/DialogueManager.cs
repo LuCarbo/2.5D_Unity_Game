@@ -39,7 +39,6 @@ public class DialogueManager : MonoBehaviour
 
     public void AvanzaDialogo()
     {
-        
         if (!staParlando) return;
 
         if (staScrivendo)

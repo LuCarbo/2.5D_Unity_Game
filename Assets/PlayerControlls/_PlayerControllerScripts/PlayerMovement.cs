@@ -48,7 +48,6 @@ public class PlayerMovement : MonoBehaviour
 
         HandleGravityAndJump();
         HandleHorizontalMovement();
-        // HandleInteraction RIMOSSO - rubava InteractPressed al DialogueTrigger
         HandleSpriteFlip();
         UpdateAnimatorParameters();
     }
