@@ -627,6 +627,10 @@ PrefabInstance:
       propertyPath: currentHealth
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4993964093855871014, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: healAuraPrefab
+      value: 
+      objectReference: {fileID: 9200684507844505157, guid: 25fde1ddccea0cd4f8674a0ffe8c5ce8, type: 3}
     - target: {fileID: 6137851447501043367, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -1694,6 +1698,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1461002596605221260, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1461002596605221260, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1461002596605221260, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464476951948733198, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464476951948733198, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464476951948733198, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4381285422138911057, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1778,6 +1806,26 @@ PrefabInstance:
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 833118101}
+    - target: {fileID: 5194336194414403056, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194336194414403056, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194336194414403056, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489038550071781374, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489038550071781374, guid: dfd43e0c1ffba334ebb08abeeb388528, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
