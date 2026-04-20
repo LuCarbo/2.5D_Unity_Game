@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fafb0662730cc104cabf03098b0c1c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZonaMusica
-  canzoneZona: {fileID: 0}
+  canzoneZona: {fileID: 8300000, guid: 90f7dd7a4cfbd694db03f7658dc6c8ac, type: 3}
 --- !u!65 &553273657
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fafb0662730cc104cabf03098b0c1c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZonaMusica
-  canzoneZona: {fileID: 0}
+  canzoneZona: {fileID: 8300000, guid: c748391da46cf944dad66ec4091a2975, type: 3}
 --- !u!1 &735649497
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,6 +725,73 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1765056540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1765056543}
+  - component: {fileID: 1765056542}
+  - component: {fileID: 1765056541}
+  m_Layer: 0
+  m_Name: ZonaMusicaBoss
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1765056541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765056540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafb0662730cc104cabf03098b0c1c1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZonaMusica
+  canzoneZona: {fileID: 8300000, guid: 0bb80ba25570bb34e954426f9e553cc0, type: 3}
+--- !u!65 &1765056542
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765056540}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 1.5, z: 9}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1765056543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765056540}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -151.2, y: 47.3, z: -271.4}
+  m_LocalScale: {x: 15, y: 10, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -734,5 +801,6 @@ SceneRoots:
   - {fileID: 1180833390}
   - {fileID: 972005130}
   - {fileID: 553273658}
+  - {fileID: 1765056543}
   - {fileID: 735649499}
   - {fileID: 704084158}
