@@ -10,19 +10,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool IsRunning { get; private set; }
 
     // InteractPressed si auto-consuma al primo accesso
-    private bool _interactPressed;
-    public bool InteractPressed
-    {
-        get
-        {
-            if (_interactPressed)
-            {
-                _interactPressed = false;
-                return true;
-            }
-            return false;
-        }
-    }
+    public bool InteractPressed { get; private set; }
 
     public bool CancelPressed { get; private set; }
     public bool JumpPressed { get; private set; }
@@ -73,7 +61,7 @@ public class PlayerInputHandler : MonoBehaviour
     private void OnMoveCanceled(InputAction.CallbackContext context) { MoveInput = Vector2.zero; }
     private void OnRunPerformed(InputAction.CallbackContext context) { IsRunning = true; }
     private void OnRunCanceled(InputAction.CallbackContext context) { IsRunning = false; }
-    private void OnInteractPerformed(InputAction.CallbackContext context) { _interactPressed = true; }
+    private void OnInteractPerformed(InputAction.CallbackContext context) { InteractPressed = true; }
     private void OnCancelPerformed(InputAction.CallbackContext context) { CancelPressed = true; }
     private void OnJumpPerformed(InputAction.CallbackContext context) { JumpPressed = true; }
 
@@ -82,12 +70,10 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void LateUpdate()
     {
-        // InteractPressed si auto-consuma nel getter, non serve resettarlo qui
-
-        if (CancelPressed) CancelPressed = false;
-        if (JumpPressed) JumpPressed = false;
-
-        if (LightAttackPressed) LightAttackPressed = false;
-        if (HeavyAttackPressed) HeavyAttackPressed = false;
+        InteractPressed = false;
+        CancelPressed = false;
+        JumpPressed = false;
+        LightAttackPressed = false;
+        HeavyAttackPressed = false;
     }
 }
