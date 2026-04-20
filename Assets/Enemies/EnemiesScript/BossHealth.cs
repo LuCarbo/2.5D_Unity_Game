@@ -89,6 +89,13 @@ public class BossHealth : MonoBehaviour
         isDead = true;
         Debug.Log("Il demone e' stato sconfitto!");
 
+        // --- NUOVO (SICURO AL 100%): Ferma la musica solo se il Gestore esiste ---
+        if (GestoreMusica.istanza != null)
+        {
+            GestoreMusica.istanza.FermaMusica();
+        }
+        // -----------------------------------------------------------------------
+
         // FAI PARTIRE LA CINEMATICA QUI
         if (endingDirector != null)
         {
@@ -108,7 +115,7 @@ public class BossHealth : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.linearVelocity = Vector3.zero; 
+            rb.linearVelocity = Vector3.zero;
             rb.isKinematic = true;
         }
 
