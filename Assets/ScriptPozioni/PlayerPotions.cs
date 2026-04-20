@@ -7,12 +7,17 @@ public class PlayerPotions : MonoBehaviour
     public int healAmount = 20; // Quanta vita restituisce una pozione
     public KeyCode healKey = KeyCode.H; // Tasto da premere per curarsi
 
+   
+    private PlayerVFXHandler vfxHandler; // Riferimento allo script per gli effetti visivi (se vuoi aggiungere effetti quando usi la pozione)
+
     private Health healthScript;
 
     void Start()
     {
         // Recupera automaticamente lo script Health attaccato allo stesso GameObject (il Giocatore)
         healthScript = GetComponent<Health>();
+
+        vfxHandler = GetComponent<PlayerVFXHandler>();
     }
 
     void Update()
@@ -38,6 +43,12 @@ public class PlayerPotions : MonoBehaviour
         {
             potionCount--; // Togli una pozione dall'inventario
             healthScript.ChangeHealth(healAmount); // Chiama lo script universale per alzare la vita
+
+            if (vfxHandler != null)
+            {
+                vfxHandler.SpawnHealAura();
+            }
+
             Debug.Log("Pozione usata! Vita attuale: " + healthScript.currentHealth);
         }
         else
