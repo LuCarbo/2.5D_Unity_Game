@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 0f4b0ff3759975048bcf2c3692ba1002, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -2986,7 +2986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9135757743923033994, guid: 34616a73a82032a4a90a690fe84bf1f7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -120.423
+      value: -120.74
       objectReference: {fileID: 0}
     - target: {fileID: 9135757743923033994, guid: 34616a73a82032a4a90a690fe84bf1f7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -14477,7 +14477,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9135757743923033994, guid: 34616a73a82032a4a90a690fe84bf1f7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -116.098
+      value: -116.415
       objectReference: {fileID: 0}
     - target: {fileID: 9135757743923033994, guid: 34616a73a82032a4a90a690fe84bf1f7, type: 3}
       propertyPath: m_LocalRotation.w
