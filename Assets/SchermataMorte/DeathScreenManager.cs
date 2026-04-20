@@ -1,49 +1,90 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI; // Fondamentale per gestire le interfacce!
+using UnityEngine.SceneManagement;
 
 public class DeathScreenManager : MonoBehaviour
 {
-    [Header("Impostazioni")]
-    public Image deathImage; // Trascina qui la tua immagine
-    public float fadeDuration = 2f; // Quanti secondi ci mette ad apparire?
+    [Header("Impostazioni Dissolvenza")]
+    public CanvasGroup canvasGroup;
+    public float fadeDuration = 1.5f;
+
+    private Coroutine currentFade;
+
+    void Start()
+    {
+        if (canvasGroup != null)
+        {
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
+    }
 
     public void ShowDeathScreen()
     {
-        // Ferma eventuali dissolvenze precedenti e ne fa partire una nuova
-        StopAllCoroutines();
-        StartCoroutine(FadeInImage());
+        if (currentFade != null) StopCoroutine(currentFade);
+
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+
+        // Se il tuo gioco nasconde il cursore del mouse mentre giochi, devi riattivarlo qui!
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        currentFade = StartCoroutine(FadeTo(1f));
     }
 
     public void HideDeathScreenInstantly()
     {
-        // Utile per quando rinasci: nasconde l'immagine di colpo
-        Color c = deathImage.color;
-        deathImage.color = new Color(c.r, c.g, c.b, 0f);
-    }
+        if (currentFade != null) StopCoroutine(currentFade);
 
-    private IEnumerator FadeInImage()
-    {
-        // Ci salviamo il colore attuale (che ha l'Alpha a 0)
-        Color startColor = deathImage.color;
-
-        // Creiamo il colore di arrivo (lo stesso, ma con l'Alpha a 1, cioè tutto visibile)
-        Color targetColor = new Color(startColor.r, startColor.g, startColor.b, 1f);
-
-        float timeElapsed = 0f;
-
-        // Finché non è passato il tempo totale...
-        while (timeElapsed < fadeDuration)
+        if (canvasGroup != null)
         {
-            timeElapsed += Time.deltaTime;
-
-            // "Lerp" mischia due colori nel tempo. Magia pura!
-            deathImage.color = Color.Lerp(startColor, targetColor, timeElapsed / fadeDuration);
-
-            yield return null; // Aspetta il prossimo fotogramma
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
         }
 
-        // Assicuriamoci che alla fine sia esattamente a 1
-        deathImage.color = targetColor;
+        // Possibilita` di nascondere il cursore
+        // Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private IEnumerator FadeTo(float targetAlpha)
+    {
+        if (canvasGroup == null) yield break;
+        float startAlpha = canvasGroup.alpha;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < fadeDuration)
+        {
+            timeElapsed += Time.unscaledDeltaTime;
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, timeElapsed / fadeDuration);
+            yield return null;
+        }
+        canvasGroup.alpha = targetAlpha;
+    }
+
+    // Metodo da collegare al bottone "Riprova"
+    public void RestartFromCheckpoint()
+    {
+        // Cerca lo script di respawn nel gioco e fallo partire
+        PlayerRespawn respawnScript = Object.FindAnyObjectByType<PlayerRespawn>();
+
+        if (respawnScript != null)
+        {
+            respawnScript.Respawn();
+        }
+        else
+        {
+            Debug.LogError("ERRORE: Impossibile trovare PlayerRespawn nella scena!");
+        }
+    }
+
+    // Metodo da collegare al bottone "Menu Principale"
+    public void ReturnToMainMenu()
+    {
+        // ASSICURATI che la scena del menu sia nelle Build Settings!
+        SceneManager.LoadScene("StartingMenu");
     }
 }

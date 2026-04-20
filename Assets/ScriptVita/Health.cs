@@ -108,11 +108,15 @@ public class Health : MonoBehaviour
             DeathScreenManager deathScreen = Object.FindAnyObjectByType<DeathScreenManager>();
             if (deathScreen != null)
             {
+                Debug.Log("DeathScreenManager TROVATO! Avvio la schermata...");
                 deathScreen.ShowDeathScreen();
             }
+            else
+            {
+                Debug.LogError("ERRORE GRAVE: DeathScreenManager non trovato nella scena!");
+            }
 
-            // INIZIA IL COUNTDOWN PER IL RESPAWN
-            StartCoroutine(WaitAndRespawn());
+            
         }
     }
 
