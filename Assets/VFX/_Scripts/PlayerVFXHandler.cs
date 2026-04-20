@@ -27,17 +27,8 @@ public class PlayerVFXHandler : MonoBehaviour
     {
         if (healAuraPrefab != null)
         {
-            // Istanzia l'aura esattamente nella posizione del player.
-            // Aggiungiamo 'transform' alla fine per renderla "figlia" del player,
-            // così se il player cammina mentre si cura, l'aura lo seguirà!
-            GameObject aura = Instantiate(healAuraPrefab, transform.position, Quaternion.identity, transform);
-
-            // Distrugge l'oggetto aura dopo 2 secondi per non riempire la memoria di cloni
-            Destroy(aura, 2f);
-        }
-        else
-        {
-            Debug.LogWarning("Attenzione: Non hai assegnato il prefab HealAura nel PlayerVFXHandler!");
+            // Crea l'aura. Non serve più dirgli quando morire, ci penserà lei da sola!
+            Instantiate(healAuraPrefab, transform.position, Quaternion.identity, transform);
         }
     }
 
