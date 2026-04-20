@@ -112,4 +112,22 @@ public class BossCombat : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
     }
+
+    public void InterruptAttack()
+    {
+        // Ferma la Coroutine del colpo (se stava aspettando di toccare terra)
+        StopAllCoroutines();
+
+        // Resetta le variabili che tenevano in ostaggio il controller
+        isAttacking = false;
+        isOnCooldown = false;
+
+        // Togli il lucchetto fisico
+        if (bossMovement != null)
+        {
+            bossMovement.UnlockMovement();
+        }
+
+        Debug.Log("Attacco del boss interrotto a causa del danno!");
+    }
 }
