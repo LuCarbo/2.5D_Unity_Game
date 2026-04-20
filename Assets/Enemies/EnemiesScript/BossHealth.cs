@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BossHealth : MonoBehaviour
@@ -14,8 +15,8 @@ public class BossHealth : MonoBehaviour
     private Collider2D bossCollider;
     private BossAudioManager audioManager;
 
-    // NUOVO: Riferimento al nostro script di combattimento
     private BossCombat bossCombat;
+    private Coroutine stunCoroutine;
 
     private bool isDead = false;
 
@@ -40,16 +41,44 @@ public class BossHealth : MonoBehaviour
 
         if (audioManager != null) audioManager.PlayHurtSound();
 
-        // NUOVO: Controlliamo se NON sta attaccando prima di fare l'animazione di danno
-        if (bossCombat != null)
-        {
-            // Fai partire l'animazione (Assicurati che il nome "TakeDamage" sia esatto nell'Animator)
-            if (anim != null) anim.SetTrigger("TakeDamage");
-        }
+        // Interrompiamo qualsiasi attacco in corso
+        if (bossCombat != null) bossCombat.InterruptAttack();
+
+        // Facciamo partire l'animazione
+        if (anim != null) anim.SetTrigger("TakeDamage");
 
         if (currentHealth <= 0)
         {
             Die();
+            return; // Se muore, fermiamo tutto qui
+        }
+
+        // NUOVO: Stordiamo il boss se è ancora vivo!
+        if (stunCoroutine != null) StopCoroutine(stunCoroutine);
+        stunCoroutine = StartCoroutine(StunRoutine());
+    }
+
+    private IEnumerator StunRoutine()
+    {
+        // 1. Spegniamo il "cervello" del boss per non fargli prendere decisioni
+        if (bossController != null) bossController.enabled = false;
+
+        // 2. Fermiamo i motori e sblocchiamo le gambe
+        BossMovement bm = GetComponent<BossMovement>();
+        if (bm != null)
+        {
+            bm.StopMoving();
+            bm.UnlockMovement();
+        }
+
+        // 3. Aspettiamo che finisca di soffrire (0.5 secondi di solito è perfetto, ma puoi alzarlo)
+        yield return new WaitForSeconds(0.5f);
+
+        // 4. Riaccendiamo il cervello e resettiamo il suo stato!
+        if (bossController != null)
+        {
+            bossController.currentState = BossController.BossState.Idle; // Torna neutro
+            bossController.enabled = true; // Si rimette in moto
         }
     }
 
@@ -68,7 +97,7 @@ public class BossHealth : MonoBehaviour
         if (bossController != null) bossController.enabled = false;
         if (bossCollider != null) bossCollider.enabled = false;
 
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
