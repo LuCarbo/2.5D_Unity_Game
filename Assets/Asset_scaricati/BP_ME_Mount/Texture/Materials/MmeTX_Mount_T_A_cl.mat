@@ -35,11 +35,11 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: MmeTX_Mount_T_A_cl
   m_Shader: {fileID: -6465566751694194690, guid: b9d29dfa1474148e792ac720cbd45122, type: 3}
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: 2100000, guid: 7b581ce15a036da4d8626876155a9909, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -55,88 +55,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 31bf1e3827e782041a563be1ffc36b0e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - emissiveTexture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - metallicRoughnessTexture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - normalTexture:
         m_Texture: {fileID: 2800000, guid: 32ecc526431961b4581f0090166b3c71, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - occlusionTexture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - transmissionTexture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0
-    - _AlphaToMask: 0
-    - _BUILTIN_AlphaClip: 0
-    - _BUILTIN_Blend: 0
-    - _BUILTIN_CullMode: 2
-    - _BUILTIN_DstBlend: 0
-    - _BUILTIN_QueueControl: 0
-    - _BUILTIN_QueueOffset: 0
-    - _BUILTIN_SrcBlend: 1
-    - _BUILTIN_Surface: 0
-    - _BUILTIN_ZTest: 4
-    - _BUILTIN_ZWrite: 1
-    - _BUILTIN_ZWriteControl: 0
-    - _Blend: 0
-    - _BlendModePreserveSpecular: 0
-    - _CastShadows: 1
-    - _Cull: 2
-    - _DstBlend: 0
-    - _DstBlendAlpha: 0
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    - _ReceiveShadows: 1
-    - _SrcBlend: 1
-    - _SrcBlendAlpha: 1
-    - _Surface: 0
-    - _WorkflowMode: 1
-    - _ZTest: 4
-    - _ZWrite: 1
-    - _ZWriteControl: 0
-    - alphaCutoff: 0.5
-    - baseColorTexture_texCoord: 0
-    - emissiveExposureWeight: 0
-    - emissiveTexture_texCoord: 0
+    - _Cull: 0
     - metallicFactor: 0.645
-    - metallicRoughnessTexture_texCoord: 0
-    - normalTexture_scale: 1
-    - normalTexture_texCoord: 0
-    - occlusionTexture_strength: 1
-    - occlusionTexture_texCoord: 0
-    - roughnessFactor: 1
-    - transmissionFactor: 0
-    m_Colors:
-    - baseColorFactor: {r: 1, g: 1, b: 1, a: 1}
-    - baseColorTexture_Rotation: {r: 0, g: 0, b: 0, a: 0}
-    - emissiveFactor: {r: 0, g: 0, b: 0, a: 1}
-    - emissiveTexture_Rotation: {r: 0, g: 0, b: 0, a: 0}
-    - metallicRoughnessTexture_Rotation: {r: 0, g: 0, b: 0, a: 0}
-    - normalTexture_Rotation: {r: 0, g: 0, b: 0, a: 0}
-    - occlusionTexture_Rotation: {r: 0, g: 0, b: 0, a: 0}
+    m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
