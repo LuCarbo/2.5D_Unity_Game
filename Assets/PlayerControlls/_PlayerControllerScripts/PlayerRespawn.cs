@@ -43,6 +43,14 @@ public class PlayerRespawn : MonoBehaviour
             deathScreen.HideDeathScreenInstantly();
         }
 
+        EnemySpawner[] tuttiGliSpawner = Object.FindObjectsByType<EnemySpawner>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+
+        // Passa in rassegna ogni singolo spawner e gli dice di resettarsi
+        foreach (EnemySpawner spawner in tuttiGliSpawner)
+        {
+            spawner.ResetSpawner();
+        }
+
         // Ripristina la vita
         Health playerHealth = GetComponent<Health>();
         if (playerHealth != null)
