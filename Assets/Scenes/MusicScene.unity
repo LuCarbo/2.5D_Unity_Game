@@ -319,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fafb0662730cc104cabf03098b0c1c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZonaMusica
-  canzoneZona: {fileID: 0}
+  canzoneZona: {fileID: 8300000, guid: b524f0fcc50457c4aab3ef620ed4163a, type: 3}
 --- !u!1 &972005127
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1131115540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fafb0662730cc104cabf03098b0c1c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZonaMusica
-  canzoneZona: {fileID: 8300000, guid: f01201a2a36d2a945bf716c220023a47, type: 3}
+  canzoneZona: {fileID: 8300000, guid: 02faf1212f0bb1349afed45d28a0f199, type: 3}
 --- !u!1 &1363923998
 GameObject:
   m_ObjectHideFlags: 0
