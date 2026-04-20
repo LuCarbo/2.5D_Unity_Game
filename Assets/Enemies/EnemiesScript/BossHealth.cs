@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables; 
 
 public class BossHealth : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class BossHealth : MonoBehaviour
     public int currentHealth;
 
     [Header("Riferimenti")]
+    public PlayableDirector endingDirector;
     [Tooltip("Trascina qui l'oggetto con l'Animator del Boss")]
     public Animator anim;
 
@@ -28,7 +30,7 @@ public class BossHealth : MonoBehaviour
         bossCollider = GetComponent<Collider2D>();
         audioManager = GetComponentInChildren<BossAudioManager>();
 
-        // NUOVO: Troviamo lo script BossCombat che si trova su questo stesso oggetto
+        
         bossCombat = GetComponent<BossCombat>();
     }
 
@@ -87,6 +89,12 @@ public class BossHealth : MonoBehaviour
         isDead = true;
         Debug.Log("Il demone e' stato sconfitto!");
 
+        // FAI PARTIRE LA CINEMATICA QUI
+        if (endingDirector != null)
+        {
+            endingDirector.Play();
+        }
+
         if (audioManager != null)
         {
             audioManager.PlayDeathSound();
@@ -100,10 +108,10 @@ public class BossHealth : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.linearVelocity = Vector2.zero;
+            rb.linearVelocity = Vector3.zero; 
             rb.isKinematic = true;
         }
 
-        Destroy(gameObject, 2.2f);
+        Destroy(gameObject, 5f);
     }
 }
