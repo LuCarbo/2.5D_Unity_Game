@@ -615,6 +615,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 961772087969777112, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
+      propertyPath: potionCount
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3227005130918565492, guid: 082d6176fdaf94f64ab3afbcd83541d1, type: 3}
       propertyPath: respawnPoint
       value: 
