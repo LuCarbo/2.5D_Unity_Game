@@ -7,6 +7,9 @@ public class PlayerVFXHandler : MonoBehaviour
     [SerializeField] private GameObject jumpDustPrefab; // Trascina qui il prefab polvere salto
     [SerializeField] private Transform feetPosition;    // Un oggetto vuoto ai piedi del player
 
+    [Header("Effetti Magici")]
+    [SerializeField] private GameObject healAuraPrefab;
+
     [Header("Settings Atterraggio")]
     // Variabili per gestire l'atterraggio (se non le hai già nel movement script)
     private bool wasGrounded;
@@ -19,6 +22,24 @@ public class PlayerVFXHandler : MonoBehaviour
     }
 
     // --- QUESTE FUNZIONI VENGONO CHIAMATE DAGLI ANIMATION EVENTS ---
+
+    public void SpawnHealAura()
+    {
+        if (healAuraPrefab != null)
+        {
+            // Istanzia l'aura esattamente nella posizione del player.
+            // Aggiungiamo 'transform' alla fine per renderla "figlia" del player,
+            // così se il player cammina mentre si cura, l'aura lo seguirà!
+            GameObject aura = Instantiate(healAuraPrefab, transform.position, Quaternion.identity, transform);
+
+            // Distrugge l'oggetto aura dopo 2 secondi per non riempire la memoria di cloni
+            Destroy(aura, 2f);
+        }
+        else
+        {
+            Debug.LogWarning("Attenzione: Non hai assegnato il prefab HealAura nel PlayerVFXHandler!");
+        }
+    }
 
     // Chiama questa funzione nell'evento dell'animazione CAMMINATA/CORSA
     public void SpawnFootDust()
