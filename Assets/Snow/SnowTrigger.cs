@@ -3,33 +3,40 @@ using UnityEngine;
 public class SnowTrigger : MonoBehaviour
 {
     public ParticleSystem snowTempest;
-    public Transform player; // We need to track the player's exact position now
+    public Transform player;
 
     [Header("Mountain Elevation")]
-    public float bottomOfMountainY = 0f;  // The Y coordinate where the storm is calmest
-    public float topOfMountainY = 100f;   // The Y coordinate where the storm is at its worst
+    public float bottomOfMountainY = 0f;
+    public float topOfMountainY = 100f;
 
-    [Header("Snow Intensity")]
-    public float normalSpeed = 5f;        // Speed at the bottom
-    public float blizzardSpeed = 25f;     // Speed at the top
+    [Header("Snow Intensity (Speed)")]
+    public float normalSpeed = 5f;
+    public float blizzardSpeed = 25f;
+
+    [Header("Snow Quantity (Emission)")]
+    public float normalEmission = 100f;    // A light dusting at the bottom
+    public float blizzardEmission = 2000f; // A total whiteout at the top
 
     private bool isPlayerInZone = false;
 
     private void Update()
     {
-        // Only run this math if the player is actually inside the tempest zone
         if (isPlayerInZone)
         {
-            // 1. Figure out how far up the mountain the player is (returns a percentage from 0.0 to 1.0)
+            // 1. Figure out how far up the mountain the player is (0.0 to 1.0)
             float heightPercent = Mathf.InverseLerp(bottomOfMountainY, topOfMountainY, player.position.y);
 
-            // 2. Calculate the exact snow speed based on that percentage
+            // 2. Calculate the exact speed AND exact quantity based on that percentage
             float currentSpeed = Mathf.Lerp(normalSpeed, blizzardSpeed, heightPercent);
+            float currentEmission = Mathf.Lerp(normalEmission, blizzardEmission, heightPercent);
 
-            // 3. Apply the new speed to the particle system
-            // (In Unity, you have to extract the 'main' module first to change its variables)
+            // 3. Apply the new speed to the Main module
             var mainModule = snowTempest.main;
             mainModule.startSpeed = currentSpeed;
+
+            // 4. Apply the new quantity to the Emission module
+            var emissionModule = snowTempest.emission;
+            emissionModule.rateOverTime = currentEmission;
         }
     }
 
