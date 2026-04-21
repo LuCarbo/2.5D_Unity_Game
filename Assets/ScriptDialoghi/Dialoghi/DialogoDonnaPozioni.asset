@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd49cddb5471d24f9032143894ea6a0, type: 3}
   m_Name: DialogoDonnaPozioni
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  nomePersonaggio: 
   frasi:
-  - 'Ciao, ho saputo che stai per partire per la tua avventura, complimenti! '
-  - 'Lascia che ti dia queste pozioni in modo che tu ti possa curare in ogni momento. '
+  - 'Stai per caso andando verso la foresta di Panzerot? '
+  - "Stai attento, \xE8 pericoloso! Prendi queste ti saranno utili "
+  - 'Nelle colline al di la del fiume troverai un eremita. Ti consiglio di fargli
+    una visita '

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI; // Aggiunto per utilizzare la NavMesh
 
 public class EnemiesScript : MonoBehaviour
 {
@@ -13,15 +14,20 @@ public class EnemiesScript : MonoBehaviour
     public LayerMask PlayerMask;
     public LayerMask ObstacleMask;
 
+    [Header("Settings Pattugliamento (NavMesh)")]
+    public float RoamRadius = 10f; // Quanto lontano può vagare dal suo punto attuale
+    public float RoamWaitTime = 2f; // Quanto tempo aspetta prima di scegliere una nuova destinazione
+
     [Header("Settings Intelligenza")]
     public float AttackRange = 1.5f; // Distanza a cui decide di attaccare
     [Tooltip("Spunta questa casella se il mostro ha un'animazione 'Attack'")]
     public bool hasAttackAnimation = false;
 
-    private float Speed;
     private Rigidbody rb;
+    private NavMeshAgent agent; // Riferimento al NavMeshAgent
     private GameObject Target;
     private float pauseEndTime = 0f;
+    private float roamTimer = 0f;
     private Vector3 eyeOffset = new Vector3(0, 1.5f, 0);
 
     private Animator _animator;
@@ -30,45 +36,105 @@ public class EnemiesScript : MonoBehaviour
 
     void Start()
     {
-        Speed = MaxSpeed;
         rb = GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+        // Quando si usa la NavMesh, è spesso meglio rendere il Rigidbody cinematico 
+        // per evitare conflitti tra la fisica e il NavMeshAgent.
+        rb.isKinematic = true;
+
+        agent = GetComponent<NavMeshAgent>();
+        agent.speed = MaxSpeed;
+        agent.updateRotation = false; // Disabilitiamo la rotazione automatica per mantenere il tuo sistema di Sprite Flip!
 
         _animator = GetComponentInChildren<Animator>();
-        _combatScript = GetComponent<EnemiesCombat>(); // Trova lo script dei danni
+        _combatScript = GetComponent<EnemiesCombat>();
 
         if (graficaNemico != null)
         {
             _scalaOriginale = graficaNemico.localScale;
         }
+
+        roamTimer = RoamWaitTime; // Inizializza il timer
     }
 
     void FixedUpdate()
     {
         if (Time.time < pauseEndTime)
         {
+            StopEnemyMovement();
             UpdateAnimator(false);
             return;
         }
 
-        rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
-
         if (Target == null)
         {
             FindPlayer();
-            UpdateAnimator(false);
+
+            // Se non trova il player, pattuglia
+            if (Target == null)
+            {
+                PatrolRandomly();
+            }
         }
         else
         {
             ChasePlayer();
+        }
+
+        // --- GESTIONE GRAFICA E ANIMAZIONI ---
+        // Usiamo la velocità dell'agent per capire da che parte sta andando
+        if (agent.velocity.magnitude > 0.1f && !agent.isStopped)
+        {
+            Vector3 velocityDir = agent.velocity.normalized;
+            HandleSpriteFlip(velocityDir.x);
+            UpdateAnimator(true, velocityDir.x, velocityDir.z);
+        }
+        else
+        {
+            UpdateAnimator(false);
         }
     }
 
     public void PauseMovement(float duration)
     {
         pauseEndTime = Time.time + duration;
-        rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
-        rb.constraints = RigidbodyConstraints.FreezeAll;
+        StopEnemyMovement();
+    }
+
+    void PatrolRandomly()
+    {
+        // Controlla se il nemico ha raggiunto la sua destinazione attuale
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            // Si ferma
+            agent.isStopped = true;
+
+            // Inizia a contare il tempo di attesa
+            roamTimer += Time.fixedDeltaTime;
+
+            // Se il tempo di attesa è terminato, cerca un nuovo punto
+            if (roamTimer >= RoamWaitTime)
+            {
+                Vector3 randomDirection = Random.insideUnitSphere * RoamRadius;
+                randomDirection += transform.position;
+
+                NavMeshHit hit;
+                // Cerca il punto valido più vicino sulla NavMesh
+                if (NavMesh.SamplePosition(randomDirection, out hit, RoamRadius, NavMesh.AllAreas))
+                {
+                    agent.SetDestination(hit.position);
+                    agent.isStopped = false; // Fai ripartire l'agente
+                }
+
+                // Resetta il timer per la prossima sosta
+                roamTimer = 0f;
+            }
+        }
+        else
+        {
+            // Mentre cammina verso la destinazione, tienilo in movimento e mantieni il timer a 0
+            agent.isStopped = false;
+            roamTimer = 0f;
+        }
     }
 
     void FindPlayer()
@@ -104,28 +170,21 @@ public class EnemiesScript : MonoBehaviour
         // --- DECISIONE DI ATTACCO (Basata sulla distanza) ---
         if (distanceToTarget <= AttackRange)
         {
-            // FIX: Fermiamo le gambe e l'animazione, MA SENZA usare StopEnemy()
-            // così il lupo non imposta "Target = null" e non si dimentica chi sta attaccando!
-            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+            StopEnemyMovement();
             UpdateAnimator(false);
 
             if (_combatScript != null)
             {
-                // Ordina allo script di combattimento di colpire
                 _combatScript.TryAttack(Target);
             }
-            return; // Esce dalla funzione per non camminare
+            return;
         }
         // ---------------------------------------------------
 
         if (CheckLineOfSight(Target))
         {
-            Vector3 direction = (Target.transform.position - transform.position).normalized;
-            Vector3 move = new Vector3(direction.x * Speed, rb.linearVelocity.y, direction.z * Speed);
-            rb.linearVelocity = move;
-
-            HandleSpriteFlip(direction.x);
-            UpdateAnimator(true, direction.x, direction.z);
+            agent.isStopped = false;
+            agent.SetDestination(Target.transform.position);
         }
         else
         {
@@ -143,9 +202,8 @@ public class EnemiesScript : MonoBehaviour
 
     bool CheckLineOfSight(GameObject targetObj)
     {
-        Vector3 eyeHeight = new Vector3(0, 1.5f, 0);
-        Vector3 origin = transform.position + eyeHeight;
-        Vector3 targetPos = targetObj.transform.position + eyeHeight;
+        Vector3 origin = transform.position + eyeOffset;
+        Vector3 targetPos = targetObj.transform.position + eyeOffset;
 
         Vector3 direction = (targetPos - origin).normalized;
         float distance = Vector3.Distance(origin, targetPos);
@@ -177,10 +235,21 @@ public class EnemiesScript : MonoBehaviour
             graficaNemico.localScale = new Vector3(-Mathf.Abs(_scalaOriginale.x), _scalaOriginale.y, _scalaOriginale.z);
     }
 
+    // Ferma solo il movimento (utile per attaccare o mettere in pausa)
+    void StopEnemyMovement()
+    {
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+        }
+    }
+
+    // Dimentica il bersaglio e si ferma
     void StopEnemy()
     {
         Target = null;
-        rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+        StopEnemyMovement();
         UpdateAnimator(false);
     }
 
@@ -192,7 +261,7 @@ public class EnemiesScript : MonoBehaviour
             if (isMoving)
             {
                 _animator.SetFloat("MoveX", dirX);
-                _animator.SetFloat("MoveY", dirY);
+                _animator.SetFloat("MoveY", dirY); // Attenzione: dirY qui è in realtà l'asse Z in 3D
             }
         }
     }
@@ -202,13 +271,10 @@ public class EnemiesScript : MonoBehaviour
         StopEnemy();
         this.enabled = false;
 
-        // Spegniamo anche il combattimento, così non morde mentre cade a terra!
         if (_combatScript != null) _combatScript.enabled = false;
+        if (agent != null) agent.enabled = false; // Disabilita il NavMeshAgent per farlo cadere/fermare
 
         if (_animator != null) _animator.SetTrigger("IsDead");
-
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null) rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
 
         StartCoroutine(DeathSequence());
     }
@@ -216,9 +282,6 @@ public class EnemiesScript : MonoBehaviour
     private IEnumerator DeathSequence()
     {
         yield return new WaitForSeconds(0.8f);
-
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null) rb.isKinematic = true;
 
         Collider col = GetComponent<Collider>();
         if (col != null) col.enabled = false;
@@ -235,9 +298,12 @@ public class EnemiesScript : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, SightRange);
 
-        // Disegna anche l'Attack Range in magenta per regolarlo facilmente dall'Inspector!
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, AttackRange);
+
+        // Disegna anche l'area di pattugliamento in ciano
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, RoamRadius);
 
         if (Target != null)
         {
