@@ -79,21 +79,28 @@ public class Health : MonoBehaviour
         isDeadFlag = true;
         Debug.Log($"{gameObject.name} ha la vita a zero!");
 
-        // NUOVO: Suono di morte per il lupo
         if (enemyAudio != null) enemyAudio.PlayDeathSound();
 
+        // 1. Cerca se l'oggetto è un nemico standard (Lupo, Slime)
         EnemiesScript enemyLogic = GetComponent<EnemiesScript>();
+
+        // 2. NUOVO: Cerca se l'oggetto è un animale (Ape)
+        AnimalsMovement animalLogic = GetComponent<AnimalsMovement>();
 
         if (enemyLogic != null)
         {
+            // È un nemico normale
             enemyLogic.Die();
         }
-        else
+        else if (animalLogic != null)
         {
-            if (animator != null)
-            {
-                animator.SetBool("IsDead", true);
-            }
+            // È L'APE! Chiama il metodo Die() dello script AnimalsMovement
+            animalLogic.Die();
+        }
+        else if (gameObject.CompareTag("Player"))
+        {
+            // È IL GIOCATORE
+            if (animator != null) animator.SetBool("IsDead", true);
 
             PlayerCombat combatScript = GetComponent<PlayerCombat>();
             if (combatScript != null) combatScript.enabled = false;
@@ -102,21 +109,19 @@ public class Health : MonoBehaviour
             if (inputScript != null) inputScript.enabled = false;
 
             CharacterController cc = GetComponent<CharacterController>();
-            //if (cc != null) cc.enabled = false;
+            if (cc != null) cc.enabled = false;
 
-            // FAI APPARIRE LA SCHERMATA
             DeathScreenManager deathScreen = Object.FindAnyObjectByType<DeathScreenManager>();
             if (deathScreen != null)
             {
-                Debug.Log("DeathScreenManager TROVATO! Avvio la schermata...");
                 deathScreen.ShowDeathScreen();
             }
-            else
-            {
-                Debug.LogError("ERRORE GRAVE: DeathScreenManager non trovato nella scena!");
-            }
-
-            
+        }
+        else
+        {
+            // Fallback: se non è nulla di tutto ciò, distruggilo e basta
+            if (animator != null) animator.SetBool("IsDead", true);
+            Destroy(gameObject, 1f);
         }
     }
 
