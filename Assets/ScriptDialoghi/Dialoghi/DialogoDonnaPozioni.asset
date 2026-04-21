@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
   frasi:
   - 'Stai per caso andando verso la foresta di Panzerot? '
-  - "Stai attento, \xE8 pericoloso! Prendi queste ti saranno utili "
+  - "Stai attento, \xE8 pericoloso! Prendi queste pozioni ti saranno utili "
   - 'Nelle colline al di la del fiume troverai un eremita. Ti consiglio di fargli
     una visita '

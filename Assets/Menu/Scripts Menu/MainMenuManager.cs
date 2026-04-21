@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Serve per caricare i livelli
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -7,33 +6,40 @@ public class MainMenuManager : MonoBehaviour
     public GameObject pannelloPrincipale;
     public GameObject pannelloImpostazioni;
 
-    // --- FUNZIONI DEL MENU PRINCIPALE ---
+    void Start()
+    {
+        // Appena parte il gioco, assicurati che il menu sia acceso
+        pannelloPrincipale.SetActive(true);
+        pannelloImpostazioni.SetActive(false);
+
+        // IL TRUCCO: Congela il tempo! Così il gioco dietro è fermo.
+        Time.timeScale = 0f;
+    }
 
     public void Gioca()
     {
-        // Carica la scena di gioco. Mettiamo l'Indice 1 (ti spiego sotto cos'è)
-        SceneManager.LoadScene(1);
+        // Spegne il menu
+        pannelloPrincipale.SetActive(false);
+
+        // Scongela il tempo: il gioco parte!
+        Time.timeScale = 1f;
     }
 
     public void ApriImpostazioni()
     {
-        // Spegne i bottoni principali e accende il menu impostazioni
         pannelloPrincipale.SetActive(false);
         pannelloImpostazioni.SetActive(true);
     }
 
-    public void Esci()
-    {
-        Debug.Log("Il gioco si sta chiudendo...");
-        Application.Quit(); // Funziona a gioco esportato
-    }
-
-    // --- FUNZIONI DEL MENU IMPOSTAZIONI ---
-
     public void ChiudiImpostazioni()
     {
-        // Fa l'esatto opposto: spegne le impostazioni e riaccende il menu principale
         pannelloImpostazioni.SetActive(false);
         pannelloPrincipale.SetActive(true);
+    }
+
+    public void Esci()
+    {
+        Debug.Log("Uscita dal gioco...");
+        Application.Quit();
     }
 }
