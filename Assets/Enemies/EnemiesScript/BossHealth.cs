@@ -96,10 +96,10 @@ public class BossHealth : MonoBehaviour
         }
         // -----------------------------------------------------------------------
 
-        // FAI PARTIRE LA CINEMATICA QUI
+        // Avvia la Coroutine per far partire la cinematica con ritardo
         if (endingDirector != null)
         {
-            endingDirector.Play();
+            StartCoroutine(PlayEndingAfterDelay(5f));
         }
 
         if (audioManager != null)
@@ -119,6 +119,22 @@ public class BossHealth : MonoBehaviour
             rb.isKinematic = true;
         }
 
-        Destroy(gameObject, 5f);
+        // AUMENTATO A 10 SECONDI: 
+        // Diamo all'oggetto abbastanza tempo per far finire i 5 secondi di attesa
+        // e far avviare il PlayableDirector senza che il GameObject venga eliminato.
+        Destroy(gameObject, 10f);
+    }
+
+    // Nuova Coroutine per gestire il ritardo della timeline
+    private IEnumerator PlayEndingAfterDelay(float delay)
+    {
+        // Aspetta per il tempo specificato (5 secondi)
+        yield return new WaitForSeconds(delay);
+
+        // Fai partire la cinematica
+        if (endingDirector != null)
+        {
+            endingDirector.Play();
+        }
     }
 }
