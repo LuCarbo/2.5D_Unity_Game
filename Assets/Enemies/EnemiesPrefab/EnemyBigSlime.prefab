@@ -230,7 +230,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.8, y: 1.1, z: 0.2}
+  m_Size: {x: 1.5, y: 1.1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &3336670494115412051
 MonoBehaviour:
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesCombat
   damage: 1
-  attackCooldown: 1.5
+  attackCooldown: 0.5
 --- !u!114 &7800732280660379606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +270,7 @@ MonoBehaviour:
     m_Bits: 1
   RoamRadius: 5
   RoamWaitTime: 5
-  AttackRange: 0.2
+  AttackRange: 0.3
   hasAttackAnimation: 0
 --- !u!114 &264226976054639468
 MonoBehaviour:
@@ -284,8 +284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3674d15ff2b6d548a4fa45e05aa3929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  currentHealth: 3
-  maxHealth: 3
+  currentHealth: 5
+  maxHealth: 5
   invincibilityTime: 0
   animator: {fileID: 0}
 --- !u!195 &5843985811382437229
