@@ -261,4 +261,19 @@ public class PlayerCombat : MonoBehaviour
             }
         }
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Se non abbiamo ancora assegnato l'attackPoint, non facciamo nulla per evitare errori
+        if (attackPoint == null)
+            return;
+
+        // Disegniamo la sfera dell'attacco LEGGERO in Giallo
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(attackPoint.position, lightAttackRange);
+
+        // Disegniamo la sfera dell'attacco PESANTE in Rosso
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPoint.position, heavyAttackRange);
+    }
 }
