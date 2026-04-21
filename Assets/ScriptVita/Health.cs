@@ -102,7 +102,7 @@ public class Health : MonoBehaviour
             if (inputScript != null) inputScript.enabled = false;
 
             CharacterController cc = GetComponent<CharacterController>();
-            if (cc != null) cc.enabled = false;
+            //if (cc != null) cc.enabled = false;
 
             // FAI APPARIRE LA SCHERMATA
             DeathScreenManager deathScreen = Object.FindAnyObjectByType<DeathScreenManager>();

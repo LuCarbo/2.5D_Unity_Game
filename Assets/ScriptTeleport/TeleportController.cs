@@ -8,16 +8,18 @@ public class TeleportController : MonoBehaviour
 
     [Header("Animator")]
     public Animator animator;
-    [Tooltip("Trigger parameter to start disappearing")]
-    public string teleportOutTrigger = "TeleportOut";
-    [Tooltip("Trigger parameter to start reappearing")]
-    public string teleportInTrigger = "TeleportIn";
+    [Tooltip("Exact name of the disappear state")]
+    public string teleportOutState = "Teleport_Out";
+    [Tooltip("Exact name of the reappear state")]
+    public string teleportInState = "Teleport_In";
+    [Tooltip("Exact name of your default movement/idle state")]
+    public string idleState = "Idle"; // <--- NEW VARIABLE
 
     [Header("Timing")]
-    [Tooltip("How long until the cloud fully covers the character")]
-    public float coverDelay = 0.4f;
-    [Tooltip("How long the cloud stays visible after arrival before the script finishes")]
-    public float revealDelay = 0.4f;
+    [Tooltip("How long until the cloud fully covers the character (e.g., 0.5)")]
+    public float coverDelay = 0.5f;
+    [Tooltip("How long the cloud stays visible after arrival before allowing movement")]
+    public float revealDelay = 0.5f;
 
     private bool isTeleporting = false;
     private CharacterController characterController;
@@ -48,35 +50,41 @@ public class TeleportController : MonoBehaviour
     {
         isTeleporting = true;
 
+        // --- PHASE 1: DISAPPEAR ---
         if (animator != null)
         {
-            // 1. Trigger the normal (forward) animation to disappear
-            animator.SetTrigger(teleportOutTrigger);
+            animator.CrossFadeInFixedTime(teleportOutState, 0.1f, 0, 0f);
         }
 
-        // Wait for the animation to cover the character
         yield return new WaitForSeconds(coverDelay);
 
-        // --- PHYSICS BYPASS ---
+        // --- PHASE 2: PHYSICS BYPASS & MOVE ---
         if (characterController != null)
             characterController.enabled = false;
 
-        // Move the character instantly while they are hidden
         transform.position = target.position;
         transform.rotation = target.rotation;
 
         if (characterController != null)
             characterController.enabled = true;
-        // ----------------------
 
+        yield return null;
+
+        // --- PHASE 3: REAPPEAR ---
         if (animator != null)
         {
-            // 2. We have arrived! Trigger the reverse (-1 speed) animation to reappear
-            animator.SetTrigger(teleportInTrigger);
+            animator.CrossFadeInFixedTime(teleportInState, 0.1f, 0, 0f);
         }
 
-        // Wait for the reverse animation to finish before allowing another teleport
+        // Wait for the exact duration of the reverse animation
         yield return new WaitForSeconds(revealDelay);
+
+        // --- PHASE 4: RETURN TO IDLE ---
+        if (animator != null)
+        {
+            // Force a smooth 0.1s transition back to your normal stance
+            animator.CrossFadeInFixedTime(idleState, 0.1f);
+        }
 
         isTeleporting = false;
     }
