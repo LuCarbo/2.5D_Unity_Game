@@ -109,7 +109,7 @@ public class Health : MonoBehaviour
             if (inputScript != null) inputScript.enabled = false;
 
             CharacterController cc = GetComponent<CharacterController>();
-            if (cc != null) cc.enabled = false;
+            //if (cc != null) cc.enabled = false;
 
             DeathScreenManager deathScreen = Object.FindAnyObjectByType<DeathScreenManager>();
             if (deathScreen != null)
