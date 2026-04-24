@@ -228,20 +228,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8298540d5b5c04b48b6cdff851e96bef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesScript
+  currentState: 0
   graficaNemico: {fileID: 2579148691650531709}
-  MaxSpeed: 3
-  SightRange: 4
-  DetectionRange: 4
-  PlayerMask:
-    serializedVersion: 2
-    m_Bits: 128
+  WanderSpeed: 2
+  ChaseSpeed: 5
+  DetectionRange: 6
+  SightRange: 8
+  AttackRange: 1
   ObstacleMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 512
+  hasAttackAnimation: 1
   RoamRadius: 5
   RoamWaitTime: 5
-  AttackRange: 1
-  hasAttackAnimation: 1
 --- !u!114 &4392913643823769379
 MonoBehaviour:
   m_ObjectHideFlags: 0
