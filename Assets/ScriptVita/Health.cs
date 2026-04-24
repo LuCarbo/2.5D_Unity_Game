@@ -106,9 +106,15 @@ public class Health : MonoBehaviour
             if (combatScript != null) combatScript.enabled = false;
 
             PlayerInputHandler inputScript = GetComponent<PlayerInputHandler>();
-            if (inputScript != null) inputScript.enabled = false;
+            if (inputScript != null)
+            {
+                inputScript.ResetInput(); // <-- AGGIUNGI QUESTO
+                inputScript.enabled = false;
+            }
 
-            CharacterController cc = GetComponent<CharacterController>();
+            gameObject.tag = "Untagged";
+
+            //CharacterController cc = GetComponent<CharacterController>();
             //if (cc != null) cc.enabled = false;
 
             DeathScreenManager deathScreen = Object.FindAnyObjectByType<DeathScreenManager>();
