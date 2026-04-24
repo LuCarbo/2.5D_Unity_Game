@@ -27,6 +27,9 @@ public class PlayerRespawn : MonoBehaviour
         Physics.SyncTransforms();
 
         // --- RIABILITA IL CONTROLLER E TUTTI I COMANDI CHE 'HEALTH' AVEVA SPENTO ---
+
+        gameObject.tag = "Player";
+
         if (cc != null) cc.enabled = true;
 
         PlayerCombat combatScript = GetComponent<PlayerCombat>();

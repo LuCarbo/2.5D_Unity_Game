@@ -53,6 +53,8 @@ public class PlayerInputHandler : MonoBehaviour
         _playerControls.Player.LightAttack.performed -= OnLightAttackPerformed;
         _playerControls.Player.HeavyAttack.performed -= OnHeavyAttackPerformed;
 
+        ResetInput();
+
         _playerControls.Player.Disable();
     }
 
@@ -70,6 +72,17 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void LateUpdate()
     {
+        InteractPressed = false;
+        CancelPressed = false;
+        JumpPressed = false;
+        LightAttackPressed = false;
+        HeavyAttackPressed = false;
+    }
+
+    public void ResetInput()
+    {
+        MoveInput = Vector2.zero;
+        IsRunning = false;
         InteractPressed = false;
         CancelPressed = false;
         JumpPressed = false;
