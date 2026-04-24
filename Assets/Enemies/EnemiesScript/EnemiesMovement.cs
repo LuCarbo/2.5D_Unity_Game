@@ -102,6 +102,9 @@ public class EnemiesScript : MonoBehaviour
 
     void PatrolRandomly()
     {
+        // AGGIUNTA: Se l'agente non è sulla NavMesh, non fare nulla per questo frame
+        if (!agent.isOnNavMesh) return;
+
         // Controlla se il nemico ha raggiunto la sua destinazione attuale
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
@@ -183,8 +186,12 @@ public class EnemiesScript : MonoBehaviour
 
         if (CheckLineOfSight(Target))
         {
-            agent.isStopped = false;
-            agent.SetDestination(Target.transform.position);
+            // AGGIUNTA: Controllo di sicurezza NavMesh
+            if (agent.isOnNavMesh)
+            {
+                agent.isStopped = false;
+                agent.SetDestination(Target.transform.position);
+            }
         }
         else
         {
